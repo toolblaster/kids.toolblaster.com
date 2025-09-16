@@ -1,16 +1,25 @@
 /**
- * IMPORTANT: CONTENT POLICY
- * This website must only use poems, rhymes, or other text content that is verifiably in the public domain.
- * - DO NOT use modern songs, copyrighted poems, or lyrics from contemporary artists.
- * - DO NOT use modern illustrations, copyrighted images, or artwork from publishers.
- * - DO NOT use copyrighted audio recordings or music.
- * The goal is to create a safe, free, and legal resource for children everywhere.
- * All content should be timeless and free of any copyright restrictions.
+ * =================================================================
+ * COPYRIGHT & CONTENT POLICY
+ * =================================================================
+ * This website uses nursery rhyme text that is in the public domain.
+ *
+ * DO NOT ADD any content that may be copyrighted. This includes:
+ * - Modern illustrations or images of rhymes from books or artists.
+ * - Modern audio recordings or musical arrangements of rhymes.
+ * - Any text or lyrics from modern songs or books.
+ *
+ * Only use classic, traditional versions of rhymes.
+ * =================================================================
  */
 
 document.addEventListener('DOMContentLoaded', () => {
 
-    // --- ELEMENTS ---
+    // --- GLOBAL VARIABLES & ELEMENTS ---
+    let allRhymes = [];
+    let favorites = JSON.parse(localStorage.getItem('favoriteRhymes')) || [];
+    let currentRhyme = null;
+
     const rhymeGrid = document.getElementById('rhyme-grid');
     const rhymeGalleryView = document.getElementById('rhyme-gallery');
     const rhymeDetailView = document.getElementById('rhyme-detail');
@@ -19,22 +28,29 @@ document.addEventListener('DOMContentLoaded', () => {
     const categoryFilters = document.getElementById('category-filters');
     const surpriseButton = document.getElementById('surprise-button');
     const themeToggle = document.getElementById('theme-toggle');
-    const favoriteBtn = document.getElementById('favorite-btn');
-    const printBtn = document.getElementById('print-btn');
-    const rotdCard = document.getElementById('rotd-card');
+    const themeIconLight = document.getElementById('theme-icon-light');
+    const themeIconDark = document.getElementById('theme-icon-dark');
+    const toastNotification = document.getElementById('toast-notification');
     
-    // --- STATE ---
-    let rhymes = [];
-    let favorites = [];
-    const cardColors = ['bg-red-200 dark:bg-red-900/50', 'bg-blue-200 dark:bg-blue-900/50', 'bg-green-200 dark:bg-green-900/50', 'bg-yellow-200 dark:bg-yellow-900/50', 'bg-purple-200 dark:bg-purple-900/50', 'bg-pink-200 dark:bg-pink-900/50'];
+    // Game/Quiz Elements
+    const playGameBtn = document.getElementById('play-game-btn');
+    const quizModal = document.getElementById('quiz-modal');
+    const quizContent = document.getElementById('quiz-content');
+    const quizQuestion = document.getElementById('quiz-question');
+    const quizOptions = document.getElementById('quiz-options');
+    const quizFeedback = document.getElementById('quiz-feedback');
+    const closeQuizBtn = document.getElementById('close-quiz-btn');
+
 
     // --- INITIALIZATION ---
-    function initialize() {
-        loadFavorites();
-        initializeTheme();
+    function init() {
+        // Theme setup
+        const isDarkMode = localStorage.getItem('theme') === 'dark';
+        document.documentElement.classList.toggle('dark', isDarkMode);
+        updateThemeIcon(isDarkMode);
+
         loadRhymes();
-        // Set 'All' button as active by default
-        document.querySelector('.category-btn[data-category="All"]').classList.add('active');
+        addEventListeners();
     }
 
     // --- DATA HANDLING ---
@@ -42,84 +58,43 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             const response = await fetch('rhymes.json');
             if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-            rhymes = await response.json();
-            displayRhymeGallery(rhymes);
-            displayRhymeOfTheDay(); // Display the rhyme of the day after loading
+            allRhymes = await response.json();
+            
+            displayRhymeOfTheDay();
+            checkForSharedRhyme();
         } catch (error) {
             console.error("Could not fetch rhymes:", error);
-            rhymeGrid.innerHTML = '<p class="text-red-500 col-span-full text-center">Sorry, could not load the rhymes.</p>';
+            rhymeGrid.innerHTML = '<p class="text-red-500 col-span-full">Sorry, could not load the rhymes.</p>';
         }
     }
 
-    function loadFavorites() {
-        favorites = JSON.parse(localStorage.getItem('rhymeFavorites')) || [];
-    }
-
-    function saveFavorites() {
-        localStorage.setItem('rhymeFavorites', JSON.stringify(favorites));
-    }
-
-    function toggleFavorite(id) {
-        const rhymeId = parseInt(id);
-        if (favorites.includes(rhymeId)) {
-            favorites = favorites.filter(favId => favId !== rhymeId);
+    // --- DEEP LINKING (for shared rhymes) ---
+    function checkForSharedRhyme() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const rhymeId = urlParams.get('rhyme');
+        if (rhymeId && allRhymes.length > 0) {
+            showRhymeDetail(parseInt(rhymeId));
         } else {
-            favorites.push(rhymeId);
-        }
-        saveFavorites();
-    }
-
-    // --- THEME HANDLING ---
-    function initializeTheme() {
-        if (localStorage.theme === 'dark') {
-            document.documentElement.classList.add('dark');
-            document.getElementById('theme-icon-light').classList.add('hidden');
-            document.getElementById('theme-icon-dark').classList.remove('hidden');
-        } else {
-            document.documentElement.classList.remove('dark');
-            document.getElementById('theme-icon-light').classList.remove('hidden');
-            document.getElementById('theme-icon-dark').classList.add('hidden');
+            displayRhymeGallery(allRhymes);
+            updateActiveCategoryButton('All');
         }
     }
-    
-    function toggleTheme() {
-        const isDark = document.documentElement.classList.toggle('dark');
-        localStorage.setItem('theme', isDark ? 'dark' : 'light');
-        document.getElementById('theme-icon-light').classList.toggle('hidden', isDark);
-        document.getElementById('theme-icon-dark').classList.toggle('hidden', !isDark);
-    }
 
-    // --- UI RENDERING ---
-    function displayRhymeOfTheDay() {
-        if (rhymes.length === 0) return;
-
-        const date = new Date();
-        const dayOfYear = (Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()) - Date.UTC(date.getFullYear(), 0, 0)) / 24 / 60 / 60 / 1000;
-        const rhymeIndex = Math.floor(dayOfYear) % rhymes.length;
-        const rhyme = rhymes[rhymeIndex];
-
-        document.getElementById('rotd-icon').textContent = rhyme.icon;
-        document.getElementById('rotd-title').textContent = rhyme.title;
-        document.getElementById('rotd-snippet').textContent = rhyme.lyrics.split('\n')[0]; // Show first line
-        rotdCard.dataset.id = rhyme.id;
-    }
+    // --- DISPLAY FUNCTIONS ---
 
     function displayRhymeGallery(rhymesToDisplay) {
         rhymeGrid.innerHTML = '';
         if (rhymesToDisplay.length === 0) {
-            rhymeGrid.innerHTML = '<p class="text-gray-500 dark:text-gray-400 col-span-full text-center">No rhymes found. Try a different search or category!</p>';
+            rhymeGrid.innerHTML = '<p class="text-gray-500 dark:text-gray-400 col-span-full text-center">No rhymes found.</p>';
             return;
         }
-
-        rhymesToDisplay.forEach((rhyme, index) => {
+        rhymesToDisplay.forEach(rhyme => {
             const card = document.createElement('div');
-            const colorClass = cardColors[index % cardColors.length];
-            const isFavorited = favorites.includes(rhyme.id);
-            card.className = `${colorClass} rounded-xl shadow-lg cursor-pointer transform hover:scale-105 transition-transform duration-300 flex flex-col items-center justify-center p-4 min-h-[160px] text-center relative`;
+            card.className = 'bg-white dark:bg-gray-800 rounded-xl shadow-lg cursor-pointer transform hover:scale-105 transition-all duration-300 flex flex-col items-center justify-center p-4 min-h-[160px] text-center relative';
             card.innerHTML = `
-                ${isFavorited ? '<div class="absolute top-2 right-2 text-xl text-brand-red" title="Favorited">❤️</div>' : ''}
-                <div class="text-4xl mb-2">${rhyme.icon}</div>
+                <div class="text-5xl mb-2">${rhyme.icon || '🎶'}</div>
                 <h3 class="text-lg font-bold text-brand-dark dark:text-white">${rhyme.title}</h3>
+                <div class="absolute top-2 right-2 text-xl">${isFavorite(rhyme.id) ? '❤️' : ''}</div>
             `;
             card.addEventListener('click', () => showRhymeDetail(rhyme.id));
             rhymeGrid.appendChild(card);
@@ -127,94 +102,280 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function showRhymeDetail(rhymeId) {
-        // Ensure rhymeId is an integer
-        const id = parseInt(rhymeId);
-        const rhyme = rhymes.find(r => r.id === id);
-        if (!rhyme) return;
+        currentRhyme = allRhymes.find(r => r.id === rhymeId);
+        if (!currentRhyme) return;
 
-        document.getElementById('rhyme-title').textContent = rhyme.title;
-        document.getElementById('rhyme-lyrics').textContent = rhyme.lyrics;
+        // Populate details
+        document.getElementById('rhyme-title-en').textContent = currentRhyme.title;
+        document.getElementById('rhyme-lyrics-en').textContent = currentRhyme.lyrics;
         
-        favoriteBtn.dataset.id = rhyme.id;
-        updateFavoriteButtonState(rhyme.id);
+        const titleHiEl = document.getElementById('rhyme-title-hi');
+        const hindiColumn = document.getElementById('hindi-column');
+        if (currentRhyme.title_hi && currentRhyme.lyrics_hi) {
+            titleHiEl.textContent = currentRhyme.title_hi;
+            document.getElementById('rhyme-lyrics-hi').textContent = currentRhyme.lyrics_hi;
+            titleHiEl.classList.remove('hidden');
+            hindiColumn.classList.remove('hidden');
+        } else {
+            titleHiEl.classList.add('hidden');
+            hindiColumn.classList.add('hidden');
+        }
+        
+        const favoriteBtn = document.getElementById('favorite-btn');
+        favoriteBtn.textContent = isFavorite(rhymeId) ? '❤️' : '🤍';
+        favoriteBtn.setAttribute('data-id', rhymeId);
 
-        document.getElementById('rhyme-of-the-day').classList.add('hidden');
+        const funFactContainer = document.getElementById('fun-fact-container');
+        const funFactDetails = document.getElementById('fun-fact-details');
+        if (currentRhyme.funFact) {
+            document.getElementById('fun-fact-text').textContent = currentRhyme.funFact;
+            funFactContainer.classList.remove('hidden');
+            funFactDetails.setAttribute('open', ''); // Open by default
+        } else {
+            funFactContainer.classList.add('hidden');
+        }
+
+        // Handle Quiz/Game button
+        const playGameContainer = document.getElementById('play-game-container');
+        if (currentRhyme.quiz) {
+            playGameContainer.classList.remove('hidden');
+        } else {
+            playGameContainer.classList.add('hidden');
+        }
+        
+        // Switch views
         rhymeGalleryView.classList.add('hidden');
-        document.getElementById('controls').classList.add('hidden');
+        controls.classList.add('hidden');
+        document.getElementById('rhyme-of-the-day').classList.add('hidden');
         rhymeDetailView.classList.remove('hidden');
         window.scrollTo(0, 0);
-    }
-    
-    function updateFavoriteButtonState(rhymeId) {
-        if (favorites.includes(parseInt(rhymeId))) {
-            favoriteBtn.classList.add('favorited');
-        } else {
-            favoriteBtn.classList.remove('favorited');
-        }
     }
 
     function goBackToGallery() {
         rhymeDetailView.classList.add('hidden');
-        document.getElementById('rhyme-of-the-day').classList.remove('hidden');
         rhymeGalleryView.classList.remove('hidden');
-        document.getElementById('controls').classList.remove('hidden');
+        controls.classList.remove('hidden');
+        document.getElementById('rhyme-of-the-day').classList.remove('hidden');
         
-        // Refresh gallery to show correct favorite status
-        const activeCategory = document.querySelector('.category-btn.active').dataset.category;
-        handleCategoryFilter(activeCategory);
+        const url = new URL(window.location);
+        url.searchParams.delete('rhyme');
+        window.history.pushState({}, '', url);
+
+        filterRhymes();
+    }
+
+    function displayRhymeOfTheDay() {
+        const dayOfYear = Math.floor((new Date() - new Date(new Date().getFullYear(), 0, 0)) / (1000 * 60 * 60 * 24));
+        const rhyme = allRhymes[dayOfYear % allRhymes.length];
+        if (!rhyme) return;
+
+        document.getElementById('rotd-icon').textContent = rhyme.icon || '🎶';
+        document.getElementById('rotd-title').textContent = rhyme.title;
+        document.getElementById('rotd-snippet').textContent = rhyme.lyrics.split('\n')[0];
+        document.getElementById('rotd-card').addEventListener('click', () => showRhymeDetail(rhyme.id));
+    }
+
+
+    // --- EVENT HANDLING & LOGIC ---
+
+    function addEventListeners() {
+        backButton.addEventListener('click', goBackToGallery);
+        searchBar.addEventListener('input', filterRhymes);
+        categoryFilters.addEventListener('click', handleCategoryClick);
+        surpriseButton.addEventListener('click', showRandomRhyme);
+        themeToggle.addEventListener('click', toggleTheme);
+        document.getElementById('favorite-btn').addEventListener('click', handleFavoriteClick);
+        document.getElementById('print-btn').addEventListener('click', handlePrint);
+        document.getElementById('share-whatsapp').addEventListener('click', () => handleShare('whatsapp'));
+        document.getElementById('share-instagram').addEventListener('click', () => handleShare('instagram'));
+        document.getElementById('share-copy').addEventListener('click', () => handleShare('copy'));
+        
+        // Quiz Listeners
+        playGameBtn.addEventListener('click', handlePlayGameClick);
+        closeQuizBtn.addEventListener('click', closeQuiz);
+        quizModal.addEventListener('click', (e) => { // Close on overlay click
+            if (e.target === quizModal) {
+                closeQuiz();
+            }
+        });
     }
     
-    function handleCategoryFilter(category) {
-        let filteredRhymes = rhymes;
-        if (category === 'Favorites') {
-            filteredRhymes = rhymes.filter(rhyme => favorites.includes(rhyme.id));
-        } else if (category !== 'All') {
-            filteredRhymes = rhymes.filter(rhyme => rhyme.category === category);
+    function filterRhymes() {
+        const searchTerm = searchBar.value.toLowerCase();
+        const activeCategory = document.querySelector('.category-btn.active')?.dataset.category || 'All';
+
+        let filtered = allRhymes;
+
+        if (activeCategory !== 'All') {
+            if (activeCategory === 'Favorites') {
+                filtered = allRhymes.filter(rhyme => favorites.includes(rhyme.id));
+            } else {
+                filtered = allRhymes.filter(rhyme => rhyme.category === activeCategory);
+            }
         }
-        displayRhymeGallery(filteredRhymes);
+
+        if (searchTerm) {
+            filtered = filtered.filter(rhyme =>
+                rhyme.title.toLowerCase().includes(searchTerm) ||
+                rhyme.lyrics.toLowerCase().includes(searchTerm) ||
+                (rhyme.title_hi && rhyme.title_hi.includes(searchTerm)) ||
+                (rhyme.lyrics_hi && rhyme.lyrics_hi.includes(searchTerm))
+            );
+        }
+
+        displayRhymeGallery(filtered);
     }
 
-    // --- EVENT LISTENERS ---
-    backButton.addEventListener('click', goBackToGallery);
-    themeToggle.addEventListener('click', toggleTheme);
-    printBtn.addEventListener('click', () => window.print());
-    rotdCard.addEventListener('click', (e) => showRhymeDetail(e.currentTarget.dataset.id));
-
-    favoriteBtn.addEventListener('click', (e) => {
-        const id = e.currentTarget.dataset.id;
-        toggleFavorite(id);
-        updateFavoriteButtonState(id);
-    });
-
-    searchBar.addEventListener('input', (e) => {
-        const searchTerm = e.target.value.toLowerCase();
-        const filteredRhymes = rhymes.filter(rhyme => 
-            rhyme.title.toLowerCase().includes(searchTerm) || 
-            rhyme.lyrics.toLowerCase().includes(searchTerm)
-        );
-        displayRhymeGallery(filteredRhymes);
-        document.querySelectorAll('.category-btn').forEach(btn => btn.classList.remove('active'));
-        document.querySelector('.category-btn[data-category="All"]').classList.add('active');
-    });
-
-    categoryFilters.addEventListener('click', (e) => {
-        if (e.target.classList.contains('category-btn')) {
-            document.querySelectorAll('.category-btn').forEach(btn => btn.classList.remove('active'));
-            e.target.classList.add('active');
-            
-            const category = e.target.dataset.category;
+    function handleCategoryClick(e) {
+        if (e.target.closest('.category-btn')) {
+            const category = e.target.closest('.category-btn').dataset.category;
             searchBar.value = '';
-            handleCategoryFilter(category);
+            updateActiveCategoryButton(category);
+            filterRhymes();
         }
-    });
+    }
+
+    function updateActiveCategoryButton(category) {
+        document.querySelectorAll('.category-btn').forEach(btn => {
+            btn.classList.toggle('active', btn.dataset.category === category);
+        });
+    }
+
+    function showRandomRhyme() {
+        const randomIndex = Math.floor(Math.random() * allRhymes.length);
+        const randomRhyme = allRhymes[randomIndex];
+        showRhymeDetail(randomRhyme.id);
+    }
+
+    function toggleTheme() {
+        const isDark = document.documentElement.classList.toggle('dark');
+        localStorage.setItem('theme', isDark ? 'dark' : 'light');
+        updateThemeIcon(isDark);
+    }
     
-    surpriseButton.addEventListener('click', () => {
-        if (rhymes.length > 0) {
-            const randomIndex = Math.floor(Math.random() * rhymes.length);
-            showRhymeDetail(rhymes[randomIndex].id);
+    function updateThemeIcon(isDark) {
+        themeIconLight.classList.toggle('hidden', isDark);
+        themeIconDark.classList.toggle('hidden', !isDark);
+    }
+
+    function handleFavoriteClick(e) {
+        const rhymeId = parseInt(e.currentTarget.dataset.id);
+        const favoriteIndex = favorites.indexOf(rhymeId);
+        if (favoriteIndex > -1) {
+            favorites.splice(favoriteIndex, 1);
+            e.currentTarget.textContent = '🤍';
+        } else {
+            favorites.push(rhymeId);
+            e.currentTarget.textContent = '❤️';
         }
-    });
+        localStorage.setItem('favoriteRhymes', JSON.stringify(favorites));
+    }
+
+    function isFavorite(rhymeId) {
+        return favorites.includes(rhymeId);
+    }
+
+    function handlePrint() {
+        window.print();
+    }
+
+    function handleShare(platform) {
+        const rhymeId = currentRhyme.id;
+        const rhymeTitle = currentRhyme.title;
+        const shareUrl = `${window.location.origin}${window.location.pathname}?rhyme=${rhymeId}`;
+        const shareText = `Check out this rhyme from kids.toolblaster.com: "${rhymeTitle}"`;
+
+        if (platform === 'whatsapp') {
+            const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(shareText + '\n' + shareUrl)}`;
+            window.open(whatsappUrl, '_blank');
+        } else if (platform === 'instagram') {
+            copyToClipboard(shareUrl);
+            showToast('Link copied! Paste it in your Instagram story.');
+        } else { // 'copy'
+            copyToClipboard(shareUrl);
+            showToast('Link Copied!');
+        }
+    }
+    
+    function copyToClipboard(text) {
+        const textArea = document.createElement('textarea');
+        textArea.value = text;
+        document.body.appendChild(textArea);
+        textArea.select();
+        try {
+            document.execCommand('copy');
+        } catch (err) {
+            console.error('Failed to copy text: ', err);
+        }
+        document.body.removeChild(textArea);
+    }
+
+    function showToast(message) {
+        toastNotification.textContent = message;
+        toastNotification.classList.add('show');
+        setTimeout(() => {
+            toastNotification.classList.remove('show');
+        }, 2500);
+    }
+    
+    // --- QUIZ FUNCTIONS ---
+    function handlePlayGameClick() {
+        if (currentRhyme && currentRhyme.quiz) {
+            populateQuiz(currentRhyme.quiz);
+            quizModal.classList.remove('hidden');
+            setTimeout(() => {
+                quizModal.classList.add('opacity-100');
+                quizContent.classList.add('scale-100');
+            }, 10);
+        }
+    }
+
+    function populateQuiz(quizData) {
+        quizQuestion.textContent = quizData.question;
+        quizOptions.innerHTML = '';
+        quizFeedback.innerHTML = '';
+
+        quizData.options.forEach(option => {
+            const button = document.createElement('button');
+            button.className = 'quiz-option-btn';
+            button.textContent = option;
+            button.dataset.answer = option;
+            button.addEventListener('click', handleOptionClick);
+            quizOptions.appendChild(button);
+        });
+    }
+
+    function handleOptionClick(e) {
+        const selectedAnswer = e.target.dataset.answer;
+        const correctAnswer = currentRhyme.quiz.correctAnswer;
+
+        // Disable all buttons
+        quizOptions.querySelectorAll('button').forEach(btn => {
+            btn.disabled = true;
+            // Highlight the correct answer
+            if (btn.dataset.answer === correctAnswer) {
+                btn.classList.add('correct');
+            }
+        });
+
+        if (selectedAnswer === correctAnswer) {
+            quizFeedback.textContent = 'Correct! 🎉';
+            quizFeedback.className = 'mt-4 h-6 text-lg font-bold text-green-500';
+        } else {
+            e.target.classList.add('incorrect');
+            quizFeedback.textContent = 'Try again next time!';
+            quizFeedback.className = 'mt-4 h-6 text-lg font-bold text-red-500';
+        }
+    }
+
+    function closeQuiz() {
+        quizModal.classList.remove('opacity-100');
+        quizContent.classList.remove('scale-100');
+        setTimeout(() => {
+            quizModal.classList.add('hidden');
+        }, 300); // Match CSS transition duration
+    }
 
     // --- START THE APP ---
-    initialize();
+    init();
 });
