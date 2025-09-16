@@ -49,7 +49,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- DATA HANDLING ---
     async function loadRhymes() {
         try {
-            const response = await fetch('rhymes.json');
+            const response = await fetch('updated_rhymes.json');
             if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
             allRhymes = await response.json();
             
