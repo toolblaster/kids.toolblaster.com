@@ -1,0 +1,65 @@
+/* Using @apply to leverage Tailwind's theme for custom fonts and base styles */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    .font-fredoka {
+        font-family: 'Fredoka One', cursive;
+    }
+    body {
+        font-family: 'Roboto', sans-serif;
+    }
+    /* Base style for category buttons with new border */
+    .category-btn {
+        @apply bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold py-2 px-4 rounded-lg transition-colors
+               dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600
+               border border-brand-red/75; /* Added light red accent border */
+    }
+    /* Style for the active category button */
+    .category-btn.active {
+        @apply bg-brand-red text-white dark:bg-brand-red dark:text-white border-brand-red; /* Use solid red to blend with background */
+    }
+
+    /* Style for favorited heart icon */
+    #favorite-btn.favorited {
+        color: #E34037; /* brand-red */
+    }
+}
+
+/* Print-specific styles */
+@media print {
+    /* Hide everything by default */
+    body * {
+        visibility: hidden;
+    }
+    
+    /* Make only the rhyme detail section visible */
+    #rhyme-detail, #rhyme-detail * {
+        visibility: visible;
+    }
+
+    /* Position the rhyme detail section to take up the whole page */
+    #rhyme-detail {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        box-shadow: none;
+        border: none;
+    }
+    
+    /* Hide the buttons that are not needed for printing */
+    #back-button, #favorite-btn, #print-btn, header, #controls {
+        display: none;
+    }
+    
+    /* Ensure colors are printed */
+    #rhyme-title, #rhyme-lyrics {
+        color: black !important;
+    }
+    
+    body {
+        background-color: white !important;
+    }
+}
