@@ -20,16 +20,12 @@
         @apply bg-brand-red text-white border-brand-red dark:bg-brand-red dark:text-white;
     }
 
-    .collection-btn {
-        @apply px-5 py-3 text-base font-semibold text-white bg-purple-500 rounded-full border-2 border-transparent hover:bg-purple-600 transition-all duration-200 shadow-md transform hover:scale-105;
-    }
-    .collection-btn.active {
-        @apply bg-purple-700 ring-4 ring-purple-300 dark:ring-purple-500;
-    }
-
-
     .social-share-btn {
         @apply p-2 rounded-full text-gray-600 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors;
+    }
+
+    .section-card {
+        @apply p-6 bg-white dark:bg-gray-800 rounded-2xl shadow-md;
     }
 }
 
@@ -64,59 +60,36 @@
     pointer-events: auto;
 }
 
-/* General Print Styles for Rhyme Detail */
+/* Print Styles */
 @media print {
-    body.printing-rhyme header,
-    body.printing-rhyme #controls,
-    body.printing-rhyme #back-button,
-    body.printing-rhyme #rhyme-of-the-day,
-    body.printing-rhyme #rhyme-gallery,
-    body.printing-rhyme .social-share-btn,
-    body.printing-rhyme #fun-fact-container,
-    body.printing-rhyme #themed-collections,
-    body.printing-rhyme #printable-modal,
-    body.printing-rhyme main > *,
-    body:not(.printing-activity) #printable-modal {
-        display: none !important;
+    body {
+        background-color: white !important;
+        color: black !important;
     }
-
     body.printing-rhyme #rhyme-detail {
         display: block !important;
-        box-shadow: none !important;
-        visibility: visible;
     }
-    
-    body.printing-rhyme #rhyme-detail > div {
-        box-shadow: none !important;
-    }
-
-    /* Styles for Printable Activity Modal */
-    body.printing-activity > *:not(#printable-modal) {
+    body.printing-rhyme > *:not(#rhyme-detail) {
         display: none !important;
     }
     
-    body.printing-activity #printable-modal {
-        display: flex !important;
-        position: static;
-        background: none;
-        padding: 0;
+    #rhyme-detail {
+        box-shadow: none !important;
     }
-
-    body.printing-activity #printable-content {
-        box-shadow: none;
-        padding: 0;
-        margin: 0;
-        max-width: 100%;
+    #rhyme-detail > div {
+        box-shadow: none !important;
     }
-
-    body.printing-activity #close-printable-btn,
-    body.printing-activity #print-activity-btn,
-    body.printing-activity #printable-content > h3 {
-        display: none !important;
-    }
-
-    body.printing-activity #printable-area {
-        border: none !important;
+    main {
         padding: 0 !important;
+    }
+    pre {
+        background-color: #f9f9f9 !important;
+        border: 1px solid #ddd;
+    }
+    h2, h3 {
+        color: black !important;
+    }
+    #hindi-column, #fun-fact-container, .social-share-btn, #back-button {
+        display: none !important;
     }
 }
