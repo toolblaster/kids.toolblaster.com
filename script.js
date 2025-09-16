@@ -87,11 +87,20 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         rhymesToDisplay.forEach(rhyme => {
             const card = document.createElement('div');
-            card.className = 'rhyme-card bg-white dark:bg-gray-800 rounded-xl shadow-lg cursor-pointer transform hover:scale-105 transition-all duration-300 flex flex-col items-center justify-center p-4 min-h-[160px] text-center relative';
+            card.className = 'rhyme-card bg-white dark:bg-gray-800 rounded-xl shadow-lg cursor-pointer transform hover:scale-105 transition-all duration-300 flex flex-col p-4 text-center relative';
             card.dataset.rhymeId = rhyme.id;
+
+            let learningTag = '';
+            if (rhyme.category === 'Learning' && rhyme.learningFocus) {
+                learningTag = `<div class="learning-focus-tag">Focus: ${rhyme.learningFocus}</div>`;
+            }
+
             card.innerHTML = `
-                <div class="text-5xl mb-2">${rhyme.icon || '🎶'}</div>
-                <h3 class="text-lg font-bold text-brand-dark dark:text-white">${rhyme.title}</h3>
+                <div class="flex-grow flex flex-col items-center justify-center">
+                    <div class="text-5xl mb-2">${rhyme.icon || '🎶'}</div>
+                    <h3 class="text-lg font-bold text-brand-dark dark:text-white">${rhyme.title}</h3>
+                </div>
+                ${learningTag}
                 <div class="absolute top-2 right-2 text-xl favorite-indicator">${isFavorite(rhyme.id) ? '❤️' : ''}</div>
             `;
             card.addEventListener('click', () => showRhymeDetail(rhyme.id));
