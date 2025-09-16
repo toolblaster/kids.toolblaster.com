@@ -1,4 +1,4 @@
-/* Using @apply to leverage Tailwind's theme for custom fonts and base styles */
+/* Using @apply to leverage Tailwind's theme for custom fonts and styles */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -10,56 +10,81 @@
     body {
         font-family: 'Roboto', sans-serif;
     }
-    /* Base style for category buttons with new border */
+}
+
+@layer components {
     .category-btn {
-        @apply bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold py-2 px-4 rounded-lg transition-colors
-               dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600
-               border border-brand-red/75; /* Added light red accent border */
+        @apply px-4 py-2 text-sm font-semibold text-brand-dark dark:text-gray-200 bg-gray-100 dark:bg-gray-700 rounded-full border-2 border-transparent hover:border-brand-red hover:text-brand-red dark:hover:text-brand-red transition-colors duration-200;
     }
-    /* Style for the active category button */
     .category-btn.active {
-        @apply bg-brand-red text-white dark:bg-brand-red dark:text-white border-brand-red; /* Use solid red to blend with background */
+        @apply bg-brand-red text-white border-brand-red dark:bg-brand-red dark:text-white;
     }
 
-    /* Style for favorited heart icon */
-    #favorite-btn.favorited {
-        color: #E34037; /* brand-red */
+    .social-share-btn {
+        @apply p-2 rounded-full text-gray-600 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors;
+    }
+    
+    .quiz-option-btn {
+        @apply w-full p-3 text-lg font-semibold text-brand-dark dark:text-white bg-gray-100 dark:bg-gray-600 rounded-lg border-2 border-gray-300 dark:border-gray-500 hover:border-brand-red dark:hover:border-brand-red transition-all duration-200 disabled:opacity-70 disabled:cursor-not-allowed;
+    }
+
+    .quiz-option-btn.correct {
+        @apply bg-green-500 border-green-600 text-white;
+    }
+
+    .quiz-option-btn.incorrect {
+        @apply bg-red-500 border-red-600 text-white;
     }
 }
 
-/* Print-specific styles */
-@media print {
-    /* Hide everything by default */
-    body * {
-        visibility: hidden;
-    }
-    
-    /* Make only the rhyme detail section visible */
-    #rhyme-detail, #rhyme-detail * {
-        visibility: visible;
-    }
+/* Toast Notification for 'Copy Link' */
+#toast-notification {
+    visibility: hidden;
+    min-width: 150px;
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    border-radius: 8px;
+    padding: 12px;
+    position: fixed;
+    z-index: 100;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 30px;
+    opacity: 0;
+    transition: opacity 0.3s, bottom 0.3s;
+}
 
-    /* Position the rhyme detail section to take up the whole page */
-    #rhyme-detail {
-        position: absolute;
-        left: 0;
-        top: 0;
-        width: 100%;
-        box-shadow: none;
-        border: none;
-    }
-    
-    /* Hide the buttons that are not needed for printing */
-    #back-button, #favorite-btn, #print-btn, header, #controls {
-        display: none;
-    }
-    
-    /* Ensure colors are printed */
-    #rhyme-title, #rhyme-lyrics {
-        color: black !important;
-    }
-    
+#toast-notification.show {
+    visibility: visible;
+    opacity: 1;
+    bottom: 50px;
+}
+
+/* Print Styles */
+@media print {
     body {
         background-color: white !important;
+        color: black !important;
+    }
+    header, #controls, #back-button, #rhyme-of-the-day, #rhyme-gallery, .social-share-btn, #fun-fact-container, #play-game-container, #hindi-column {
+        display: none !important;
+    }
+    #rhyme-detail {
+        display: block !important;
+        box-shadow: none !important;
+    }
+    #rhyme-detail > div {
+        box-shadow: none !important;
+    }
+    main {
+        padding: 0 !important;
+    }
+    pre {
+        background-color: #f9f9f9 !important;
+        border: 1px solid #ddd;
+    }
+    h2, h3 {
+        color: black !important;
     }
 }
