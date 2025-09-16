@@ -18,8 +18,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- GLOBAL VARIABLES & ELEMENTS ---
     let allRhymes = [];
     let favorites = JSON.parse(localStorage.getItem('favoriteRhymes')) || [];
-    let playlist = JSON.parse(localStorage.getItem('playlist')) || [];
+    let playlist = JSON.parse(localStorage.getItem('playlistRhymes')) || [];
     let currentRhyme = null;
+    let isPlaylistMode = false;
     let currentPlaylistIndex = -1;
 
     const rhymeGrid = document.getElementById('rhyme-grid');
@@ -37,18 +38,18 @@ document.addEventListener('DOMContentLoaded', () => {
     const controls = document.getElementById('controls');
     const backToTopBtn = document.getElementById('back-to-top-btn');
 
-    // Playlist elements
+    // Playlist Elements
     const playlistToggleBtn = document.getElementById('playlist-toggle-btn');
     const playlistView = document.getElementById('playlist-view');
     const closePlaylistBtn = document.getElementById('close-playlist-btn');
-    const playlistItems = document.getElementById('playlist-items');
+    const playlistItemsContainer = document.getElementById('playlist-items');
     const clearPlaylistBtn = document.getElementById('clear-playlist-btn');
+    const playlistCountEl = document.getElementById('playlist-count');
     const addToPlaylistBtn = document.getElementById('add-to-playlist-btn');
-    const playlistCount = document.getElementById('playlist-count');
     const playlistNavButtons = document.getElementById('playlist-nav-buttons');
     const prevRhymeBtn = document.getElementById('prev-rhyme-btn');
     const nextRhymeBtn = document.getElementById('next-rhyme-btn');
-    const playlistPosition = document.getElementById('playlist-position');
+    const playlistPositionEl = document.getElementById('playlist-position');
 
 
     // --- INITIALIZATION ---
@@ -120,17 +121,19 @@ document.addEventListener('DOMContentLoaded', () => {
                 ${learningTag}
                 <div class="absolute top-2 right-2 text-xl favorite-indicator">${isFavorite(rhyme.id) ? '❤️' : ''}</div>
             `;
-            card.addEventListener('click', () => {
-                hidePlaylistNav();
-                showRhymeDetail(rhyme.id);
-            });
+            card.addEventListener('click', () => showRhymeDetail(rhyme.id));
             rhymeGrid.appendChild(card);
         });
     }
 
-    function showRhymeDetail(rhymeId) {
+    function showRhymeDetail(rhymeId, fromPlaylist = false) {
         currentRhyme = allRhymes.find(r => r.id === rhymeId);
         if (!currentRhyme) return;
+
+        isPlaylistMode = fromPlaylist;
+        if(isPlaylistMode) {
+            currentPlaylistIndex = playlist.indexOf(rhymeId);
+        }
 
         // Populate details
         document.getElementById('rhyme-title-en').textContent = currentRhyme.title;
@@ -162,6 +165,9 @@ document.addEventListener('DOMContentLoaded', () => {
             funFactContainer.classList.add('hidden');
         }
         
+        updateAddToPlaylistButton();
+        updatePlaylistNav();
+        
         // Switch views
         rhymeGalleryView.classList.add('hidden');
         controls.classList.add('hidden');
@@ -171,11 +177,14 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function goBackToGallery() {
+        isPlaylistMode = false;
+        currentPlaylistIndex = -1;
+        updatePlaylistNav();
+
         rhymeDetailView.classList.add('hidden');
         rhymeGalleryView.classList.remove('hidden');
         controls.classList.remove('hidden');
         document.getElementById('rhyme-of-the-day').classList.remove('hidden');
-        hidePlaylistNav();
         
         const url = new URL(window.location);
         url.searchParams.delete('rhyme');
@@ -192,12 +201,44 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('rotd-icon').textContent = rhyme.icon || '🎶';
         document.getElementById('rotd-title').textContent = rhyme.title;
         document.getElementById('rotd-snippet').textContent = rhyme.lyrics.split('\n')[0];
-        document.getElementById('rotd-card').addEventListener('click', () => {
-            hidePlaylistNav();
-            showRhymeDetail(rhyme.id);
+        document.getElementById('rotd-card').addEventListener('click', () => showRhymeDetail(rhyme.id));
+    }
+    
+    function togglePlaylistView() {
+        if (playlistView.classList.contains('hidden')) {
+            displayPlaylist();
+            playlistView.classList.remove('hidden');
+        } else {
+            playlistView.classList.add('hidden');
+        }
+    }
+    
+    function displayPlaylist() {
+        playlistItemsContainer.innerHTML = '';
+        if (playlist.length === 0) {
+            playlistItemsContainer.innerHTML = `<p class="text-center text-gray-500 dark:text-gray-400">Your playlist is empty. Add rhymes to see them here!</p>`;
+            clearPlaylistBtn.disabled = true;
+            return;
+        }
+
+        clearPlaylistBtn.disabled = false;
+        const playlistRhymes = playlist.map(id => allRhymes.find(r => r.id === id)).filter(Boolean);
+
+        playlistRhymes.forEach((rhyme) => {
+            const itemEl = document.createElement('div');
+            itemEl.className = 'flex items-center justify-between p-2 rounded-lg bg-gray-50 dark:bg-gray-700';
+            itemEl.innerHTML = `
+                <div class="flex items-center gap-3 cursor-pointer flex-grow" data-rhyme-id="${rhyme.id}" data-action="play">
+                    <span class="text-2xl">${rhyme.icon || '🎶'}</span>
+                    <span class="font-semibold text-brand-dark dark:text-white">${rhyme.title}</span>
+                </div>
+                <button class="p-2 rounded-full hover:bg-red-100 dark:hover:bg-red-800 text-red-500" data-rhyme-id="${rhyme.id}" data-action="remove" title="Remove from playlist">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 pointer-events-none" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" /></svg>
+                </button>
+            `;
+            playlistItemsContainer.appendChild(itemEl);
         });
     }
-
 
     // --- EVENT HANDLING & LOGIC ---
 
@@ -210,18 +251,17 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('favorite-btn').addEventListener('click', handleFavoriteClick);
         document.getElementById('print-btn').addEventListener('click', handlePrint);
         document.getElementById('share-whatsapp').addEventListener('click', () => handleShare('whatsapp'));
-        document.getElementById('share-instagram').addEventListener('click', () => handleShare('instagram'));
         document.getElementById('share-copy').addEventListener('click', () => handleShare('copy'));
         
-        // Playlist Listeners
+        // Playlist listeners
         playlistToggleBtn.addEventListener('click', togglePlaylistView);
         closePlaylistBtn.addEventListener('click', togglePlaylistView);
-        clearPlaylistBtn.addEventListener('click', clearPlaylist);
         addToPlaylistBtn.addEventListener('click', handleAddToPlaylist);
-        playlistItems.addEventListener('click', handlePlaylistItemClick);
-        prevRhymeBtn.addEventListener('click', playPreviousFromPlaylist);
-        nextRhymeBtn.addEventListener('click', playNextFromPlaylist);
-
+        clearPlaylistBtn.addEventListener('click', clearPlaylist);
+        playlistItemsContainer.addEventListener('click', handlePlaylistItemClick);
+        prevRhymeBtn.addEventListener('click', playPreviousRhyme);
+        nextRhymeBtn.addEventListener('click', playNextRhyme);
+        
         // Back to Top Listeners
         window.addEventListener('scroll', handleScroll);
         backToTopBtn.addEventListener('click', scrollToTop);
@@ -268,12 +308,10 @@ document.addEventListener('DOMContentLoaded', () => {
         if (clickedButton) {
             searchBar.value = '';
             
-            // Deactivate all buttons first
             document.querySelectorAll('.category-btn').forEach(btn => {
                 btn.classList.remove('active');
             });
             
-            // Activate the clicked one
             clickedButton.classList.add('active');
             
             filterRhymes();
@@ -287,7 +325,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function showRandomRhyme() {
-        hidePlaylistNav();
         const randomIndex = Math.floor(Math.random() * allRhymes.length);
         const randomRhyme = allRhymes[randomIndex];
         showRhymeDetail(randomRhyme.id);
@@ -302,6 +339,100 @@ document.addEventListener('DOMContentLoaded', () => {
     function updateThemeIcon(isDark) {
         themeIconLight.classList.toggle('hidden', isDark);
         themeIconDark.classList.toggle('hidden', !isDark);
+    }
+    
+    function updatePlaylistCount() {
+        if (playlist.length > 0) {
+            playlistCountEl.textContent = playlist.length;
+            playlistCountEl.classList.remove('hidden');
+        } else {
+            playlistCountEl.classList.add('hidden');
+        }
+    }
+
+    function isInPlaylist(rhymeId) {
+        return playlist.includes(rhymeId);
+    }
+
+    function updateAddToPlaylistButton() {
+        if (!currentRhyme) return;
+        if (isInPlaylist(currentRhyme.id)) {
+            addToPlaylistBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" /></svg>`;
+            addToPlaylistBtn.title = "Added to Playlist";
+        } else {
+            addToPlaylistBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" /></svg>`;
+            addToPlaylistBtn.title = "Add to Playlist";
+        }
+    }
+
+    function handleAddToPlaylist() {
+        if (!currentRhyme) return;
+        const rhymeId = currentRhyme.id;
+        const playlistIndex = playlist.indexOf(rhymeId);
+
+        if (playlistIndex > -1) {
+            playlist.splice(playlistIndex, 1);
+            showToast('Removed from playlist');
+        } else {
+            playlist.push(rhymeId);
+            showToast('Added to playlist!');
+        }
+        
+        localStorage.setItem('playlistRhymes', JSON.stringify(playlist));
+        updatePlaylistCount();
+        updateAddToPlaylistButton();
+    }
+    
+    function clearPlaylist() {
+        playlist = [];
+        localStorage.setItem('playlistRhymes', JSON.stringify(playlist));
+        updatePlaylistCount();
+        displayPlaylist();
+    }
+    
+    function handlePlaylistItemClick(e) {
+        const target = e.target.closest('button[data-action="remove"], div[data-action="play"]');
+        if (!target) return;
+        
+        const rhymeId = parseInt(target.dataset.rhymeId);
+        const action = target.dataset.action;
+
+        if (action === 'play') {
+            togglePlaylistView();
+            showRhymeDetail(rhymeId, true);
+        } else if (action === 'remove') {
+            playlist = playlist.filter(id => id !== rhymeId);
+            localStorage.setItem('playlistRhymes', JSON.stringify(playlist));
+            updatePlaylistCount();
+            displayPlaylist();
+        }
+    }
+    
+    function updatePlaylistNav() {
+        if (isPlaylistMode && playlist.length > 0) {
+            playlistNavButtons.classList.remove('hidden');
+            playlistPositionEl.textContent = `${currentPlaylistIndex + 1} / ${playlist.length}`;
+            prevRhymeBtn.disabled = currentPlaylistIndex === 0;
+            nextRhymeBtn.disabled = currentPlaylistIndex === playlist.length - 1;
+        } else {
+            playlistNavButtons.classList.add('hidden');
+        }
+    }
+    
+    function playNextRhyme() {
+        if (isPlaylistMode && currentPlaylistIndex < playlist.length - 1) {
+            currentPlaylistIndex++;
+            const nextRhymeId = playlist[currentPlaylistIndex];
+            showRhymeDetail(nextRhymeId, true);
+        }
+    }
+
+    function playPreviousRhyme() {
+        if (isPlaylistMode && currentPlaylistIndex > 0) {
+            currentPlaylistIndex--;
+            const prevRhymeId = playlist[currentPlaylistIndex];
+            showRhymeDetail(prevRhymeId, true);
+        }
     }
 
     function handleFavoriteClick(e) {
@@ -344,9 +475,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if (platform === 'whatsapp') {
             const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(shareText + '\n' + shareUrl)}`;
             window.open(whatsappUrl, '_blank');
-        } else if (platform === 'instagram') {
-            copyToClipboard(shareUrl);
-            showToast('Link copied! Paste it in your Instagram story.');
         } else { // 'copy'
             copyToClipboard(shareUrl);
             showToast('Link Copied!');
@@ -384,123 +512,6 @@ document.addEventListener('DOMContentLoaded', () => {
         setTimeout(() => {
             toastNotification.classList.remove('show');
         }, 2500);
-    }
-    
-    // --- PLAYLIST FUNCTIONS ---
-    
-    function togglePlaylistView() {
-        playlistView.classList.toggle('hidden');
-        if (!playlistView.classList.contains('hidden')) {
-            displayPlaylist();
-        }
-    }
-    
-    function updatePlaylistCount() {
-        if (playlist.length > 0) {
-            playlistCount.textContent = playlist.length;
-            playlistCount.classList.remove('hidden');
-        } else {
-            playlistCount.classList.add('hidden');
-        }
-        clearPlaylistBtn.disabled = playlist.length === 0;
-    }
-    
-    function handleAddToPlaylist() {
-        if (!currentRhyme) return;
-        const rhymeId = currentRhyme.id;
-        if (playlist.includes(rhymeId)) {
-            showToast('Already in your playlist!');
-        } else {
-            playlist.push(rhymeId);
-            localStorage.setItem('playlist', JSON.stringify(playlist));
-            updatePlaylistCount();
-            showToast('Added to playlist!');
-        }
-    }
-    
-    function displayPlaylist() {
-        playlistItems.innerHTML = '';
-        if (playlist.length === 0) {
-            playlistItems.innerHTML = '<p class="text-gray-500 dark:text-gray-400 text-center">Your playlist is empty.</p>';
-            return;
-        }
-        
-        playlist.forEach(rhymeId => {
-            const rhyme = allRhymes.find(r => r.id === rhymeId);
-            if (rhyme) {
-                const item = document.createElement('div');
-                item.className = 'flex items-center justify-between p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700';
-                item.innerHTML = `
-                    <div class="flex items-center gap-3 cursor-pointer play-rhyme-from-playlist" data-id="${rhyme.id}">
-                        <span class="text-2xl">${rhyme.icon || '🎶'}</span>
-                        <span class="font-semibold text-brand-dark dark:text-white">${rhyme.title}</span>
-                    </div>
-                    <button class="remove-from-playlist-btn text-red-500 hover:text-red-700 p-1" data-id="${rhyme.id}" title="Remove">
-                        &times;
-                    </button>
-                `;
-                playlistItems.appendChild(item);
-            }
-        });
-    }
-    
-    function handlePlaylistItemClick(e) {
-        const playBtn = e.target.closest('.play-rhyme-from-playlist');
-        const removeBtn = e.target.closest('.remove-from-playlist-btn');
-        
-        if (playBtn) {
-            const rhymeId = parseInt(playBtn.dataset.id);
-            currentPlaylistIndex = playlist.indexOf(rhymeId);
-            showRhymeDetail(rhymeId);
-            showPlaylistNav();
-            togglePlaylistView();
-        }
-        
-        if (removeBtn) {
-            const rhymeId = parseInt(removeBtn.dataset.id);
-            const indexToRemove = playlist.indexOf(rhymeId);
-            if (indexToRemove > -1) {
-                playlist.splice(indexToRemove, 1);
-                localStorage.setItem('playlist', JSON.stringify(playlist));
-                updatePlaylistCount();
-                displayPlaylist(); // Re-render the list
-            }
-        }
-    }
-    
-    function clearPlaylist() {
-        playlist = [];
-        localStorage.removeItem('playlist');
-        updatePlaylistCount();
-        displayPlaylist();
-    }
-    
-    function showPlaylistNav() {
-        playlistNavButtons.classList.remove('hidden');
-        playlistPosition.textContent = `${currentPlaylistIndex + 1} / ${playlist.length}`;
-        prevRhymeBtn.disabled = currentPlaylistIndex === 0;
-        nextRhymeBtn.disabled = currentPlaylistIndex === playlist.length - 1;
-    }
-    
-    function hidePlaylistNav() {
-        playlistNavButtons.classList.add('hidden');
-        currentPlaylistIndex = -1;
-    }
-    
-    function playNextFromPlaylist() {
-        if (currentPlaylistIndex < playlist.length - 1) {
-            currentPlaylistIndex++;
-            showRhymeDetail(playlist[currentPlaylistIndex]);
-            showPlaylistNav();
-        }
-    }
-    
-    function playPreviousFromPlaylist() {
-         if (currentPlaylistIndex > 0) {
-            currentPlaylistIndex--;
-            showRhymeDetail(playlist[currentPlaylistIndex]);
-            showPlaylistNav();
-        }
     }
 
     // --- BACK TO TOP FUNCTIONS ---
