@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Roboto&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <script>
         tailwind.config = {
             darkMode: 'class', // Enable dark mode based on a class
@@ -23,22 +23,24 @@
         }
     </script>
 </head>
-<body class="bg-gray-100 dark:bg-brand-dark font-sans transition-colors duration-300">
+<body class="bg-gray-50 dark:bg-brand-dark font-sans transition-colors duration-300">
+
+    <!-- Loading Indicator -->
+    <div id="loading-indicator" class="fixed inset-0 bg-white dark:bg-brand-dark flex flex-col justify-center items-center z-[100]">
+        <div class="text-6xl animate-bounce">🎶</div>
+        <p class="text-xl font-semibold text-brand-dark dark:text-white mt-4">Loading Rhymes...</p>
+    </div>
 
     <!-- Header -->
     <header class="bg-brand-red text-white text-center p-4 md:p-6 shadow-lg relative">
-        <div class="flex justify-center items-center h-10"> <!-- Centered container -->
-             <!-- Site Title -->
+        <div class="flex justify-center items-center h-10">
             <h1 class="text-2xl md:text-4xl font-bold font-fredoka pb-2 border-b-2 border-white">Nursery Rhymes & Poems</h1>
         </div>
-        <!-- Theme Toggle Button -->
         <div class="absolute top-1/2 -translate-y-1/2 right-4">
             <button id="theme-toggle" class="p-2 rounded-full text-white hover:bg-white/20 transition-colors">
-                <!-- Sun Icon -->
                 <svg id="theme-icon-light" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
                 </svg>
-                <!-- Moon Icon -->
                 <svg id="theme-icon-dark" class="h-6 w-6 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
                 </svg>
@@ -48,56 +50,39 @@
 
     <main class="container mx-auto p-4 md:p-8">
         
-        <!-- Loading Indicator -->
-        <div id="loading-indicator" class="text-center py-10">
-            <div class="animate-spin rounded-full h-12 w-12 border-b-4 border-brand-red mx-auto"></div>
-            <p class="mt-4 text-lg text-gray-600 dark:text-gray-400">Loading Rhymes...</p>
-        </div>
-
         <!-- Rhyme of the Day Section -->
-        <section id="rhyme-of-the-day" class="mb-8 text-center hidden">
-            <h2 class="text-3xl font-fredoka text-brand-dark dark:text-white mb-4">🌟 Rhyme of the Day 🌟</h2>
-            <div id="rotd-card" class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg cursor-pointer transform hover:scale-105 transition-transform duration-300 shadow-brand-red/30 hover:shadow-brand-red/50">
+        <section id="rhyme-of-the-day" class="mb-12 text-center">
+            <div id="rotd-card" class="bg-gradient-to-br from-yellow-100 to-orange-200 dark:from-gray-700 dark:to-gray-800 p-6 rounded-2xl shadow-lg cursor-pointer transform hover:scale-[1.03] transition-transform duration-300 relative overflow-hidden border-2 border-yellow-300 dark:border-yellow-500">
+                <h2 class="text-3xl font-fredoka text-brand-dark dark:text-white mb-4">🌟 Rhyme of the Day 🌟</h2>
                 <div class="text-5xl mb-2" id="rotd-icon"></div>
                 <h3 class="text-2xl font-bold text-purple-600 dark:text-purple-400" id="rotd-title"></h3>
-                <p class="text-gray-600 dark:text-gray-400 mt-2" id="rotd-snippet"></p>
-            </div>
-        </section>
-
-        <!-- Themed Collections Section -->
-        <section id="themed-collections" class="mb-8 hidden">
-            <h2 class="text-3xl font-fredoka text-brand-dark dark:text-white mb-4 text-center">Explore Collections</h2>
-            <div id="collection-filters" class="flex flex-wrap gap-3 justify-center">
-                <button class="collection-btn" data-collection="lullaby">🌙 Bedtime Lullabies</button>
-                <button class="collection-btn" data-collection="animal">🐾 Animal Friends</button>
-                <button class="collection-btn" data-collection="learning">🧠 Learning Fun</button>
-                <button class="collection-btn" data-collection="silly">🤪 Silly Songs</button>
+                <p class="text-gray-600 dark:text-gray-400 mt-2 max-w-prose mx-auto" id="rotd-snippet"></p>
             </div>
         </section>
 
         <!-- Controls Section -->
-        <section id="controls" class="mb-8 p-4 bg-white dark:bg-gray-800 rounded-xl shadow-md hidden">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <!-- Search Bar -->
-                <input type="search" id="search-bar" placeholder="Search for a rhyme..." class="w-full p-3 border-2 border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 dark:text-white rounded-lg focus:outline-none focus:border-brand-red transition-colors">
-                 <!-- Surprise Me Button -->
+        <section id="controls" class="mb-8 section-card">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 items-center">
+                <input type="search" id="search-bar" placeholder="Search for any rhyme..." class="w-full p-3 border-2 border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 dark:text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-red focus:border-transparent transition-all">
                 <button id="surprise-button" class="w-full bg-yellow-400 hover:bg-yellow-500 text-gray-800 font-bold py-3 px-4 rounded-lg shadow-md transition-transform transform hover:scale-105">
                     🎉 Surprise Me!
                 </button>
             </div>
-             <!-- Category Filters -->
             <div id="category-filters" class="mt-4 flex flex-wrap gap-2 justify-center">
-                <button class="category-btn" data-category="All">All</button>
+                <button class="category-btn active" data-category="All">All</button>
                 <button class="category-btn" data-category="Favorites">❤️ Favorites</button>
                 <button class="category-btn" data-category="Classic">Classic</button>
                 <button class="category-btn" data-category="Indian">Indian</button>
                 <button class="category-btn" data-category="Animal">Animal</button>
                 <button class="category-btn" data-category="Learning">Learning</button>
+                <button class="category-btn" data-tag="lullaby">🌙 Bedtime</button>
+                <button class="category-btn" data-tag="silly">🤪 Silly</button>
+                <button class="category-btn" data-tag="action">👏 Action</button>
             </div>
         </section>
 
         <!-- Rhyme Gallery View -->
-        <section id="rhyme-gallery" class="hidden">
+        <section id="rhyme-gallery">
             <div id="rhyme-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
                 <!-- Poem cards will be injected here by JavaScript -->
             </div>
@@ -106,7 +91,7 @@
         <!-- Single Rhyme Detail View (Initially Hidden) -->
         <section id="rhyme-detail" class="hidden">
             <button id="back-button" class="mb-6 bg-brand-red hover:bg-opacity-90 text-white font-bold py-2 px-4 rounded-lg shadow-md transition-transform transform hover:scale-105">
-                &larr; Back to All Poems
+                &larr; Back to All Rhymes
             </button>
             <div class="bg-white dark:bg-gray-800 p-6 md:p-8 rounded-2xl shadow-xl">
                 <div class="flex justify-between items-start mb-4">
@@ -116,7 +101,6 @@
                     </div>
                     <div class="flex flex-col md:flex-row gap-2 text-gray-500 dark:text-gray-400">
                         <!-- Action Buttons -->
-                        <button id="printable-btn" class="social-share-btn hidden" title="Print Activity">🎨</button>
                         <button id="share-whatsapp" class="social-share-btn" title="Share on WhatsApp">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.894 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.886-.001 2.269.655 4.505 1.88 6.364l-.074.057-1.644 6.015 6.151-1.615z"/></svg>
                         </button>
@@ -147,7 +131,6 @@
                         <p id="fun-fact-text" class="mt-2 text-brand-dark dark:text-gray-300"></p>
                     </details>
                 </div>
-
             </div>
         </section>
 
@@ -162,23 +145,6 @@
 
     <!-- Toast Notification -->
     <div id="toast-notification">Link Copied!</div>
-
-    <!-- Printable Activity Modal -->
-    <div id="printable-modal" class="hidden fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center p-4 z-50 transition-opacity duration-300 opacity-0">
-        <div id="printable-content" class="bg-white rounded-2xl shadow-xl p-6 w-full max-w-lg transform scale-95 transition-all duration-300 relative">
-            <button id="close-printable-btn" class="absolute -top-2 -right-2 bg-white rounded-full p-1.5 hover:bg-gray-200 z-10 shadow-md">
-                <svg class="h-6 w-6 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
-            </button>
-            <h3 class="text-2xl font-bold text-brand-dark mb-4 text-center">Printable Activity</h3>
-            <div id="printable-area" class="border-2 border-dashed border-gray-300 p-2 rounded-lg bg-white">
-                <img id="printable-image" src="" alt="Coloring Page" class="w-full h-auto object-contain max-h-[60vh]">
-            </div>
-            <button id="print-activity-btn" class="mt-4 w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-4 rounded-lg shadow-md transition-transform transform hover:scale-105">
-                📄 Print Now
-            </button>
-        </div>
-    </div>
-
 
     <script src="script.js"></script>
 </body>
