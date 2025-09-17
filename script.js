@@ -57,13 +57,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const favoriteBtn = document.getElementById('favorite-btn');
     const printBtn = document.getElementById('print-btn');
     const shareWhatsappBtn = document.getElementById('share-whatsapp');
-    const nextRandomRhymeBtn = document.getElementById('next-random-rhyme-btn');
+    const previousDetailRhymeBtn = document.getElementById('previous-detail-rhyme-btn');
+    const nextDetailRhymeBtn = document.getElementById('next-detail-rhyme-btn');
 
     // Story Detail Elements
     const storyBackButton = document.getElementById('story-back-button');
     const storyFavoriteBtn = document.getElementById('story-favorite-btn');
     const addToStoryPlaylistBtn = document.getElementById('add-to-story-playlist-btn');
-    const nextRandomStoryBtn = document.getElementById('next-random-story-btn');
+    const previousDetailStoryBtn = document.getElementById('previous-detail-story-btn');
+    const nextDetailStoryBtn = document.getElementById('next-detail-story-btn');
 
     // Playlist Elements
     const playlistToggleBtn = document.getElementById('playlist-toggle-btn');
@@ -304,6 +306,10 @@ document.addEventListener('DOMContentLoaded', () => {
             copyrightContainer.classList.add('hidden');
         }
         
+        const currentIndex = allRhymes.findIndex(r => r.id === rhymeId);
+        previousDetailRhymeBtn.disabled = currentIndex <= 0;
+        nextDetailRhymeBtn.disabled = currentIndex >= allRhymes.length - 1;
+
         updateAddToPlaylistButton();
         updatePlaylistNav();
         window.scrollTo(0, 0);
@@ -379,6 +385,10 @@ document.addEventListener('DOMContentLoaded', () => {
         storyCopyrightText.textContent = `© ${new Date().getFullYear()} Kids.Toolblaster.com. All Rights Reserved. This is an Original and Exclusive Story.`;
         storyCopyrightContainer.classList.remove('hidden');
         
+        const currentIndex = allStories.findIndex(s => s.id === storyId);
+        previousDetailStoryBtn.disabled = currentIndex <= 0;
+        nextDetailStoryBtn.disabled = currentIndex >= allStories.length - 1;
+
         storyFavoriteBtn.textContent = isFavoriteStory(storyId) ? '❤️' : '🤍';
         updateAddToStoryPlaylistButton();
         window.scrollTo(0, 0);
@@ -405,8 +415,10 @@ document.addEventListener('DOMContentLoaded', () => {
         categoryFilters.addEventListener('click', handleCategoryClick);
         storyCategoryFilters.addEventListener('click', handleCategoryClick);
         surpriseButton.addEventListener('click', showRandomRhyme);
-        nextRandomRhymeBtn.addEventListener('click', showRandomRhyme);
-        nextRandomStoryBtn.addEventListener('click', showRandomStory);
+        previousDetailRhymeBtn.addEventListener('click', showPreviousRhyme);
+        nextDetailRhymeBtn.addEventListener('click', showNextRhyme);
+        previousDetailStoryBtn.addEventListener('click', showPreviousStory);
+        nextDetailStoryBtn.addEventListener('click', showNextStory);
         themeToggle.addEventListener('click', toggleTheme);
         favoriteBtn.addEventListener('click', handleFavoriteClick);
         printBtn.addEventListener('click', handlePrint);
@@ -475,6 +487,38 @@ document.addEventListener('DOMContentLoaded', () => {
     function showRandomStory() {
         const randomIndex = Math.floor(Math.random() * allStories.length);
         showStoryDetail(allStories[randomIndex].id);
+    }
+
+    function showPreviousRhyme() {
+        if (!currentRhyme) return;
+        const currentIndex = allRhymes.findIndex(r => r.id === currentRhyme.id);
+        if (currentIndex > 0) {
+            showRhymeDetail(allRhymes[currentIndex - 1].id);
+        }
+    }
+
+    function showNextRhyme() {
+        if (!currentRhyme) return;
+        const currentIndex = allRhymes.findIndex(r => r.id === currentRhyme.id);
+        if (currentIndex < allRhymes.length - 1) {
+            showRhymeDetail(allRhymes[currentIndex + 1].id);
+        }
+    }
+
+    function showPreviousStory() {
+        if (!currentStory) return;
+        const currentIndex = allStories.findIndex(s => s.id === currentStory.id);
+        if (currentIndex > 0) {
+            showStoryDetail(allStories[currentIndex - 1].id);
+        }
+    }
+
+    function showNextStory() {
+        if (!currentStory) return;
+        const currentIndex = allStories.findIndex(s => s.id === currentStory.id);
+        if (currentIndex < allStories.length - 1) {
+            showStoryDetail(allStories[currentIndex + 1].id);
+        }
     }
 
     function toggleTheme() {
