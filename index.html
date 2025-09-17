@@ -41,8 +41,8 @@
     <header class="bg-brand-red text-white text-center px-3 py-1 md:px-6 md:py-2 shadow-lg relative flex justify-center items-center">
         <div class="flex-1"></div>
         <div class="flex flex-col justify-center items-center flex-shrink-0">
-            <h1 id="home-button" class="text-xl md:text-4xl font-bold font-baloo pb-1 md:pb-2 border-b-2 border-white flex items-center cursor-pointer">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 md:h-9 md:w-9 inline-block mr-2 md:mr-3" viewBox="0 0 20 20" fill="currentColor">
+            <h1 id="home-button" class="text-lg md:text-4xl font-bold font-baloo pb-1 md:pb-2 border-b-2 border-white flex items-center cursor-pointer">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 md:h-9 md:w-9 inline-block mr-1 md:mr-3" viewBox="0 0 20 20" fill="currentColor">
                     <path d="M18 3a1 1 0 00-1.196-.98l-10 2A1 1 0 006 5v9.114A4.369 4.369 0 005 14c-1.657 0-3 1.343-3 3s1.343 3 3 3 3-1.343 3-3V7.82l8-1.6v5.894A4.37 4.37 0 0015 12c-1.657 0-3 1.343-3 3s1.343 3 3 3 3-1.343 3-3V3z" />
                 </svg>
                 <span>Nursery Rhymes & Stories</span>
@@ -144,9 +144,14 @@
                 <button id="back-button" class="bg-brand-red hover:bg-opacity-90 text-white font-bold py-2 px-4 rounded-lg shadow-md transition-transform transform hover:scale-105">
                     &larr; Back to Rhymes
                 </button>
-                <button id="next-random-rhyme-btn" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg shadow-md transition-transform transform hover:scale-105">
-                    Next Rhyme &rarr;
-                </button>
+                <div class="flex items-center gap-2">
+                    <button id="previous-detail-rhyme-btn" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg shadow-md transition-transform transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed">
+                        &larr; Previous Rhyme
+                    </button>
+                    <button id="next-detail-rhyme-btn" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg shadow-md transition-transform transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed">
+                        Next Rhyme &rarr;
+                    </button>
+                </div>
             </div>
             <div class="bg-white dark:bg-gray-800 p-6 md:p-8 rounded-2xl shadow-xl">
                 <div class="flex justify-between items-start mb-4">
@@ -217,9 +222,14 @@
                 <button id="story-back-button" class="bg-brand-red hover:bg-opacity-90 text-white font-bold py-2 px-4 rounded-lg shadow-md transition-transform transform hover:scale-105">
                     &larr; Back to Stories
                 </button>
-                <button id="next-random-story-btn" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg shadow-md transition-transform transform hover:scale-105">
-                    Next Story &rarr;
-                </button>
+                <div class="flex items-center gap-2">
+                    <button id="previous-detail-story-btn" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg shadow-md transition-transform transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed">
+                        &larr; Previous Story
+                    </button>
+                    <button id="next-detail-story-btn" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg shadow-md transition-transform transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed">
+                        Next Story &rarr;
+                    </button>
+                </div>
             </div>
             <div class="bg-white dark:bg-gray-800 p-6 md:p-8 rounded-2xl shadow-xl max-w-4xl mx-auto">
                 <div class="flex justify-center items-center relative mb-2">
