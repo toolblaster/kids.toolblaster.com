@@ -22,6 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentRhyme = null;
     let isPlaylistMode = false;
     let currentPlaylistIndex = -1;
+    const originalTitle = document.title;
 
     const rhymeGrid = document.getElementById('rhyme-grid');
     const rhymeGalleryView = document.getElementById('rhyme-gallery');
@@ -164,6 +165,8 @@ document.addEventListener('DOMContentLoaded', () => {
         currentRhyme = allRhymes.find(r => r.id === rhymeId);
         if (!currentRhyme) return;
 
+        document.title = `${currentRhyme.title} - Kids Rhymes & Poems`;
+
         isPlaylistMode = fromPlaylist;
         if(isPlaylistMode) {
             currentPlaylistIndex = playlist.indexOf(rhymeId);
@@ -228,6 +231,7 @@ document.addEventListener('DOMContentLoaded', () => {
         currentPlaylistIndex = -1;
         updatePlaylistNav();
 
+        document.title = originalTitle;
         rhymeDetailView.classList.add('hidden');
         rhymeGalleryView.classList.remove('hidden');
         controls.classList.remove('hidden');
