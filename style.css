@@ -75,13 +75,14 @@
         background-color: white !important;
         color: black !important;
     }
+
+    /* Printing for Rhyme Text */
     body.printing-rhyme #rhyme-detail {
         display: block !important;
     }
     body.printing-rhyme > *:not(#rhyme-detail) {
         display: none !important;
     }
-    
     #rhyme-detail {
         box-shadow: none !important;
     }
@@ -101,5 +102,35 @@
     #hindi-column, #fun-fact-container, .social-share-btn, #back-button, #copyright-notice-container {
         display: none !important;
     }
-}
 
+    /* Printing for Coloring Page */
+    body.printing-coloring-page #coloring-modal {
+        display: flex !important;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: white !important;
+    }
+    
+    body.printing-coloring-page > *:not(#coloring-modal) {
+        display: none !important;
+    }
+
+    #coloring-modal > div { /* The modal content box */
+        border: none !important;
+        box-shadow: none !important;
+        max-width: 100% !important;
+        max-height: 100% !important;
+        height: 100%;
+        width: 100%;
+    }
+    
+    #coloring-modal #close-coloring-modal-btn,
+    #coloring-modal #print-coloring-btn,
+    #coloring-modal .border-b,
+    #coloring-modal .border-t {
+        display: none !important;
+    }
+}
