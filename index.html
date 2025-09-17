@@ -33,9 +33,11 @@
     </div>
 
     <!-- Header -->
-    <header class="bg-brand-red text-white text-center p-3 md:p-6 shadow-lg relative flex justify-between items-center">
-        <div><!-- Spacer --></div>
-        <div class="flex justify-center items-center">
+    <header class="bg-brand-red text-white p-3 md:p-6 shadow-lg relative flex justify-between items-center">
+        <div class="flex-1">
+            <!-- Left Spacer -->
+        </div>
+        <div class="flex-shrink-0">
             <h1 class="text-xl md:text-4xl font-bold font-baloo pb-1 md:pb-2 border-b-2 border-white flex items-center">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 md:h-9 md:w-9 inline-block mr-2 md:mr-3" viewBox="0 0 20 20" fill="currentColor">
                     <path d="M18 3a1 1 0 00-1.196-.98l-10 2A1 1 0 006 5v9.114A4.369 4.369 0 005 14c-1.657 0-3 1.343-3 3s1.343 3 3 3 3-1.343 3-3V7.82l8-1.6v5.894A4.37 4.37 0 0015 12c-1.657 0-3 1.343-3 3s1.343 3 3 3 3-1.343 3-3V3z" />
@@ -43,19 +45,21 @@
                 <span>Nursery Rhymes & Poems</span>
             </h1>
         </div>
-        <div class="flex items-center gap-2">
-             <button id="playlist-toggle-btn" class="p-2 rounded-full text-white hover:bg-white/20 transition-colors relative" title="View Playlist" aria-label="View Playlist">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" /></svg>
-                <span id="playlist-count" class="absolute -top-1 -right-1 bg-yellow-400 text-black text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center hidden">0</span>
-            </button>
-            <button id="theme-toggle" class="p-2 rounded-full text-white hover:bg-white/20 transition-colors" aria-label="Toggle dark and light theme">
-                <svg id="theme-icon-light" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
-                </svg>
-                <svg id="theme-icon-dark" class="h-6 w-6 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
-                </svg>
-            </button>
+        <div class="flex-1 flex justify-end">
+            <div class="flex items-center gap-2">
+                 <button id="playlist-toggle-btn" class="p-2 rounded-full text-white hover:bg-white/20 transition-colors relative" title="View Playlist" aria-label="View Playlist">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" /></svg>
+                    <span id="playlist-count" class="absolute -top-1 -right-1 bg-yellow-400 text-black text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center hidden">0</span>
+                </button>
+                <button id="theme-toggle" class="p-2 rounded-full text-white hover:bg-white/20 transition-colors" aria-label="Toggle dark and light theme">
+                    <svg id="theme-icon-light" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                    </svg>
+                    <svg id="theme-icon-dark" class="h-6 w-6 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                    </svg>
+                </button>
+            </div>
         </div>
     </header>
 
