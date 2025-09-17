@@ -1,3 +1,5 @@
+/* Updated style.css - Roboto removed; Poppins is default */
+
 /* Using @apply to leverage Tailwind's theme for custom fonts and styles */
 @tailwind base;
 @tailwind components;
@@ -5,22 +7,22 @@
 
 @layer base {
     body {
-        font-family: 'Roboto', sans-serif;
+        font-family: 'Poppins', sans-serif !important; /* Poppins site-wide */
     }
      .prose {
-        font-family: 'Poppins', sans-serif;
+        font-family: 'Poppins', sans-serif !important;
     }
 }
 
 @layer components {
     .font-baloo {
-        font-family: 'Baloo 2', cursive;
+        font-family: 'Baloo 2', cursive !important;
     }
     .font-quicksand {
-        font-family: 'Quicksand', sans-serif;
+        font-family: 'Quicksand', sans-serif !important;
     }
     .font-poppins {
-        font-family: 'Poppins', sans-serif;
+        font-family: 'Poppins', sans-serif !important;
     }
     .category-btn {
         @apply px-4 py-2 text-sm font-semibold text-brand-dark dark:text-gray-200 bg-gray-100 dark:bg-gray-700 rounded-full border-2 border-transparent hover:border-brand-red hover:text-brand-red dark:hover:text-brand-red transition-colors duration-200;
@@ -103,7 +105,6 @@
   from { opacity: 0; transform: translateY(10px); }
   to { opacity: 1; transform: translateY(0); }
 }
-
 
 /* Print Styles */
 @media print {
