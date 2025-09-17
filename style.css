@@ -70,7 +70,7 @@
     }
     
     .joke-text {
-        @apply font-quicksand text-3xl md:text-4xl text-gray-800 dark:text-white text-center leading-snug;
+        @apply font-quicksand text-4xl md:text-5xl text-gray-800 dark:text-white text-center leading-snug;
     }
 
     .riddle-question::before {
