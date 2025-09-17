@@ -367,9 +367,13 @@ document.addEventListener('DOMContentLoaded', () => {
         const storyContentEl = document.getElementById('story-content');
         storyContentEl.innerHTML = '';
         currentStory.content.forEach(paragraph => {
-            const p = document.createElement('p');
-            p.textContent = paragraph;
-            storyContentEl.appendChild(p);
+            // This regex splits the paragraph into sentences, keeping the punctuation.
+            const sentences = paragraph.match(/[^.!?]+[.!?]+/g) || [paragraph];
+            sentences.forEach(sentence => {
+                const p = document.createElement('p');
+                p.textContent = sentence.trim();
+                storyContentEl.appendChild(p);
+            });
         });
 
         const moralContainer = document.getElementById('story-moral-container');
