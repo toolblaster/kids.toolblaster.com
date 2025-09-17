@@ -72,36 +72,40 @@
         </section>
 
         <!-- Controls Section -->
-        <section id="controls" class="mb-8 section-card">
-            <div class="grid grid-cols-1 md:grid-cols-[1fr_auto_1fr] items-center gap-4">
-                <input type="search" id="search-bar" placeholder="Search for any rhyme..." class="w-full p-3 border-2 border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 dark:text-white rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-brand-red focus:border-transparent transition-all">
-                
-                <div class="h-px w-full bg-gray-300 dark:bg-gray-600 md:h-10 md:w-px"></div>
-    
-                <button id="surprise-button" class="w-full bg-yellow-400 hover:bg-yellow-500 text-gray-800 font-bold py-3 px-4 rounded-lg shadow-sm transition-transform transform hover:scale-105">
-                    🎉 Surprise Me!
-                </button>
-            </div>
-            <h3 class="text-xl font-bold text-center text-brand-dark dark:text-white mt-8 mb-2 font-baloo">Browse Collections</h3>
-            <p class="text-center text-gray-600 dark:text-gray-400 mb-6">Explore our collections of classic nursery rhymes, animal poems, learning songs, and silly lullabies that kids love.</p>
-            <div id="category-filters" class="p-4 bg-gray-100 dark:bg-gray-800/50 rounded-xl">
-                <div class="flex flex-wrap items-center justify-center gap-x-4 gap-y-3">
-                    <button class="category-btn active" data-category="All">All Rhymes</button>
-                    <button class="category-btn" data-category="Favorites">❤️ Your Favorites</button>
-                    <button class="category-btn" data-category="New">✨ New & Exclusive</button>
+        <section id="controls" class="mb-8">
+            <div class="section-card mb-8">
+                <div class="grid grid-cols-1 md:grid-cols-[1fr_auto_1fr] items-center gap-4">
+                    <input type="search" id="search-bar" placeholder="Search for any rhyme..." class="w-full p-3 border-2 border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 dark:text-white rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-brand-red focus:border-transparent transition-all">
                     
-                    <div class="h-6 w-px bg-gray-300 dark:bg-gray-600 hidden sm:block"></div>
+                    <div class="h-px w-full bg-gray-300 dark:bg-gray-600 md:h-10 md:w-px"></div>
+        
+                    <button id="surprise-button" class="w-full bg-yellow-400 hover:bg-yellow-500 text-gray-800 font-bold py-3 px-4 rounded-lg shadow-sm transition-transform transform hover:scale-105">
+                        🎉 Surprise Me!
+                    </button>
+                </div>
+            </div>
+            <div class="section-card border-2 border-gray-200 dark:border-gray-700 rounded-3xl">
+                <h3 class="text-xl font-bold text-center text-brand-dark dark:text-white mb-2 font-baloo">Browse Collections</h3>
+                <p class="text-center text-gray-600 dark:text-gray-400 mb-6">Explore our collections of classic nursery rhymes, animal poems, learning songs, and silly lullabies that kids love.</p>
+                <div id="category-filters" class="p-4 bg-gray-100 dark:bg-gray-800/50 rounded-xl">
+                    <div class="flex flex-wrap items-center justify-center gap-x-4 gap-y-3">
+                        <button class="category-btn active" data-category="All">All Rhymes</button>
+                        <button class="category-btn" data-category="Favorites">❤️ Your Favorites</button>
+                        <button class="category-btn" data-category="New">✨ New & Exclusive</button>
+                        
+                        <div class="h-6 w-px bg-gray-300 dark:bg-gray-600 hidden sm:block"></div>
 
-                    <button class="category-btn" data-category="Classic">📜 Classic</button>
-                    <button class="category-btn" data-category="Indian">🇮🇳 Indian</button>
-                    <button class="category-btn" data-category="Animal">🐾 Animal</button>
-                    <button class="category-btn" data-category="Learning">🎓 Learning</button>
+                        <button class="category-btn" data-category="Classic">📜 Classic</button>
+                        <button class="category-btn" data-category="Indian">🇮🇳 Indian</button>
+                        <button class="category-btn" data-category="Animal">🐾 Animal</button>
+                        <button class="category-btn" data-category="Learning">🎓 Learning</button>
 
-                    <div class="h-6 w-px bg-gray-300 dark:bg-gray-600 hidden sm:block"></div>
+                        <div class="h-6 w-px bg-gray-300 dark:bg-gray-600 hidden sm:block"></div>
 
-                    <button class="category-btn" data-tag="lullaby">🌙 Bedtime</button>
-                    <button class="category-btn" data-tag="silly">🤪 Silly</button>
-                    <button class="category-btn" data-tag="action">👏 Action</button>
+                        <button class="category-btn" data-tag="lullaby">🌙 Bedtime</button>
+                        <button class="category-btn" data-tag="silly">🤪 Silly</button>
+                        <button class="category-btn" data-tag="action">👏 Action</button>
+                    </div>
                 </div>
             </div>
         </section>
@@ -251,3 +255,4 @@
     <script src="script.js"></script>
 </body>
 </html>
+
