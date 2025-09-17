@@ -83,36 +83,24 @@
                 </button>
             </div>
             <h3 class="text-xl font-bold text-center text-brand-dark dark:text-white mt-8 mb-4 font-baloo">Browse Collections</h3>
-            <div id="category-filters" class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <!-- Main Collections -->
-                <div class="p-4 bg-gray-100 dark:bg-gray-700/50 rounded-lg h-full">
-                    <h4 class="text-md font-semibold text-center text-gray-600 dark:text-gray-400 mb-3 uppercase tracking-wider">Main</h4>
-                    <div class="flex flex-wrap gap-3 justify-center">
-                        <button class="category-btn active" data-category="All">All Rhymes</button>
-                        <button class="category-btn" data-category="Favorites">❤️ Your Favorites</button>
-                        <button class="category-btn" data-category="New">✨ New & Exclusive</button>
-                    </div>
-                </div>
+            <div id="category-filters" class="p-4 bg-gray-100 dark:bg-gray-800/50 rounded-xl">
+                <div class="flex flex-wrap items-center justify-center gap-x-4 gap-y-3">
+                    <button class="category-btn active" data-category="All">All Rhymes</button>
+                    <button class="category-btn" data-category="Favorites">❤️ Your Favorites</button>
+                    <button class="category-btn" data-category="New">✨ New & Exclusive</button>
+                    
+                    <div class="h-6 w-px bg-gray-300 dark:bg-gray-600 hidden sm:block"></div>
 
-                <!-- By Topic -->
-                <div class="p-4 bg-gray-100 dark:bg-gray-700/50 rounded-lg h-full">
-                    <h4 class="text-md font-semibold text-center text-gray-600 dark:text-gray-400 mb-3 uppercase tracking-wider">By Topic</h4>
-                    <div class="flex flex-wrap gap-3 justify-center">
-                        <button class="category-btn" data-category="Classic">📜 Classic</button>
-                        <button class="category-btn" data-category="Indian">🇮🇳 Indian</button>
-                        <button class="category-btn" data-category="Animal">🐾 Animal</button>
-                        <button class="category-btn" data-category="Learning">🎓 Learning</button>
-                    </div>
-                </div>
+                    <button class="category-btn" data-category="Classic">📜 Classic</button>
+                    <button class="category-btn" data-category="Indian">🇮🇳 Indian</button>
+                    <button class="category-btn" data-category="Animal">🐾 Animal</button>
+                    <button class="category-btn" data-category="Learning">🎓 Learning</button>
 
-                <!-- By Theme -->
-                <div class="p-4 bg-gray-100 dark:bg-gray-700/50 rounded-lg h-full">
-                     <h4 class="text-md font-semibold text-center text-gray-600 dark:text-gray-400 mb-3 uppercase tracking-wider">By Theme</h4>
-                    <div class="flex flex-wrap gap-3 justify-center">
-                        <button class="category-btn" data-tag="lullaby">🌙 Bedtime</button>
-                        <button class="category-btn" data-tag="silly">🤪 Silly</button>
-                        <button class="category-btn" data-tag="action">👏 Action</button>
-                    </div>
+                    <div class="h-6 w-px bg-gray-300 dark:bg-gray-600 hidden sm:block"></div>
+
+                    <button class="category-btn" data-tag="lullaby">🌙 Bedtime</button>
+                    <button class="category-btn" data-tag="silly">🤪 Silly</button>
+                    <button class="category-btn" data-tag="action">👏 Action</button>
                 </div>
             </div>
         </section>
