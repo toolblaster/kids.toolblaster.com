@@ -10,16 +10,14 @@
     .font-quicksand {
         font-family: 'Quicksand', sans-serif;
     }
+    .font-poppins {
+        font-family: 'Poppins', sans-serif;
+    }
     body {
         font-family: 'Roboto', sans-serif;
     }
-    #rhyme-lyrics-en, #rhyme-lyrics-hi {
-        font-family: 'Baloo 2', cursive;
-        font-size: 1.125rem; /* Equivalent to text-lg */
-        line-height: 1.75rem; /* Equivalent to text-lg */
-    }
      .prose {
-        font-family: 'Quicksand', sans-serif;
+        font-family: 'Poppins', sans-serif;
     }
 }
 
