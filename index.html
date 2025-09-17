@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700&family=Roboto:wght@400;700&family=Quicksand:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700&family=Roboto:wght@400;700&family=Quicksand:wght@400;700&family=Poppins:wght@400;700&display=swap" rel="stylesheet">
     <script>
         tailwind.config = {
             darkMode: 'class', // Enable dark mode based on a class
@@ -94,8 +94,14 @@
                     <div id="category-filters" class="p-4 bg-gray-100 dark:bg-gray-800/50 rounded-2xl border-2 border-gray-200 dark:border-gray-600">
                          <h4 class="text-center font-bold text-gray-700 dark:text-gray-300 mb-3">Or, filter rhymes by:</h4>
                         <div class="flex flex-wrap items-center justify-center gap-x-4 gap-y-3">
-                            <button class="category-btn" data-category="Favorites">❤️ Your Favorites</button>
+                            <button class="category-btn" data-category="Rhymes">🎶 All Rhymes</button>
+                            <button class="category-btn" data-category="Favorites">❤️ Favorites</button>
                             <button class="category-btn" data-category="New">✨ New & Exclusive</button>
+                            <button class="category-btn" data-category="Animal">🐑 Animals</button>
+                            <button class="category-btn" data-category="Learning">🎓 Learning</button>
+                            <button class="category-btn" data-category="Classic">📜 Classics</button>
+                            <button class="category-btn" data-category="Indian">🇮🇳 Indian</button>
+                            <button class="category-btn" data-category="Lullaby">🌙 Lullabies</button>
                         </div>
                     </div>
                 </div>
@@ -159,11 +165,11 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 mt-4">
                     <div>
                         <h3 class="text-xl font-bold text-brand-dark dark:text-white mb-2">English</h3>
-                        <pre id="rhyme-lyrics-en" class="text-lg text-brand-dark dark:text-gray-300 whitespace-pre-wrap bg-gray-50 dark:bg-gray-700 p-4 rounded-lg"></pre>
+                        <pre id="rhyme-lyrics-en" class="text-lg text-brand-dark dark:text-gray-300 whitespace-pre-wrap bg-gray-50 dark:bg-gray-700 p-4 rounded-lg font-poppins"></pre>
                     </div>
                     <div id="hindi-column">
                         <h3 class="text-xl font-bold text-brand-dark dark:text-white mb-2">हिन्दी</h3>
-                        <pre id="rhyme-lyrics-hi" class="text-lg text-brand-dark dark:text-gray-300 whitespace-pre-wrap bg-gray-50 dark:bg-gray-700 p-4 rounded-lg font-sans"></pre>
+                        <pre id="rhyme-lyrics-hi" class="text-lg text-brand-dark dark:text-gray-300 whitespace-pre-wrap bg-gray-50 dark:bg-gray-700 p-4 rounded-lg font-poppins"></pre>
                     </div>
                 </div>
                 
