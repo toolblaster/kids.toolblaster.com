@@ -80,34 +80,50 @@
         color: black !important;
     }
 
-    /* Printing for Rhyme Text */
-    body.printing-rhyme #rhyme-detail {
-        display: block !important;
-    }
-    body.printing-rhyme > *:not(#rhyme-detail) {
-        display: none !important;
-    }
-    #rhyme-detail {
-        box-shadow: none !important;
-    }
-    #rhyme-detail > div {
-        box-shadow: none !important;
-    }
-    main {
-        padding: 0 !important;
-    }
-    pre {
-        background-color: #f9f9f9 !important;
-        border: 1px solid #ddd;
-    }
-    h2, h3 {
-        color: black !important;
-    }
-    #hindi-column, #fun-fact-container, .social-share-btn, #back-button, #copyright-notice-container {
+    /* --- Printing for Rhyme Text --- */
+    
+    /* Hide everything at the root except for the <main> element */
+    body.printing-rhyme > *:not(main) {
         display: none !important;
     }
 
-    /* Printing for Coloring Page */
+    /* Inside <main>, hide everything except for the rhyme detail section */
+    body.printing-rhyme main > *:not(#rhyme-detail) {
+        display: none !important;
+    }
+
+    /* Inside the rhyme detail view, hide interactive/unnecessary elements */
+    body.printing-rhyme #fun-fact-container,
+    body.printing-rhyme .social-share-btn,
+    body.printing-rhyme #back-button,
+    body.printing-rhyme #copyright-notice-container,
+    body.printing-rhyme #playlist-nav-buttons {
+        display: none !important;
+    }
+
+    /* Style the visible content to be print-friendly */
+    body.printing-rhyme main {
+        padding: 0 !important;
+    }
+    body.printing-rhyme #rhyme-detail {
+        display: block !important;
+        box-shadow: none !important;
+    }
+    body.printing-rhyme #rhyme-detail > div {
+        box-shadow: none !important;
+        padding: 0 !important;
+    }
+    body.printing-rhyme pre {
+        background-color: white !important;
+        border: none !important;
+        font-size: 12pt;
+        line-height: 1.5;
+    }
+    body.printing-rhyme h2, body.printing-rhyme h3 {
+        color: black !important;
+    }
+
+    /* --- Printing for Coloring Page --- */
     body.printing-coloring-page #coloring-modal {
         display: flex !important;
         position: absolute;
