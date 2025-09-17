@@ -148,7 +148,6 @@
     }
     
     #coloring-modal #close-coloring-modal-btn,
-    #coloring-modal #print-coloring-btn,
     #coloring-modal .border-b,
     #coloring-modal .border-t {
         display: none !important;
@@ -164,4 +163,19 @@
 
 .pop-animation {
   animation: pop 0.3s ease-out;
+}
+
+/* On-screen style for the coloring page print button */
+#print-coloring-btn .print-text {
+    display: none;
+}
+
+/* Print-specific styles for the coloring page print button */
+@media print {
+    #coloring-modal #print-coloring-btn .print-icon {
+        display: none !important;
+    }
+    #coloring-modal #print-coloring-btn .print-text {
+        display: inline !important;
+    }
 }
