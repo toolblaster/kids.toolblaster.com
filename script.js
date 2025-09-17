@@ -57,11 +57,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const favoriteBtn = document.getElementById('favorite-btn');
     const printBtn = document.getElementById('print-btn');
     const shareWhatsappBtn = document.getElementById('share-whatsapp');
+    const nextRandomRhymeBtn = document.getElementById('next-random-rhyme-btn');
 
     // Story Detail Elements
     const storyBackButton = document.getElementById('story-back-button');
     const storyFavoriteBtn = document.getElementById('story-favorite-btn');
     const addToStoryPlaylistBtn = document.getElementById('add-to-story-playlist-btn');
+    const nextRandomStoryBtn = document.getElementById('next-random-story-btn');
 
     // Playlist Elements
     const playlistToggleBtn = document.getElementById('playlist-toggle-btn');
@@ -408,6 +410,10 @@ document.addEventListener('DOMContentLoaded', () => {
         printBtn.addEventListener('click', handlePrint);
         shareWhatsappBtn.addEventListener('click', handleShare);
         
+        // Next Random Buttons
+        nextRandomRhymeBtn.addEventListener('click', showRandomRhyme);
+        nextRandomStoryBtn.addEventListener('click', showRandomStory);
+
         // Story buttons
         storyFavoriteBtn.addEventListener('click', handleFavoriteStoryClick);
         addToStoryPlaylistBtn.addEventListener('click', handleAddToStoryPlaylist);
@@ -466,6 +472,11 @@ document.addEventListener('DOMContentLoaded', () => {
     function showRandomRhyme() {
         const randomIndex = Math.floor(Math.random() * allRhymes.length);
         showRhymeDetail(allRhymes[randomIndex].id);
+    }
+
+    function showRandomStory() {
+        const randomIndex = Math.floor(Math.random() * allStories.length);
+        showStoryDetail(allStories[randomIndex].id);
     }
 
     function toggleTheme() {
