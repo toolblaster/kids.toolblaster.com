@@ -3,7 +3,7 @@
  * COPYRIGHT & CONTENT POLICY
  * =================================================================
  * This website uses nursery rhyme text that is in the public domain.
- * Original stories, jokes, and riddles are exclusive content.
+ * Original stories are exclusive content.
  *
  * DO NOT ADD any content that may be copyrighted.
  * =================================================================
@@ -405,15 +405,13 @@ document.addEventListener('DOMContentLoaded', () => {
         categoryFilters.addEventListener('click', handleCategoryClick);
         storyCategoryFilters.addEventListener('click', handleCategoryClick);
         surpriseButton.addEventListener('click', showRandomRhyme);
+        nextRandomRhymeBtn.addEventListener('click', showRandomRhyme);
+        nextRandomStoryBtn.addEventListener('click', showRandomStory);
         themeToggle.addEventListener('click', toggleTheme);
         favoriteBtn.addEventListener('click', handleFavoriteClick);
         printBtn.addEventListener('click', handlePrint);
         shareWhatsappBtn.addEventListener('click', handleShare);
         
-        // Next Random Buttons
-        nextRandomRhymeBtn.addEventListener('click', showRandomRhyme);
-        nextRandomStoryBtn.addEventListener('click', showRandomStory);
-
         // Story buttons
         storyFavoriteBtn.addEventListener('click', handleFavoriteStoryClick);
         addToStoryPlaylistBtn.addEventListener('click', handleAddToStoryPlaylist);
