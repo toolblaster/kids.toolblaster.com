@@ -22,7 +22,11 @@
         @apply px-4 py-2 text-sm font-semibold text-brand-dark dark:text-gray-200 bg-gray-100 dark:bg-gray-700 rounded-full border-2 border-transparent hover:border-brand-red hover:text-brand-red dark:hover:text-brand-red transition-colors duration-200;
     }
     .category-btn.active {
-        @apply bg-brand-red text-white border-brand-red dark:bg-brand-red dark:text-white;
+        @apply bg-brand-red text-white border-brand-red;
+    }
+    .dark .category-btn.active {
+        /* Using a darker red in dark mode to ensure AA contrast ratio is met */
+        @apply bg-red-700 border-red-700 text-white;
     }
 
     .social-share-btn {
