@@ -188,6 +188,38 @@ document.addEventListener('DOMContentLoaded', () => {
             hindiColumn.classList.add('hidden');
         }
         
+        // Handle Learning Focus Badge
+        const learningFocusContainer = document.getElementById('learning-focus-badge-container');
+        const learningFocusBadge = document.getElementById('learning-focus-badge');
+        if (currentRhyme.learningFocus) {
+            const emojis = {
+                'Counting': '🔢', 'Counting to 20': '🔢', 'Counting Down': '🔢',
+                'Alphabet': '🔤', 'Spelling': '🔤',
+                'Colors': '🎨', 'Colors & Counting': '🎨', 'Colors of the Rainbow': '🌈',
+                'Basic Shapes': '🔺',
+                'Telling Time': '🕰️',
+                'Cleanliness': '🧼', 'Personal Hygiene': '🧼',
+                'Safety Rules': '🚦',
+                'Community Helpers': '👨‍👩‍👧‍👦',
+                'Plant Life Cycle': '🌱', 'About Plants': '🌱',
+                'Farm Life': '🚜', 'Gardening': '👩‍🌾',
+                'Transportation': '🚂', 'Vehicles': '🚚',
+                'About Insects': '🐝',
+                'Health & Body': '🩺', 'Parts of the Body': '🤸',
+                'Emotional Awareness': '😊',
+                'Listening Skills': '👂',
+                'Daily Routines': '☀️',
+                'Observation': '🗺️',
+                'Creativity & Colors': '🖌️',
+                'Imagination': '💡',
+            };
+            const emoji = emojis[currentRhyme.learningFocus] || '🎓';
+            learningFocusBadge.innerHTML = `Focus: ${currentRhyme.learningFocus} ${emoji}`;
+            learningFocusContainer.classList.remove('hidden');
+        } else {
+            learningFocusContainer.classList.add('hidden');
+        }
+
         const favoriteBtn = document.getElementById('favorite-btn');
         favoriteBtn.textContent = isFavorite(rhymeId) ? '❤️' : '🤍';
         favoriteBtn.setAttribute('data-id', rhymeId);
