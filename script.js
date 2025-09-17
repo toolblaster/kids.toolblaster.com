@@ -15,7 +15,8 @@ document.addEventListener('DOMContentLoaded', () => {
     let allRhymes = [];
     let allStories = [];
     let favorites = JSON.parse(localStorage.getItem('favoriteRhymes')) || [];
-    let playlist = JSON.parse(localStorage.getItem('playlistRhymes')) || [];
+    let favoriteStories = JSON.parse(localStorage.getItem('favoriteStories')) || [];
+    let playlist = JSON.parse(localStorage.getItem('playlist')) || [];
     
     let currentRhyme = null;
     let currentStory = null;
@@ -44,8 +45,10 @@ document.addEventListener('DOMContentLoaded', () => {
     // Controls
     const controlsSection = document.getElementById('controls-section');
     const rhymeControls = document.getElementById('rhyme-controls');
+    const storyControls = document.getElementById('story-controls');
     const searchBar = document.getElementById('search-bar');
     const categoryFilters = document.getElementById('category-filters');
+    const storyCategoryFilters = document.getElementById('story-category-filters');
     const surpriseButton = document.getElementById('surprise-button');
     const backToTopBtn = document.getElementById('back-to-top-btn');
 
@@ -57,6 +60,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Story Detail Elements
     const storyBackButton = document.getElementById('story-back-button');
+    const storyFavoriteBtn = document.getElementById('story-favorite-btn');
+    const addToStoryPlaylistBtn = document.getElementById('add-to-story-playlist-btn');
 
     // Playlist Elements
     const playlistToggleBtn = document.getElementById('playlist-toggle-btn');
@@ -153,15 +158,24 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('rhyme-of-the-day').classList.add('hidden');
         controlsSection.classList.add('hidden');
         rhymeControls.classList.add('hidden');
+        storyControls.classList.add('hidden');
     }
 
     function showMainView(viewName) {
         hideAllViews();
         controlsSection.classList.remove('hidden');
 
-        if (viewName === 'Stories') {
+        if (viewName === 'Stories' || viewName === 'StoryFavorites') {
             storyGalleryView.classList.remove('hidden');
-            displayStoryGallery(allStories);
+            storyControls.classList.remove('hidden');
+            
+            let storiesToDisplay;
+            if (viewName === 'StoryFavorites') {
+                storiesToDisplay = allStories.filter(s => isFavoriteStory(s.id));
+            } else { // 'Stories'
+                storiesToDisplay = allStories;
+            }
+            displayStoryGallery(storiesToDisplay);
         } else { // Rhymes and all its categories
             rhymeGalleryView.classList.remove('hidden');
             rhymeControls.classList.remove('hidden');
@@ -203,7 +217,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function displayRhymeGallery(rhymesToDisplay) {
         rhymeGrid.innerHTML = '';
         if (rhymesToDisplay.length === 0) {
-            const activeButton = document.querySelector('.category-btn.active');
+            const activeButton = document.querySelector('#category-filters .category-btn.active');
             let emptyMessage = '<p class="text-gray-500 dark:text-gray-400 col-span-full text-center">No rhymes found.</p>';
             
             if (activeButton && activeButton.dataset.category === 'Favorites') {
@@ -234,7 +248,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    function showRhymeDetail(rhymeId, fromPlaylist = false) {
+    function showRhymeDetail(rhymeId, fromPlaylist = false, playlistIndex = -1) {
         currentRhyme = allRhymes.find(r => r.id === rhymeId);
         if (!currentRhyme) return;
 
@@ -245,7 +259,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         isPlaylistMode = fromPlaylist;
         if (isPlaylistMode) {
-            currentPlaylistIndex = playlist.indexOf(rhymeId);
+            currentPlaylistIndex = playlistIndex;
         }
 
         document.getElementById('rhyme-title-en').textContent = currentRhyme.title;
@@ -296,6 +310,22 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- DISPLAY FUNCTIONS (STORIES) ---
     function displayStoryGallery(storiesToDisplay) {
         storyGrid.innerHTML = '';
+        if (storiesToDisplay.length === 0) {
+            const activeButton = document.querySelector('#story-category-filters .category-btn.active');
+            let emptyMessage = '<p class="text-gray-500 dark:text-gray-400 col-span-full text-center">No stories found.</p>';
+
+            if (activeButton && activeButton.dataset.category === 'StoryFavorites') {
+                 emptyMessage = `
+                    <div class="col-span-full text-center p-6 bg-gray-50 dark:bg-gray-800/50 rounded-lg">
+                        <div class="text-4xl mb-2">❤️</div>
+                        <h4 class="text-lg font-bold text-brand-dark dark:text-white">Your Favorite Stories is Empty</h4>
+                        <p class="text-gray-500 dark:text-gray-400 mt-1">Click the white heart on any story to add it here!</p>
+                    </div>
+                `;
+            }
+             storyGrid.innerHTML = emptyMessage;
+            return;
+        }
         storiesToDisplay.forEach(story => {
             const card = document.createElement('div');
             card.className = 'rhyme-card bg-white dark:bg-gray-800 rounded-xl shadow-lg cursor-pointer transform hover:scale-105 transition-all duration-300 flex flex-col p-4 text-center relative';
@@ -306,6 +336,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <h3 class="text-lg font-bold text-brand-dark dark:text-white">${story.title}</h3>
                     <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">by ${story.author}</p>
                 </div>
+                <div class="absolute top-2 right-2 text-xl favorite-indicator">${isFavoriteStory(story.id) ? '❤️' : ''}</div>
             `;
             card.addEventListener('click', () => showStoryDetail(story.id));
             storyGrid.appendChild(card);
@@ -346,6 +377,8 @@ document.addEventListener('DOMContentLoaded', () => {
         storyCopyrightText.textContent = `© ${new Date().getFullYear()} Kids.Toolblaster.com. All Rights Reserved. This is an Original and Exclusive Story.`;
         storyCopyrightContainer.classList.remove('hidden');
         
+        storyFavoriteBtn.textContent = isFavoriteStory(storyId) ? '❤️' : '🤍';
+        updateAddToStoryPlaylistButton();
         window.scrollTo(0, 0);
     }
 
@@ -368,12 +401,17 @@ document.addEventListener('DOMContentLoaded', () => {
         searchBar.addEventListener('input', handleSearchInput);
         document.getElementById('main-navigation').addEventListener('click', handleCategoryClick);
         categoryFilters.addEventListener('click', handleCategoryClick);
+        storyCategoryFilters.addEventListener('click', handleCategoryClick);
         surpriseButton.addEventListener('click', showRandomRhyme);
         themeToggle.addEventListener('click', toggleTheme);
         favoriteBtn.addEventListener('click', handleFavoriteClick);
         printBtn.addEventListener('click', handlePrint);
         shareWhatsappBtn.addEventListener('click', handleShare);
         
+        // Story buttons
+        storyFavoriteBtn.addEventListener('click', handleFavoriteStoryClick);
+        addToStoryPlaylistBtn.addEventListener('click', handleAddToStoryPlaylist);
+
         // Playlist listeners
         playlistToggleBtn.addEventListener('click', togglePlaylistView);
         closePlaylistBtn.addEventListener('click', togglePlaylistView);
@@ -408,9 +446,21 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function updateActiveCategoryButton(categoryToActivate) {
-        document.querySelectorAll('.category-btn').forEach(btn => {
-            btn.classList.toggle('active', btn.dataset.category === categoryToActivate);
+        // Deactivate all sub-filters first
+        document.querySelectorAll('#category-filters .category-btn, #story-category-filters .category-btn').forEach(btn => {
+            btn.classList.remove('active');
         });
+
+        // Activate the clicked sub-filter
+        const activeButton = document.querySelector(`.category-btn[data-category="${categoryToActivate}"]`);
+        if (activeButton && !activeButton.closest('#main-navigation')) {
+            activeButton.classList.add('active');
+        }
+
+        // Handle main navigation buttons
+        const isStoryFilter = ['Stories', 'StoryFavorites'].includes(categoryToActivate);
+        document.querySelector('.main-nav-btn[data-category="Stories"]').classList.toggle('active', isStoryFilter);
+        document.querySelector('.main-nav-btn[data-category="Rhymes"]').classList.toggle('active', !isStoryFilter);
     }
 
     function showRandomRhyme() {
@@ -457,17 +507,29 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         clearPlaylistBtn.disabled = false;
-        const playlistRhymes = playlist.map(id => allRhymes.find(r => r.id === id)).filter(Boolean);
 
-        playlistRhymes.forEach((rhyme) => {
+        playlist.forEach((item) => {
             const itemEl = document.createElement('div');
             itemEl.className = 'flex items-center justify-between p-2 rounded-lg bg-gray-50 dark:bg-gray-700';
+
+            let details;
+            let icon;
+            if (item.type === 'rhyme') {
+                details = allRhymes.find(r => r.id === item.id);
+                icon = details ? details.icon || '🎶' : '🎶';
+            } else { // story
+                details = allStories.find(s => s.id === item.id);
+                icon = details ? details.icon || '📚' : '📚';
+            }
+
+            if (!details) return; // Skip if item from a previous session is no longer available
+
             itemEl.innerHTML = `
-                <div class="flex items-center gap-3 cursor-pointer flex-grow" data-rhyme-id="${rhyme.id}" data-action="play">
-                    <span class="text-2xl">${rhyme.icon || '🎶'}</span>
-                    <span class="font-semibold text-brand-dark dark:text-white">${rhyme.title}</span>
+                <div class="flex items-center gap-3 cursor-pointer flex-grow" data-item-id="${details.id}" data-item-type="${item.type}" data-action="play">
+                    <span class="text-2xl">${icon}</span>
+                    <span class="font-semibold text-brand-dark dark:text-white">${details.title}</span>
                 </div>
-                <button class="p-2 rounded-full hover:bg-red-100 dark:hover:bg-red-800 text-red-500" data-rhyme-id="${rhyme.id}" data-action="remove" aria-label="Remove ${rhyme.title} from playlist" title="Remove from playlist">
+                <button class="p-2 rounded-full hover:bg-red-100 dark:hover:bg-red-800 text-red-500" data-item-id="${details.id}" data-item-type="${item.type}" data-action="remove" aria-label="Remove ${details.title} from playlist" title="Remove from playlist">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 pointer-events-none" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" /></svg>
                 </button>
             `;
@@ -480,13 +542,13 @@ document.addEventListener('DOMContentLoaded', () => {
         playlistCountEl.classList.toggle('hidden', playlist.length === 0);
     }
 
-    function isInPlaylist(rhymeId) {
-        return playlist.includes(rhymeId);
+    function isInPlaylist(id, type) {
+        return playlist.some(item => item.id === id && item.type === type);
     }
 
     function updateAddToPlaylistButton() {
         if (!currentRhyme) return;
-        const inPlaylist = isInPlaylist(currentRhyme.id);
+        const inPlaylist = isInPlaylist(currentRhyme.id, 'rhyme');
         addToPlaylistBtn.innerHTML = inPlaylist 
             ? `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" /></svg>`
             : `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" /></svg>`;
@@ -505,68 +567,128 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!currentRhyme) return;
         triggerButtonAnimation(e.currentTarget);
         const rhymeId = currentRhyme.id;
-        const playlistIndex = playlist.indexOf(rhymeId);
+        const inPlaylist = isInPlaylist(rhymeId, 'rhyme');
 
-        if (playlistIndex > -1) {
-            playlist.splice(playlistIndex, 1);
+        if (inPlaylist) {
+            playlist = playlist.filter(item => !(item.id === rhymeId && item.type === 'rhyme'));
             showToast('Removed from playlist');
         } else {
-            playlist.push(rhymeId);
+            playlist.push({ type: 'rhyme', id: rhymeId });
             showToast('Added to playlist!');
         }
         
-        localStorage.setItem('playlistRhymes', JSON.stringify(playlist));
+        localStorage.setItem('playlist', JSON.stringify(playlist));
         updatePlaylistCount();
         updateAddToPlaylistButton();
     }
     
+    function handleAddToStoryPlaylist(e) {
+        if (!currentStory) return;
+        triggerButtonAnimation(e.currentTarget);
+        const storyId = currentStory.id;
+        const inPlaylist = isInPlaylist(storyId, 'story');
+
+        if (inPlaylist) {
+            playlist = playlist.filter(item => !(item.id === storyId && item.type === 'story'));
+            showToast('Removed from playlist');
+        } else {
+            playlist.push({ type: 'story', id: storyId });
+            showToast('Added to playlist!');
+        }
+        
+        localStorage.setItem('playlist', JSON.stringify(playlist));
+        updatePlaylistCount();
+        updateAddToStoryPlaylistButton();
+    }
+
+    function updateAddToStoryPlaylistButton() {
+        if (!currentStory) return;
+        const inPlaylist = isInPlaylist(currentStory.id, 'story');
+        addToStoryPlaylistBtn.innerHTML = inPlaylist 
+            ? `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" /></svg>`
+            : `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" /></svg>`;
+        addToStoryPlaylistBtn.title = inPlaylist ? "Added to Playlist" : "Add to Playlist";
+        addToStoryPlaylistBtn.setAttribute('aria-label', inPlaylist ? "Remove from Playlist" : "Add to Playlist");
+    }
+
     function clearPlaylist() {
         playlist = [];
-        localStorage.setItem('playlistRhymes', JSON.stringify(playlist));
+        localStorage.setItem('playlist', JSON.stringify(playlist));
         updatePlaylistCount();
         displayPlaylist();
     }
     
     function handlePlaylistItemClick(e) {
-        const target = e.target.closest('button[data-action="remove"], div[data-action="play"]');
+        const target = e.target.closest('[data-action]');
         if (!target) return;
         
-        const rhymeId = parseInt(target.dataset.rhymeId);
+        const itemId = parseInt(target.dataset.itemId);
+        const itemType = target.dataset.itemType;
         const action = target.dataset.action;
 
         if (action === 'play') {
             togglePlaylistView();
-            showRhymeDetail(rhymeId, true);
+            const playlistIndex = playlist.findIndex(item => item.id === itemId && item.type === itemType);
+            
+            if (itemType === 'rhyme') {
+                showRhymeDetail(itemId, true, playlistIndex);
+            } else {
+                showStoryDetail(itemId); // Playlist navigation doesn't apply to stories
+            }
         } else if (action === 'remove') {
-            playlist = playlist.filter(id => id !== rhymeId);
-            localStorage.setItem('playlistRhymes', JSON.stringify(playlist));
+            playlist = playlist.filter(item => !(item.id === itemId && item.type === itemType));
+            localStorage.setItem('playlist', JSON.stringify(playlist));
             updatePlaylistCount();
             displayPlaylist();
+            // Also update the button on the detail page if it's currently viewed
+            if (currentRhyme && currentRhyme.id === itemId && itemType === 'rhyme') {
+                updateAddToPlaylistButton();
+            }
+            if (currentStory && currentStory.id === itemId && itemType === 'story') {
+                updateAddToStoryPlaylistButton();
+            }
         }
     }
     
     function updatePlaylistNav() {
-        if (isPlaylistMode && playlist.length > 0) {
+        const rhymePlaylistItems = playlist.map((item, index) => ({...item, originalIndex: index}))
+                                         .filter(item => item.type === 'rhyme');
+
+        if (isPlaylistMode && rhymePlaylistItems.length > 0) {
             playlistNavButtons.classList.remove('hidden');
-            playlistPositionEl.textContent = `${currentPlaylistIndex + 1} / ${playlist.length}`;
-            prevRhymeBtn.disabled = currentPlaylistIndex === 0;
-            nextRhymeBtn.disabled = currentPlaylistIndex === playlist.length - 1;
+            
+            const currentItemInRhymeList = rhymePlaylistItems.find(item => item.originalIndex === currentPlaylistIndex);
+            const currentRhymeListIndex = currentItemInRhymeList ? rhymePlaylistItems.indexOf(currentItemInRhymeList) : -1;
+
+            playlistPositionEl.textContent = `${currentRhymeListIndex + 1} / ${rhymePlaylistItems.length}`;
+            prevRhymeBtn.disabled = currentRhymeListIndex <= 0;
+            nextRhymeBtn.disabled = currentRhymeListIndex >= rhymePlaylistItems.length - 1;
         } else {
             playlistNavButtons.classList.add('hidden');
         }
     }
     
     function playNextRhyme() {
-        if (isPlaylistMode && currentPlaylistIndex < playlist.length - 1) {
-            currentPlaylistIndex++;
-            showRhymeDetail(playlist[currentPlaylistIndex], true);
+        const rhymePlaylistItems = playlist.map((item, index) => ({...item, originalIndex: index}))
+                                         .filter(item => item.type === 'rhyme');
+        const currentItemInRhymeList = rhymePlaylistItems.find(item => item.originalIndex === currentPlaylistIndex);
+        const currentRhymeListIndex = rhymePlaylistItems.indexOf(currentItemInRhymeList);
+
+        if (isPlaylistMode && currentRhymeListIndex < rhymePlaylistItems.length - 1) {
+            const nextRhymeItem = rhymePlaylistItems[currentRhymeListIndex + 1];
+            showRhymeDetail(nextRhymeItem.id, true, nextRhymeItem.originalIndex);
         }
     }
 
     function playPreviousRhyme() {
-        if (isPlaylistMode && currentPlaylistIndex > 0) {
-            currentPlaylistIndex--;
-            showRhymeDetail(playlist[currentPlaylistIndex], true);
+        const rhymePlaylistItems = playlist.map((item, index) => ({...item, originalIndex: index}))
+                                         .filter(item => item.type === 'rhyme');
+        const currentItemInRhymeList = rhymePlaylistItems.find(item => item.originalIndex === currentPlaylistIndex);
+        const currentRhymeListIndex = rhymePlaylistItems.indexOf(currentItemInRhymeList);
+
+        if (isPlaylistMode && currentRhymeListIndex > 0) {
+            const prevRhymeItem = rhymePlaylistItems[currentRhymeListIndex - 1];
+            showRhymeDetail(prevRhymeItem.id, true, prevRhymeItem.originalIndex);
         }
     }
 
@@ -596,6 +718,33 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function isFavorite(rhymeId) {
         return favorites.includes(rhymeId);
+    }
+
+    function handleFavoriteStoryClick() {
+        if (!currentStory) return;
+        triggerButtonAnimation(storyFavoriteBtn);
+        const storyId = currentStory.id;
+        const favoriteIndex = favoriteStories.indexOf(storyId);
+        
+        if (favoriteIndex > -1) {
+            favoriteStories.splice(favoriteIndex, 1);
+        } else {
+            favoriteStories.push(storyId);
+        }
+        localStorage.setItem('favoriteStories', JSON.stringify(favoriteStories));
+
+        // Update button in detail view
+        storyFavoriteBtn.textContent = isFavoriteStory(storyId) ? '❤️' : '🤍';
+        
+        // Update indicator in gallery view if it exists
+        const storyCard = storyGrid.querySelector(`.rhyme-card[data-story-id="${storyId}"] .favorite-indicator`);
+        if (storyCard) {
+            storyCard.textContent = isFavoriteStory(storyId) ? '❤️' : '';
+        }
+    }
+
+    function isFavoriteStory(storyId) {
+        return favoriteStories.includes(storyId);
     }
 
     // --- UTILITY FUNCTIONS ---
