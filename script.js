@@ -51,6 +51,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const prevRhymeBtn = document.getElementById('prev-rhyme-btn');
     const nextRhymeBtn = document.getElementById('next-rhyme-btn');
     const playlistPositionEl = document.getElementById('playlist-position');
+    
+    // Coloring Page Elements
+    const coloringModal = document.getElementById('coloring-modal');
+    const closeColoringModalBtn = document.getElementById('close-coloring-modal-btn');
+    const coloringSvgContainer = document.getElementById('coloring-svg-container');
+    const printColoringBtn = document.getElementById('print-coloring-btn');
+    const coloringBtn = document.getElementById('coloring-btn');
 
 
     // --- INITIALIZATION ---
@@ -247,6 +254,13 @@ document.addEventListener('DOMContentLoaded', () => {
             copyrightText.textContent = '';
         }
         
+        // Handle Coloring Page button
+        if (currentRhyme.printable_url) {
+            coloringBtn.classList.remove('hidden');
+        } else {
+            coloringBtn.classList.add('hidden');
+        }
+        
         updateAddToPlaylistButton();
         updatePlaylistNav();
         
@@ -344,6 +358,11 @@ document.addEventListener('DOMContentLoaded', () => {
         playlistItemsContainer.addEventListener('click', handlePlaylistItemClick);
         prevRhymeBtn.addEventListener('click', playPreviousRhyme);
         nextRhymeBtn.addEventListener('click', playNextRhyme);
+        
+        // Coloring Page Listeners
+        coloringBtn.addEventListener('click', () => showColoringPage(currentRhyme));
+        closeColoringModalBtn.addEventListener('click', hideColoringPage);
+        printColoringBtn.addEventListener('click', handlePrintColoringPage);
         
         // Back to Top Listeners
         window.addEventListener('scroll', handleScroll);
@@ -639,6 +658,78 @@ document.addEventListener('DOMContentLoaded', () => {
         setTimeout(() => {
             toastNotification.classList.remove('show');
         }, 2500);
+    }
+    
+    // --- COLORING PAGE FUNCTIONS ---
+    
+    function getPrintableSvg(rhyme) {
+        const svgHeader = `<svg viewBox="0 0 800 1000" xmlns="http://www.w3.org/2000/svg" style="width: 100%; height: 100%;"><style> .heavy { stroke-width: 6; } .light { stroke-width: 3; } .text { font-family: "Baloo 2", cursive; font-size: 40px; text-anchor: middle; } </style><g fill="none" stroke="black" stroke-linecap="round" stroke-linejoin="round">`;
+        const svgFooter = `</g><text x="400" y="950" class="text">${rhyme.title}</text></svg>`;
+        let svgContent = '';
+
+        switch (rhyme.id) {
+            case 1: // Twinkle, Twinkle, Little Star
+                svgContent = `<path class="heavy" d="M400,100 L485,275 L675,275 L525,400 L585,575 L400,450 L215,575 L275,400 L125,275 L315,275 Z" />`;
+                break;
+            case 2: // Baa, Baa, Black Sheep
+                svgContent = `<path class="heavy" d="M250,550 C150,550 150,400 250,400 H550 C650,400 650,550 550,550 Z" /> <!-- Body -->
+                            <path class="light" d="M280,420 C260,380 300,350 320,380" /> <!-- Wool 1 -->
+                            <path class="light" d="M350,410 C330,370 370,340 390,370" /> <!-- Wool 2 -->
+                            <path class="light" d="M420,410 C400,370 440,340 460,370" /> <!-- Wool 3 -->
+                            <path class="light" d="M490,420 C470,380 510,350 530,380" /> <!-- Wool 4 -->
+                            <path class="heavy" d="M550,450 C600,450 620,500 580,520" /> <!-- Head -->
+                            <circle cx="590" cy="480" r="8" fill="black" /> <!-- Eye -->
+                            <path class="heavy" d="M280,550 V650 H320 V550" /> <!-- Leg 1 -->
+                            <path class="heavy" d="M480,550 V650 H520 V550" /> <!-- Leg 2 -->`;
+                break;
+            case 3: // Machli Jal Ki Rani Hai
+                svgContent = `<path class="heavy" d="M200,400 C350,250 550,250 700,400 C550,550 350,550 200,400 Z" /> <!-- Body -->
+                            <path class="heavy" d="M700,400 C750,350 750,450 700,500" /> <!-- Tail -->
+                            <circle cx="280" cy="380" r="15" fill="black" /> <!-- Eye -->
+                            <circle cx="280" cy="380" r="30" class="light" /> <!-- Eye Outline -->
+                            <path class="light" d="M250,430 C280,450 310,430" /> <!-- Mouth -->
+                            <path class="light" d="M400,350 C350,400 400,450" /> <!-- Fin -->`;
+                break;
+            case 6: // Hey Diddle Diddle
+                svgContent = `<path class="heavy" d="M200,600 C100,400 300,200 400,300 C500,200 700,400 600,600 Z" /> <!-- Cow Body -->
+                            <path class="heavy" d="M400,300 C350,250 450,250 400,300 Z" /> <!-- Head -->
+                            <path class="heavy" d="M200,600 L180,700" /> <path class="heavy" d="M250,600 L230,700" /> <!-- Legs -->
+                            <path class="heavy" d="M550,600 L530,700" /> <path class="heavy" d="M600,600 L580,700" /> <!-- Legs -->
+                            <path class="light" d="M400,800 C500,700 700,700 800,800 C700,900 500,900 400,800 Z" fill="none" /> <!-- Moon -->`;
+                break;
+            case 26: // Humpty Dumpty
+                 svgContent = `<ellipse class="heavy" cx="400" cy="450" rx="200" ry="250" /> <!-- Body -->
+                             <path class="heavy" d="M250,600 H550 V650 H250 Z" /> <!-- Wall Top -->
+                             <path class="light" d="M250,650 V750 H300 V650" /> <path class="light" d="M350,650 V750 H400 V650" />
+                             <path class="light" d="M450,650 V750 H500 V650" /> <!-- Bricks -->
+                             <circle cx="350" cy="450" r="10" fill="black" /> <circle cx="450" cy="450" r="10" fill="black" /> <!-- Eyes -->
+                             <path class="light" d="M380,520 C400,540 420,540 440,520" /> <!-- Mouth -->`;
+                break;
+            default: // Fallback for other rhymes with a printable_url
+                svgContent = `<text x="400" y="450" class="text" text-anchor="middle">Let's draw for:</text>
+                            <text x="400" y="520" class="text" text-anchor="middle" font-size="60px">${rhyme.title}</text>`;
+        }
+        return svgHeader + svgContent + svgFooter;
+    }
+    
+    function showColoringPage(rhyme) {
+        if (!rhyme) return;
+        document.getElementById('coloring-modal-title').textContent = `Colouring Page: ${rhyme.title}`;
+        coloringSvgContainer.innerHTML = getPrintableSvg(rhyme);
+        coloringModal.classList.remove('hidden');
+        coloringModal.classList.add('flex');
+    }
+    
+    function hideColoringPage() {
+        coloringModal.classList.add('hidden');
+        coloringModal.classList.remove('flex');
+        coloringSvgContainer.innerHTML = '';
+    }
+    
+    function handlePrintColoringPage() {
+        document.body.classList.add('printing-coloring-page');
+        window.print();
+        document.body.classList.remove('printing-coloring-page');
     }
 
     // --- BACK TO TOP FUNCTIONS ---
