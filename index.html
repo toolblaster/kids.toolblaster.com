@@ -119,14 +119,15 @@
         
         <!-- Jokes & Riddles View -->
         <section id="jokes-gallery" class="hidden">
-            <h2 class="text-3xl md:text-4xl font-baloo text-center text-brand-dark dark:text-white mb-8">A Laugh a Minute!</h2>
-            <div class="flex flex-col items-center gap-6">
-                <div id="joke-card" class="section-card w-full max-w-2xl text-center min-h-[150px] flex items-center justify-center p-8">
-                    <!-- Joke/Riddle will be injected here -->
+             <div class="joke-stage">
+                <div class="joke-content-wrapper">
+                    <div id="joke-card" class="min-h-[250px] flex items-center justify-center p-8">
+                        <!-- Joke/Riddle will be injected here -->
+                    </div>
+                    <button id="next-joke-btn" class="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-6 rounded-b-2xl shadow-lg transition-transform transform hover:scale-105 text-xl">
+                        😂 Another!
+                    </button>
                 </div>
-                <button id="next-joke-btn" class="bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-6 rounded-lg shadow-md transition-transform transform hover:scale-105">
-                    😂 Another!
-                </button>
             </div>
         </section>
 
