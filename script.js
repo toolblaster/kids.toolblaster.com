@@ -96,7 +96,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             setTimeout(() => {
                  displayRhymeOfTheDay();
-                 checkForSharedRhyme();
+                 handleUrlParametersOnLoad(); // Changed from checkForSharedRhyme
                  loadingIndicator.style.display = 'none';
             }, 500); // Simulate loading time
 
@@ -106,17 +106,43 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // --- DEEP LINKING (for shared rhymes) ---
-    function checkForSharedRhyme() {
+    // --- DEEP LINKING (for shared rhymes and filters) ---
+    function handleUrlParametersOnLoad() {
         const urlParams = new URLSearchParams(window.location.search);
         const rhymeId = urlParams.get('rhyme');
+        const category = urlParams.get('category');
+        const tag = urlParams.get('tag');
+
         if (rhymeId && allRhymes.length > 0) {
             showRhymeDetail(parseInt(rhymeId));
-        } else {
-            displayRhymeGallery(allRhymes);
-            updateActiveCategoryButton('All');
+            return; // Exit if showing a specific rhyme
         }
+
+        let activatedAFilter = false;
+        document.querySelectorAll('.category-btn').forEach(btn => btn.classList.remove('active'));
+        
+        if (category) {
+            const btnToActivate = document.querySelector(`.category-btn[data-category="${category}"]`);
+            if (btnToActivate) {
+                btnToActivate.classList.add('active');
+                activatedAFilter = true;
+            }
+        } else if (tag) {
+            const btnToActivate = document.querySelector(`.category-btn[data-tag="${tag}"]`);
+            if (btnToActivate) {
+                btnToActivate.classList.add('active');
+                activatedAFilter = true;
+            }
+        }
+        
+        // If no valid filter in URL, default to 'All'
+        if (!activatedAFilter) {
+            document.querySelector('.category-btn[data-category="All"]').classList.add('active');
+        }
+
+        filterRhymes();
     }
+
 
     // --- DISPLAY FUNCTIONS ---
 
@@ -443,6 +469,25 @@ document.addEventListener('DOMContentLoaded', () => {
             
             clickedButton.classList.add('active');
             
+            // Update URL based on the filter
+            const category = clickedButton.dataset.category;
+            const tag = clickedButton.dataset.tag;
+            const url = new URL(window.location);
+            
+            // Clear old filter parameters
+            url.searchParams.delete('category');
+            url.searchParams.delete('tag');
+            url.searchParams.delete('rhyme'); // Also clear rhyme if switching filters
+            
+            if (category && category !== 'All') {
+                url.searchParams.set('category', category);
+            } else if (tag) {
+                url.searchParams.set('tag', tag);
+            }
+            
+            // Use pushState to update the URL without reloading the page
+            window.history.pushState({}, '', url);
+
             filterRhymes();
         }
     }
