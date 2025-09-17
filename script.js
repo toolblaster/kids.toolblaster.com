@@ -162,7 +162,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (viewName === 'Stories') {
             storyGalleryView.classList.remove('hidden');
             displayStoryGallery(allStories);
-        } else { // Rhymes, Favorites, New all show the rhyme gallery
+        } else { // Rhymes and all its categories
             rhymeGalleryView.classList.remove('hidden');
             rhymeControls.classList.remove('hidden');
             document.getElementById('rhyme-of-the-day').classList.remove('hidden');
@@ -172,9 +172,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 rhymesToDisplay = allRhymes.filter(r => isFavorite(r.id));
             } else if (viewName === 'New') {
                 rhymesToDisplay = allRhymes.filter(r => r.isExclusive);
-            } else { // Default to 'Rhymes'
+            } else if (viewName === 'Lullaby') { // Tag-based filter
+                rhymesToDisplay = allRhymes.filter(r => r.tags && r.tags.includes('lullaby'));
+            } else if (['Animal', 'Learning', 'Classic', 'Indian'].includes(viewName)) { // Category-based filters
+                rhymesToDisplay = allRhymes.filter(r => r.category === viewName);
+            } else { // Default to 'Rhymes' (which means all)
                 rhymesToDisplay = allRhymes;
             }
+            
             displayRhymeGallery(rhymesToDisplay);
             displayRhymeOfTheDay();
         }
