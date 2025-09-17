@@ -72,7 +72,7 @@
     }
 
     .riddle-question::before {
-        content: '🤔';
+        content: 'ðŸ¤”';
         @apply text-2xl mr-3;
     }
     
