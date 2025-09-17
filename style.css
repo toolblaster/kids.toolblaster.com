@@ -19,7 +19,7 @@
 
 @layer components {
     .category-btn {
-        @apply px-4 py-2 text-sm font-semibold text-brand-dark dark:text-gray-200 bg-gray-100 dark:bg-gray-700 rounded-full border-2 border-brand-red hover:border-brand-red hover:text-brand-red dark:hover:text-brand-red transition-colors duration-200;
+        @apply px-4 py-2 text-sm font-semibold text-brand-dark dark:text-gray-200 bg-gray-100 dark:bg-gray-700 rounded-full border-2 border-transparent hover:border-brand-red hover:text-brand-red dark:hover:text-brand-red transition-colors duration-200;
     }
     .category-btn.active {
         @apply bg-brand-red text-white border-brand-red dark:bg-brand-red dark:text-white;
@@ -31,6 +31,10 @@
 
     .section-card {
         @apply p-6 bg-white dark:bg-gray-800 rounded-2xl shadow-md;
+    }
+
+    .new-badge {
+        @apply absolute top-2 left-2 bg-yellow-400 text-yellow-900 text-xs font-bold px-2 py-1 rounded-full;
     }
 }
 
@@ -94,7 +98,8 @@
     h2, h3 {
         color: black !important;
     }
-    #hindi-column, #fun-fact-container, .social-share-btn, #back-button {
+    #hindi-column, #fun-fact-container, .social-share-btn, #back-button, #copyright-notice-container {
         display: none !important;
     }
 }
+
