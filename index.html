@@ -105,6 +105,17 @@
                         </div>
                     </div>
                 </div>
+                
+                <div id="story-controls" class="hidden">
+                    <div class="p-4 bg-gray-100 dark:bg-gray-800/50 rounded-2xl border-2 border-gray-200 dark:border-gray-600">
+                         <h4 class="text-center font-bold text-gray-700 dark:text-gray-300 mb-3">Filter stories by:</h4>
+                        <div id="story-category-filters" class="flex flex-wrap items-center justify-center gap-x-4 gap-y-3">
+                            <button class="category-btn" data-category="Stories">📚 All Stories</button>
+                            <button class="category-btn" data-category="StoryFavorites">❤️ Your Favorites</button>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </section>
 
@@ -196,7 +207,16 @@
                 &larr; Back to Stories
             </button>
             <div class="bg-white dark:bg-gray-800 p-6 md:p-8 rounded-2xl shadow-xl max-w-4xl mx-auto">
-                <h2 id="story-title" class="text-3xl md:text-5xl font-baloo text-center text-purple-600 dark:text-purple-400 mb-2"></h2>
+                <div class="flex justify-center items-center relative mb-2">
+                    <div class="flex-1"></div>
+                    <h2 id="story-title" class="text-3xl md:text-5xl font-baloo text-center text-purple-600 dark:text-purple-400 flex-shrink"></h2>
+                    <div class="flex-1 flex justify-end items-center gap-2">
+                        <button id="add-to-story-playlist-btn" class="social-share-btn" title="Add to Playlist" aria-label="Add to Playlist">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" /></svg>
+                        </button>
+                        <button id="story-favorite-btn" class="social-share-btn" title="Add to Favorites" aria-label="Add to Favorites">🤍</button>
+                    </div>
+                </div>
                 <p id="story-author" class="text-center text-gray-500 dark:text-gray-400 text-lg mb-1"></p>
                 <p id="story-read-time" class="text-center text-gray-400 dark:text-gray-500 text-sm mb-8"></p>
                 
