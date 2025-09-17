@@ -67,10 +67,25 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- DATA HANDLING ---
     async function loadRhymes() {
         try {
-            const response = await fetch('updated_rhymes.json');
-            if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-            allRhymes = await response.json();
+            // Use Promise.all to fetch both JSON files concurrently
+            const [publicResponse, exclusiveResponse] = await Promise.all([
+                fetch('public_rhymes.json'),
+                fetch('exclusive_rhymes.json')
+            ]);
+
+            if (!publicResponse.ok || !exclusiveResponse.ok) {
+                throw new Error(`HTTP error! Status: ${publicResponse.status}, ${exclusiveResponse.status}`);
+            }
+
+            const publicRhymes = await publicResponse.json();
+            const exclusiveRhymes = await exclusiveResponse.json();
+
+            // Combine the two arrays into one master list
+            allRhymes = [...publicRhymes, ...exclusiveRhymes];
             
+            // Optional: Sort the combined array by ID to maintain order
+            allRhymes.sort((a, b) => a.id - b.id);
+
             setTimeout(() => {
                  displayRhymeOfTheDay();
                  checkForSharedRhyme();
@@ -100,7 +115,20 @@ document.addEventListener('DOMContentLoaded', () => {
     function displayRhymeGallery(rhymesToDisplay) {
         rhymeGrid.innerHTML = '';
         if (rhymesToDisplay.length === 0) {
-            rhymeGrid.innerHTML = '<p class="text-gray-500 dark:text-gray-400 col-span-full text-center">No rhymes found.</p>';
+            const activeButton = document.querySelector('.category-btn.active');
+            let emptyMessage = '<p class="text-gray-500 dark:text-gray-400 col-span-full text-center">No rhymes found.</p>';
+            
+            // Check if the currently active filter is 'Favorites'
+            if (activeButton && activeButton.dataset.category === 'Favorites') {
+                emptyMessage = `
+                    <div class="col-span-full text-center p-6 bg-gray-50 dark:bg-gray-800/50 rounded-lg">
+                        <div class="text-4xl mb-2">❤️</div>
+                        <h4 class="text-lg font-bold text-brand-dark dark:text-white">Your Favorites is Empty</h4>
+                        <p class="text-gray-500 dark:text-gray-400 mt-1">Click the white heart on any rhyme to add it here!</p>
+                    </div>
+                `;
+            }
+            rhymeGrid.innerHTML = emptyMessage;
             return;
         }
         rhymesToDisplay.forEach(rhyme => {
@@ -108,17 +136,23 @@ document.addEventListener('DOMContentLoaded', () => {
             card.className = 'rhyme-card bg-white dark:bg-gray-800 rounded-xl shadow-lg cursor-pointer transform hover:scale-105 transition-all duration-300 flex flex-col p-4 text-center relative';
             card.dataset.rhymeId = rhyme.id;
 
-            let learningTag = '';
-            if (rhyme.category === 'Learning' && rhyme.learningFocus) {
-                learningTag = `<div class="learning-focus-tag">Focus: ${rhyme.learningFocus}</div>`;
+            // Check if the rhyme is new (released in the last 30 days)
+            let newBadge = '';
+            if (rhyme.releaseDate) {
+                const releaseDate = new Date(rhyme.releaseDate);
+                const thirtyDaysAgo = new Date();
+                thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+                if (releaseDate > thirtyDaysAgo) {
+                    newBadge = `<div class="new-badge">✨ New</div>`;
+                }
             }
 
             card.innerHTML = `
+                ${newBadge}
                 <div class="flex-grow flex flex-col items-center justify-center">
                     <div class="text-5xl mb-2">${rhyme.icon || '🎶'}</div>
                     <h3 class="text-lg font-bold text-brand-dark dark:text-white">${rhyme.title}</h3>
                 </div>
-                ${learningTag}
                 <div class="absolute top-2 right-2 text-xl favorite-indicator">${isFavorite(rhyme.id) ? '❤️' : ''}</div>
             `;
             card.addEventListener('click', () => showRhymeDetail(rhyme.id));
@@ -163,6 +197,19 @@ document.addEventListener('DOMContentLoaded', () => {
             funFactDetails.setAttribute('open', ''); // Open by default
         } else {
             funFactContainer.classList.add('hidden');
+        }
+        
+        // Handle Copyright Notice based on the isExclusive flag
+        const copyrightContainer = document.getElementById('copyright-notice-container');
+        const copyrightText = document.getElementById('copyright-text');
+        
+        if (currentRhyme.isExclusive) {
+            const currentYear = new Date().getFullYear();
+            copyrightText.textContent = `© ${currentYear} Kids.Toolblaster.com. All Rights Reserved. This is an Original and Exclusive Rhyme 🎵`;
+            copyrightContainer.classList.remove('hidden');
+        } else {
+            copyrightContainer.classList.add('hidden');
+            copyrightText.textContent = '';
         }
         
         updateAddToPlaylistButton();
@@ -244,7 +291,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function addEventListeners() {
         backButton.addEventListener('click', goBackToGallery);
-        searchBar.addEventListener('input', filterRhymes);
+        searchBar.addEventListener('input', handleSearchInput);
         categoryFilters.addEventListener('click', handleCategoryClick);
         surpriseButton.addEventListener('click', showRandomRhyme);
         themeToggle.addEventListener('click', toggleTheme);
@@ -267,30 +314,56 @@ document.addEventListener('DOMContentLoaded', () => {
         backToTopBtn.addEventListener('click', scrollToTop);
     }
     
+    /**
+     * Handles user input in the search bar. It resets the category filters to "All"
+     * before applying the search query.
+     */
+    function handleSearchInput() {
+        // If the user is searching, it's more intuitive to search through all rhymes.
+        // This resets the UI to show that the "All" category is selected.
+        updateActiveCategoryButton('All');
+        
+        // Now, apply the search filter.
+        filterRhymes();
+    }
+
+    /**
+     * Filters the rhymes displayed in the gallery based on the active category filter and the search term.
+     * The function is triggered by user input in the search bar or by clicking a category button.
+     */
     function filterRhymes() {
         const searchTerm = searchBar.value.toLowerCase();
         const activeButton = document.querySelector('.category-btn.active');
         
+        // Start with the full list of rhymes
         let filtered = allRhymes;
 
+        // 1. Apply the active category or tag filter first
         if (activeButton) {
             const category = activeButton.dataset.category;
             const tag = activeButton.dataset.tag;
 
             if (category) {
                 if (category === 'All') {
-                    // No filter needed
+                    // No filter needed, use all rhymes
                 } else if (category === 'Favorites') {
+                    // Filter to show only rhymes whose IDs are in the 'favorites' array
                     filtered = allRhymes.filter(rhyme => favorites.includes(rhyme.id));
-                } else {
+                } else if (category === 'New') { 
+                    // Special case for "New & Exclusive" button
+                    filtered = allRhymes.filter(rhyme => rhyme.isExclusive);
+                }
+                else {
+                    // Filter by the specific category (e.g., 'Animal', 'Classic')
                     filtered = allRhymes.filter(rhyme => rhyme.category === category);
                 }
             } else if (tag) {
+                // Filter by a specific tag (e.g., 'lullaby', 'silly')
                 filtered = allRhymes.filter(rhyme => rhyme.tags && rhyme.tags.includes(tag));
             }
         }
 
-        // Filter by Search Term
+        // 2. Apply the search term filter on the already-filtered list
         if (searchTerm) {
             filtered = filtered.filter(rhyme =>
                 rhyme.title.toLowerCase().includes(searchTerm) ||
@@ -300,6 +373,7 @@ document.addEventListener('DOMContentLoaded', () => {
             );
         }
 
+        // 3. Display the final filtered list of rhymes
         displayRhymeGallery(filtered);
     }
 
@@ -408,30 +482,47 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
     
+    /**
+     * Shows or hides the playlist navigation buttons (Previous/Next) when viewing a rhyme.
+     * This is only active when a rhyme is viewed from the playlist.
+     */
     function updatePlaylistNav() {
+        // Check if we are in playlist mode and the playlist is not empty
         if (isPlaylistMode && playlist.length > 0) {
             playlistNavButtons.classList.remove('hidden');
+            // Display current position, e.g., "1 / 5"
             playlistPositionEl.textContent = `${currentPlaylistIndex + 1} / ${playlist.length}`;
+            // Disable 'Previous' button if it's the first rhyme
             prevRhymeBtn.disabled = currentPlaylistIndex === 0;
+            // Disable 'Next' button if it's the last rhyme
             nextRhymeBtn.disabled = currentPlaylistIndex === playlist.length - 1;
         } else {
+            // Hide navigation if not in playlist mode
             playlistNavButtons.classList.add('hidden');
         }
     }
     
+    /**
+     * Navigates to and displays the next rhyme in the playlist.
+     */
     function playNextRhyme() {
+        // Ensure we are in playlist mode and not at the end of the list
         if (isPlaylistMode && currentPlaylistIndex < playlist.length - 1) {
-            currentPlaylistIndex++;
+            currentPlaylistIndex++; // Move to the next index
             const nextRhymeId = playlist[currentPlaylistIndex];
-            showRhymeDetail(nextRhymeId, true);
+            showRhymeDetail(nextRhymeId, true); // Show the rhyme detail view
         }
     }
 
+    /**
+     * Navigates to and displays the previous rhyme in the playlist.
+     */
     function playPreviousRhyme() {
+        // Ensure we are in playlist mode and not at the beginning of the list
         if (isPlaylistMode && currentPlaylistIndex > 0) {
-            currentPlaylistIndex--;
+            currentPlaylistIndex--; // Move to the previous index
             const prevRhymeId = playlist[currentPlaylistIndex];
-            showRhymeDetail(prevRhymeId, true);
+            showRhymeDetail(prevRhymeId, true); // Show the rhyme detail view
         }
     }
 
