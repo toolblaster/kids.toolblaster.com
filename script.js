@@ -14,13 +14,11 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- GLOBAL VARIABLES & STATE ---
     let allRhymes = [];
     let allStories = [];
-    let allJokes = [];
     let favorites = JSON.parse(localStorage.getItem('favoriteRhymes')) || [];
     let playlist = JSON.parse(localStorage.getItem('playlistRhymes')) || [];
     
     let currentRhyme = null;
     let currentStory = null;
-    let currentJoke = null; // Keep track of the current joke to avoid repeats
 
     let isPlaylistMode = false;
     let currentPlaylistIndex = -1;
@@ -36,14 +34,12 @@ document.addEventListener('DOMContentLoaded', () => {
     // Main Views
     const rhymeGalleryView = document.getElementById('rhyme-gallery');
     const storyGalleryView = document.getElementById('story-gallery');
-    const jokesGalleryView = document.getElementById('jokes-gallery');
     const rhymeDetailView = document.getElementById('rhyme-detail');
     const storyDetailView = document.getElementById('story-detail');
 
     // Grids & Content Holders
     const rhymeGrid = document.getElementById('rhyme-grid');
     const storyGrid = document.getElementById('story-grid');
-    const jokeCard = document.getElementById('joke-card');
 
     // Controls
     const controlsSection = document.getElementById('controls-section');
@@ -75,9 +71,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const nextRhymeBtn = document.getElementById('next-rhyme-btn');
     const playlistPositionEl = document.getElementById('playlist-position');
     
-    // Jokes Elements
-    const nextJokeBtn = document.getElementById('next-joke-btn');
-    
     // Toast Notification
     const toastNotification = document.getElementById('toast-notification');
 
@@ -99,16 +92,14 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- DATA HANDLING ---
     async function loadAllData() {
         try {
-            const [rhymesPublic, rhymesExclusive, stories, jokes] = await Promise.all([
+            const [rhymesPublic, rhymesExclusive, stories] = await Promise.all([
                 fetch('public_rhymes.json').then(res => res.json()),
                 fetch('exclusive_rhymes.json').then(res => res.json()),
-                fetch('short_stories.json').then(res => res.json()),
-                fetch('jokes_and_riddles.json').then(res => res.json())
+                fetch('short_stories.json').then(res => res.json())
             ]);
 
             allRhymes = [...rhymesPublic, ...rhymesExclusive].sort((a, b) => a.id - b.id);
             allStories = stories;
-            allJokes = jokes;
             
             setTimeout(() => {
                 loadingIndicator.style.display = 'none';
@@ -157,7 +148,6 @@ document.addEventListener('DOMContentLoaded', () => {
     function hideAllViews() {
         rhymeGalleryView.classList.add('hidden');
         storyGalleryView.classList.add('hidden');
-        jokesGalleryView.classList.add('hidden');
         rhymeDetailView.classList.add('hidden');
         storyDetailView.classList.add('hidden');
         document.getElementById('rhyme-of-the-day').classList.add('hidden');
@@ -172,9 +162,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if (viewName === 'Stories') {
             storyGalleryView.classList.remove('hidden');
             displayStoryGallery(allStories);
-        } else if (viewName === 'Jokes') {
-            jokesGalleryView.classList.remove('hidden');
-            displayRandomJoke();
         } else { // Rhymes, Favorites, New all show the rhyme gallery
             rhymeGalleryView.classList.remove('hidden');
             rhymeControls.classList.remove('hidden');
@@ -357,44 +344,6 @@ document.addEventListener('DOMContentLoaded', () => {
         window.scrollTo(0, 0);
     }
 
-    // --- DISPLAY FUNCTIONS (JOKES) ---
-    function displayRandomJoke() {
-        let potentialJokes = allJokes;
-        
-        // Ensure the next joke isn't the same as the current one
-        if (potentialJokes.length > 1 && currentJoke) {
-            potentialJokes = potentialJokes.filter(j => j.id !== currentJoke.id);
-        }
-        
-        // Select a new random joke and update the state
-        const joke = potentialJokes[Math.floor(Math.random() * potentialJokes.length)];
-        currentJoke = joke; // Update the current joke
-        
-        // Display the joke or riddle
-        if (joke.type === 'riddle') {
-            jokeCard.innerHTML = `
-                <div>
-                    <p class="joke-text riddle-question">${joke.question}</p>
-                    <button id="reveal-answer-btn" class="mt-4 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg">Show Answer</button>
-                </div>
-            `;
-            document.getElementById('reveal-answer-btn').addEventListener('click', () => revealJokeAnswer(joke.answer));
-        } else {
-            jokeCard.innerHTML = `<p class="joke-text">${joke.content}</p>`;
-        }
-    }
-
-    function revealJokeAnswer(answer) {
-        const answerEl = document.createElement('p');
-        answerEl.className = 'joke-text answer-reveal';
-        answerEl.textContent = answer;
-
-        const revealButton = document.getElementById('reveal-answer-btn');
-        if(revealButton) {
-            revealButton.replaceWith(answerEl);
-        }
-    }
-
     function displayRhymeOfTheDay() {
         const dayOfYear = Math.floor((new Date() - new Date(new Date().getFullYear(), 0, 0)) / (1000 * 60 * 60 * 24));
         const rhyme = allRhymes[dayOfYear % allRhymes.length];
@@ -419,7 +368,6 @@ document.addEventListener('DOMContentLoaded', () => {
         favoriteBtn.addEventListener('click', handleFavoriteClick);
         printBtn.addEventListener('click', handlePrint);
         shareWhatsappBtn.addEventListener('click', handleShare);
-        nextJokeBtn.addEventListener('click', displayRandomJoke);
         
         // Playlist listeners
         playlistToggleBtn.addEventListener('click', togglePlaylistView);
