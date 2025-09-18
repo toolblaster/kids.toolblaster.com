@@ -303,7 +303,7 @@ document.addEventListener('DOMContentLoaded', () => {
         
         const copyrightContainer = document.getElementById('copyright-notice-container');
         if (currentRhyme.isExclusive) {
-            document.getElementById('copyright-text').textContent = `© ${new Date().getFullYear()} Kids.Toolblaster.com. All Rights Reserved. This is an Original and Exclusive Rhyme.`;
+            document.getElementById('copyright-text').textContent = `Copyright © ${new Date().getFullYear()} kids.toolblaster.com. This is an Original and Exclusive Rhyme 🎶`;
             copyrightContainer.classList.remove('hidden');
         } else {
             copyrightContainer.classList.add('hidden');
@@ -390,7 +390,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const storyCopyrightContainer = document.getElementById('story-copyright-notice-container');
         const storyCopyrightText = document.getElementById('story-copyright-text');
-        storyCopyrightText.textContent = `© ${new Date().getFullYear()} Kids.Toolblaster.com. All Rights Reserved. This is an Original and Exclusive Story.`;
+        storyCopyrightText.textContent = `Copyright © ${new Date().getFullYear()} kids.toolblaster.com. This is an Original and Exclusive Story 📚`;
         storyCopyrightContainer.classList.remove('hidden');
         
         const currentIndex = allStories.findIndex(s => s.id === storyId);
