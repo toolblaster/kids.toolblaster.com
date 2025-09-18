@@ -426,10 +426,10 @@ document.addEventListener('DOMContentLoaded', () => {
             const storyMoralHiEl = document.getElementById('story-moral-hi');
             if (currentStory.moral_hi) {
                 storyMoralHiEl.textContent = currentStory.moral_hi;
-                storyMoralHiEl.classList.remove('hidden');
+                storyMoralHiEl.parentElement.classList.remove('hidden');
             } else {
                 storyMoralHiEl.textContent = '';
-                storyMoralHiEl.classList.add('hidden');
+                storyMoralHiEl.parentElement.classList.add('hidden');
             }
             moralContainer.classList.remove('hidden');
         } else {
@@ -850,6 +850,25 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function isInPlaylist(id, type) {
         return playlist.some(item => item.id === id && item.type === type);
+    }
+    
+    function handleAddToPlaylist(e) {
+        if (!currentRhyme) return;
+        triggerButtonAnimation(e.currentTarget);
+        const rhymeId = currentRhyme.id;
+        const inPlaylist = isInPlaylist(rhymeId, 'rhyme');
+
+        if (inPlaylist) {
+            playlist = playlist.filter(item => !(item.id === rhymeId && item.type === 'rhyme'));
+            showToast('Removed from playlist');
+        } else {
+            playlist.push({ type: 'rhyme', id: rhymeId });
+            showToast('Added to playlist!');
+        }
+        
+        localStorage.setItem('playlist', JSON.stringify(playlist));
+        updatePlaylistCount();
+        updateAddToPlaylistButton();
     }
 
     function updateAddToPlaylistButton() {
