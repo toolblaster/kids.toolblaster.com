@@ -127,10 +127,9 @@ document.addEventListener('DOMContentLoaded', () => {
             allRhymes = [...rhymesPublic, ...filteredExclusiveRhymes].sort((a, b) => a.id - b.id);
             allStories = stories;
             
-            setTimeout(() => {
-                loadingIndicator.style.display = 'none';
-                handleUrlParams();
-            }, 500);
+            // Fix: Hide loading indicator only after data is fully loaded and ready to be displayed.
+            handleUrlParams();
+            loadingIndicator.style.display = 'none';
 
         } catch (error) {
             console.error("Could not fetch data:", error);
