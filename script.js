@@ -52,9 +52,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const rhymeControls = document.getElementById('rhyme-controls');
     const storyControls = document.getElementById('story-controls');
     const searchBar = document.getElementById('search-bar');
+    const storySearchBar = document.getElementById('story-search-bar');
     const categoryFilters = document.getElementById('category-filters');
     const storyCategoryFilters = document.getElementById('story-category-filters');
     const surpriseButton = document.getElementById('surprise-button');
+    const storySurpriseButton = document.getElementById('story-surprise-button');
     const backToTopBtn = document.getElementById('back-to-top-btn');
 
     // Rhyme Detail Elements
@@ -221,6 +223,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function goHome() {
         searchBar.value = '';
+        storySearchBar.value = '';
         updateActiveCategoryButton('Rhymes');
         showMainView('Rhymes');
         updateUrl({ category: 'Rhymes' });
@@ -394,18 +397,40 @@ document.addEventListener('DOMContentLoaded', () => {
         const storyContentEl = document.getElementById('story-content');
         storyContentEl.innerHTML = '';
         currentStory.content.forEach(paragraph => {
-            // This regex splits the paragraph into sentences, keeping the punctuation.
-            const sentences = paragraph.match(/[^.!?]+[.!?]+/g) || [paragraph];
-            sentences.forEach(sentence => {
-                const p = document.createElement('p');
-                p.textContent = sentence.trim();
-                storyContentEl.appendChild(p);
-            });
+            const p = document.createElement('p');
+            p.textContent = paragraph.trim();
+            storyContentEl.appendChild(p);
         });
+
+        const storyTitleHiEl = document.getElementById('story-title-hi');
+        const storyContentHiContainer = document.getElementById('story-content-hi-container');
+        const storyContentHiEl = document.getElementById('story-content-hi');
+        
+        if (currentStory.title_hi && currentStory.content_hi) {
+            storyTitleHiEl.textContent = currentStory.title_hi;
+            storyContentHiEl.innerHTML = '';
+            currentStory.content_hi.forEach(paragraph => {
+                const p = document.createElement('p');
+                p.textContent = paragraph.trim();
+                storyContentHiEl.appendChild(p);
+            });
+            storyContentHiContainer.classList.remove('hidden');
+        } else {
+            storyTitleHiEl.textContent = '';
+            storyContentHiContainer.classList.add('hidden');
+        }
 
         const moralContainer = document.getElementById('story-moral-container');
         if (currentStory.moral) {
             document.getElementById('story-moral').textContent = currentStory.moral;
+            const storyMoralHiEl = document.getElementById('story-moral-hi');
+            if (currentStory.moral_hi) {
+                storyMoralHiEl.textContent = currentStory.moral_hi;
+                storyMoralHiEl.classList.remove('hidden');
+            } else {
+                storyMoralHiEl.textContent = '';
+                storyMoralHiEl.classList.add('hidden');
+            }
             moralContainer.classList.remove('hidden');
         } else {
             moralContainer.classList.add('hidden');
@@ -441,10 +466,12 @@ document.addEventListener('DOMContentLoaded', () => {
         backButton.addEventListener('click', goBackToGallery);
         storyBackButton.addEventListener('click', goBackToGallery);
         searchBar.addEventListener('input', handleSearchInput);
+        storySearchBar.addEventListener('input', handleStorySearchInput);
         document.getElementById('main-navigation').addEventListener('click', handleCategoryClick);
         categoryFilters.addEventListener('click', handleCategoryClick);
         storyCategoryFilters.addEventListener('click', handleCategoryClick);
         surpriseButton.addEventListener('click', showRandomRhyme);
+        storySurpriseButton.addEventListener('click', showRandomStory);
         previousDetailRhymeBtn.addEventListener('click', showPreviousRhyme);
         nextDetailRhymeBtn.addEventListener('click', showNextRhyme);
         previousDetailStoryBtn.addEventListener('click', showPreviousStory);
@@ -474,6 +501,17 @@ document.addEventListener('DOMContentLoaded', () => {
         // Back to Top Listeners
         window.addEventListener('scroll', handleScroll);
         backToTopBtn.addEventListener('click', scrollToTop);
+
+        // Prevent content copying
+        document.addEventListener('contextmenu', event => {
+            event.preventDefault();
+            showToast('Right-clicking is disabled to protect content.');
+        });
+
+        document.addEventListener('copy', event => {
+            event.preventDefault();
+            showToast('Copying content is disabled.');
+        });
     }
     
     function handleSearchInput() {
@@ -482,6 +520,14 @@ document.addEventListener('DOMContentLoaded', () => {
             rhyme.lyrics.toLowerCase().includes(searchBar.value.toLowerCase())
         );
         displayRhymeGallery(filtered);
+    }
+
+    function handleStorySearchInput() {
+        let filtered = allStories.filter(story =>
+            story.title.toLowerCase().includes(storySearchBar.value.toLowerCase()) ||
+            story.content.join(' ').toLowerCase().includes(storySearchBar.value.toLowerCase())
+        );
+        displayStoryGallery(filtered);
     }
 
     function handleCategoryClick(e) {
@@ -627,9 +673,12 @@ document.addEventListener('DOMContentLoaded', () => {
                         startReading(currentRhyme.lyrics, 'en-US', readAloudRhymeBtn);
                     }
                 } else if (contentType === 'story' && currentStory) {
-                    // Stories are currently only in English
-                    const textToRead = currentStory.content.join(' ');
-                    startReading(textToRead, 'en-US', readAloudStoryBtn);
+                    if (currentStory.content_hi) {
+                        speakBilingualStory(currentStory);
+                    } else {
+                        const textToRead = currentStory.content.join(' ');
+                        startReading(textToRead, 'en-US', readAloudStoryBtn);
+                    }
                 }
             }
         } else {
@@ -665,6 +714,39 @@ document.addEventListener('DOMContentLoaded', () => {
         utteranceEn.onstart = () => {
             isReading = true;
             updateReadAloudButton(readAloudRhymeBtn);
+        };
+
+        window.speechSynthesis.speak(utteranceEn);
+    }
+
+    function speakBilingualStory(story) {
+        // English part
+        const utteranceEn = new SpeechSynthesisUtterance(story.content.join(' '));
+        utteranceEn.lang = 'en-US';
+        if (englishVoice) {
+            utteranceEn.voice = englishVoice;
+        }
+
+        // Hindi part
+        const utteranceHi = new SpeechSynthesisUtterance(story.content_hi.join(' '));
+        utteranceHi.lang = 'hi-IN';
+        if (hindiVoice) {
+            utteranceHi.voice = hindiVoice;
+        }
+
+        utteranceEn.onend = () => {
+            // Speak Hindi part after English part is done
+            window.speechSynthesis.speak(utteranceHi);
+        };
+
+        utteranceHi.onend = () => {
+            isReading = false;
+            updateReadAloudButton(readAloudStoryBtn);
+        };
+
+        utteranceEn.onstart = () => {
+            isReading = true;
+            updateReadAloudButton(readAloudStoryBtn);
         };
 
         window.speechSynthesis.speak(utteranceEn);
@@ -966,6 +1048,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function scrollToTop() {
         window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function triggerButtonAnimation(btn) {
+        btn.classList.add('animate-pop');
+        btn.addEventListener('animationend', () => {
+            btn.classList.remove('animate-pop');
+        }, { once: true });
     }
 
     // --- START THE APP ---
