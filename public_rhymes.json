@@ -4,7 +4,7 @@
     "title": "Twinkle, Twinkle, Little Star",
     "title_hi": null,
     "category": "Classic",
-    "icon": "🌟",
+    "icon": "ЁЯМЯ",
     "tags": [
       "lullaby",
       "classic"
@@ -18,7 +18,7 @@
     "title": "Baa, Baa, Black Sheep",
     "title_hi": null,
     "category": "Animal",
-    "icon": "🐑",
+    "icon": "ЁЯРС",
     "tags": [
       "animal",
       "classic",
@@ -31,15 +31,15 @@
   {
     "id": 3,
     "title": "Machli Jal Ki Rani Hai (Fish Queen)",
-    "title_hi": "मछली जल की रानी है",
+    "title_hi": "рдордЫрд▓реА рдЬрд▓ рдХреА рд░рд╛рдиреА рд╣реИ",
     "category": "Indian",
-    "icon": "🐠",
+    "icon": "ЁЯРа",
     "tags": [
       "animal",
       "indian"
     ],
     "lyrics": "Fish, the queen of water,\nHer life is made of water.\nTouch it, and she will be scared,\nTake her out, and she will die.",
-    "lyrics_hi": "मछली जल की रानी है,\nजीवन उसका पानी है।\nहाथ लगाओ तो डर जाएगी,\nबाहर निकालो तो मर जाएगी।",
+    "lyrics_hi": "рдордЫрд▓реА рдЬрд▓ рдХреА рд░рд╛рдиреА рд╣реИ,\nрдЬреАрд╡рди рдЙрд╕рдХрд╛ рдкрд╛рдиреА рд╣реИред\nрд╣рд╛рде рд▓рдЧрд╛рдУ рддреЛ рдбрд░ рдЬрд╛рдПрдЧреА,\nрдмрд╛рд╣рд░ рдирд┐рдХрд╛рд▓реЛ рддреЛ рдорд░ рдЬрд╛рдПрдЧреАред",
     "funFact": "This is one of the first and most popular Hindi rhymes taught to children in India to help them learn about nature."
   },
   {
@@ -47,7 +47,7 @@
     "title": "Mary Had a Little Lamb",
     "title_hi": null,
     "category": "Animal",
-    "icon": "🐑",
+    "icon": "ЁЯРС",
     "tags": [
       "animal",
       "classic"
@@ -61,7 +61,7 @@
     "title": "Jack and Jill",
     "title_hi": null,
     "category": "Classic",
-    "icon": "🪣",
+    "icon": "ЁЯкг",
     "tags": [
       "classic"
     ],
@@ -74,7 +74,7 @@
     "title": "Hey Diddle Diddle",
     "title_hi": null,
     "category": "Classic",
-    "icon": "🐄",
+    "icon": "ЁЯРД",
     "tags": [
       "silly",
       "animal",
@@ -89,7 +89,7 @@
     "title": "Itsy Bitsy Spider",
     "title_hi": null,
     "category": "Animal",
-    "icon": "🕷️",
+    "icon": "ЁЯХ╖я╕П",
     "tags": [
       "animal"
     ],
@@ -102,7 +102,7 @@
     "title": "Row, Row, Row Your Boat",
     "title_hi": null,
     "category": "Classic",
-    "icon": "🚣",
+    "icon": "ЁЯЪг",
     "tags": [
       "classic"
     ],
@@ -115,7 +115,7 @@
     "title": "London Bridge Is Falling Down",
     "title_hi": null,
     "category": "Classic",
-    "icon": "🌉",
+    "icon": "ЁЯМЙ",
     "tags": [
       "classic"
     ],
@@ -128,7 +128,7 @@
     "title": "Little Miss Muffet",
     "title_hi": null,
     "category": "Classic",
-    "icon": "🕷️",
+    "icon": "ЁЯХ╖я╕П",
     "tags": [
       "classic",
       "animal"
@@ -142,7 +142,7 @@
     "title": "Three Blind Mice",
     "title_hi": null,
     "category": "Animal",
-    "icon": "🐭",
+    "icon": "ЁЯРн",
     "tags": [
       "animal",
       "classic"
@@ -156,7 +156,7 @@
     "title": "Hickory Dickory Dock",
     "title_hi": null,
     "category": "Learning",
-    "icon": "🕰️",
+    "icon": "ЁЯХ░я╕П",
     "tags": [
       "learning",
       "animal",
@@ -172,7 +172,7 @@
     "title": "Pat-a-cake, Pat-a-cake",
     "title_hi": null,
     "category": "Classic",
-    "icon": "🎂",
+    "icon": "ЁЯОВ",
     "tags": [
       "classic",
       "food"
@@ -186,7 +186,7 @@
     "title": "This Little Piggy",
     "title_hi": null,
     "category": "Animal",
-    "icon": "🐷",
+    "icon": "ЁЯР╖",
     "tags": [
       "animal",
       "classic"
@@ -200,7 +200,7 @@
     "title": "Ring Around the Rosie",
     "title_hi": null,
     "category": "Classic",
-    "icon": "🌹",
+    "icon": "ЁЯМ╣",
     "tags": [
       "classic"
     ],
@@ -213,7 +213,7 @@
     "title": "One, Two, Buckle My Shoe",
     "title_hi": null,
     "category": "Learning",
-    "icon": "👞",
+    "icon": "ЁЯСЮ",
     "tags": [
       "learning",
       "classic"
@@ -228,7 +228,7 @@
     "title": "It's Raining, It's Pouring",
     "title_hi": null,
     "category": "Classic",
-    "icon": "🌧️",
+    "icon": "ЁЯМзя╕П",
     "tags": [
       "classic"
     ],
@@ -241,7 +241,7 @@
     "title": "Little Boy Blue",
     "title_hi": null,
     "category": "Classic",
-    "icon": "👦",
+    "icon": "ЁЯСж",
     "tags": [
       "classic",
       "animal"
@@ -255,7 +255,7 @@
     "title": "Old Mother Hubbard",
     "title_hi": null,
     "category": "Classic",
-    "icon": "🐶",
+    "icon": "ЁЯР╢",
     "tags": [
       "classic",
       "animal"
@@ -267,15 +267,15 @@
   {
     "id": 23,
     "title": "Chanda Mama (Moon Uncle)",
-    "title_hi": "चंदा मामा दूर के",
+    "title_hi": "рдЪрдВрджрд╛ рдорд╛рдорд╛ рджреВрд░ рдХреЗ",
     "category": "Indian",
-    "icon": "🌙",
+    "icon": "ЁЯМЩ",
     "tags": [
       "indian",
       "lullaby"
     ],
     "lyrics": "Moon uncle, so far away,\nCooking puddings day by day.\nYou eat from your plate so grand,\nGive me a bowl here in my hand.",
-    "lyrics_hi": "चंदा मामा दूर के,\nपुए पकाएं बूर के।\nआप खाएं थाली में,\nमुन्ने को दें प्याली में।",
+    "lyrics_hi": "рдЪрдВрджрд╛ рдорд╛рдорд╛ рджреВрд░ рдХреЗ,\nрдкреБрдП рдкрдХрд╛рдПрдВ рдмреВрд░ рдХреЗред\nрдЖрдк рдЦрд╛рдПрдВ рдерд╛рд▓реА рдореЗрдВ,\nрдореБрдиреНрдиреЗ рдХреЛ рджреЗрдВ рдкреНрдпрд╛рд▓реА рдореЗрдВред",
     "funFact": "In Indian culture, the moon is often affectionately called 'Chanda Mama' (Moon Uncle), and is a central character in many lullabies and stories."
   },
   {
@@ -283,7 +283,7 @@
     "title": "Sing a Song of Sixpence",
     "title_hi": null,
     "category": "Classic",
-    "icon": "🐦",
+    "icon": "ЁЯРж",
     "tags": [
       "classic",
       "animal"
@@ -297,7 +297,7 @@
     "title": "Humpty Dumpty",
     "title_hi": null,
     "category": "Classic",
-    "icon": "🥚",
+    "icon": "ЁЯеЪ",
     "tags": [
       "classic",
       "silly"
@@ -311,7 +311,7 @@
     "title": "Wee Willie Winkie",
     "title_hi": null,
     "category": "Classic",
-    "icon": "🏃",
+    "icon": "ЁЯПГ",
     "tags": [
       "classic",
       "lullaby"
@@ -325,7 +325,7 @@
     "title": "Monday's Child",
     "title_hi": null,
     "category": "Learning",
-    "icon": "🗓️",
+    "icon": "ЁЯЧУя╕П",
     "tags": [
       "learning",
       "classic"
@@ -340,7 +340,7 @@
     "title": "Star Light, Star Bright",
     "title_hi": null,
     "category": "Classic",
-    "icon": "🌠",
+    "icon": "ЁЯМа",
     "tags": [
       "classic",
       "lullaby"
@@ -354,7 +354,7 @@
     "title": "Rain, Rain, Go Away",
     "title_hi": null,
     "category": "Classic",
-    "icon": "☔",
+    "icon": "тШФ",
     "tags": [
       "classic"
     ],
@@ -367,7 +367,7 @@
     "title": "Jack Be Nimble",
     "title_hi": null,
     "category": "Classic",
-    "icon": "🕯️",
+    "icon": "ЁЯХпя╕П",
     "tags": [
       "classic"
     ],
@@ -380,7 +380,7 @@
     "title": "Mary, Mary, Quite Contrary",
     "title_hi": null,
     "category": "Classic",
-    "icon": "🌷",
+    "icon": "ЁЯМ╖",
     "tags": [
       "classic"
     ],
@@ -393,7 +393,7 @@
     "title": "Lavender's Blue",
     "title_hi": null,
     "category": "Classic",
-    "icon": "💐",
+    "icon": "ЁЯТР",
     "tags": [
       "classic"
     ],
@@ -406,7 +406,7 @@
     "title": "A Wise Old Owl",
     "title_hi": null,
     "category": "Learning",
-    "icon": "🦉",
+    "icon": "ЁЯжЙ",
     "tags": [
       "animal",
       "learning"
@@ -421,7 +421,7 @@
     "title": "There Was an Old Woman Who Lived in a Shoe",
     "title_hi": null,
     "category": "Classic",
-    "icon": "👢",
+    "icon": "ЁЯСв",
     "tags": [
       "classic"
     ],
@@ -434,7 +434,7 @@
     "title": "Pop Goes the Weasel",
     "title_hi": null,
     "category": "Classic",
-    "icon": "🐵",
+    "icon": "ЁЯР╡",
     "tags": [
       "classic",
       "animal"
@@ -448,7 +448,7 @@
     "title": "Rock-a-bye Baby",
     "title_hi": null,
     "category": "Classic",
-    "icon": "👶",
+    "icon": "ЁЯС╢",
     "tags": [
       "classic",
       "lullaby"
@@ -462,7 +462,7 @@
     "title": "Three Little Kittens",
     "title_hi": null,
     "category": "Animal",
-    "icon": "🐱",
+    "icon": "ЁЯР▒",
     "tags": [
       "animal",
       "classic"
@@ -476,7 +476,7 @@
     "title": "Old King Cole",
     "title_hi": null,
     "category": "Classic",
-    "icon": "👑",
+    "icon": "ЁЯСС",
     "tags": [
       "classic"
     ],
@@ -489,7 +489,7 @@
     "title": "Ride a Cock-Horse to Banbury Cross",
     "title_hi": null,
     "category": "Classic",
-    "icon": "🎠",
+    "icon": "ЁЯОа",
     "tags": [
       "classic",
       "animal"
@@ -503,7 +503,7 @@
     "title": "Rub-a-Dub-Dub",
     "title_hi": null,
     "category": "Classic",
-    "icon": "🛁",
+    "icon": "ЁЯЫБ",
     "tags": [
       "classic",
       "silly"
@@ -517,7 +517,7 @@
     "title": "Jack Sprat",
     "title_hi": null,
     "category": "Classic",
-    "icon": "🍽️",
+    "icon": "ЁЯН╜я╕П",
     "tags": [
       "classic",
       "food"
@@ -531,7 +531,7 @@
     "title": "Peter, Peter, Pumpkin Eater",
     "title_hi": null,
     "category": "Classic",
-    "icon": "🎃",
+    "icon": "ЁЯОГ",
     "tags": [
       "classic",
       "food"
@@ -545,7 +545,7 @@
     "title": "Hot Cross Buns",
     "title_hi": null,
     "category": "Classic",
-    "icon": "🥖",
+    "icon": "ЁЯеЦ",
     "tags": [
       "classic",
       "food"
@@ -559,7 +559,7 @@
     "title": "Little Jack Horner",
     "title_hi": null,
     "category": "Classic",
-    "icon": "🥧",
+    "icon": "ЁЯез",
     "tags": [
       "classic",
       "food"
@@ -573,7 +573,7 @@
     "title": "Georgie Porgie",
     "title_hi": null,
     "category": "Classic",
-    "icon": "😢",
+    "icon": "ЁЯШв",
     "tags": [
       "classic"
     ],
@@ -586,7 +586,7 @@
     "title": "Pussy Cat, Pussy Cat",
     "title_hi": null,
     "category": "Animal",
-    "icon": "🐈",
+    "icon": "ЁЯРИ",
     "tags": [
       "animal",
       "classic"
@@ -600,7 +600,7 @@
     "title": "I See the Moon",
     "title_hi": null,
     "category": "Classic",
-    "icon": "🎑",
+    "icon": "ЁЯОС",
     "tags": [
       "classic",
       "lullaby"
@@ -614,7 +614,7 @@
     "title": "Hush, Little Baby",
     "title_hi": null,
     "category": "Classic",
-    "icon": "🤫",
+    "icon": "ЁЯдл",
     "tags": [
       "lullaby",
       "classic"
@@ -628,7 +628,7 @@
     "title": "The Bear Went Over the Mountain",
     "title_hi": null,
     "category": "Animal",
-    "icon": "🐻",
+    "icon": "ЁЯР╗",
     "tags": [
       "animal"
     ],
@@ -641,7 +641,7 @@
     "title": "Ding, Dong, Bell",
     "title_hi": null,
     "category": "Classic",
-    "icon": "🔔",
+    "icon": "ЁЯФФ",
     "tags": [
       "classic",
       "animal"
@@ -655,7 +655,7 @@
     "title": "Little Robin Redbreast",
     "title_hi": null,
     "category": "Animal",
-    "icon": "🐦",
+    "icon": "ЁЯРж",
     "tags": [
       "animal"
     ],
@@ -668,7 +668,7 @@
     "title": "Little Tommy Tucker",
     "title_hi": null,
     "category": "Classic",
-    "icon": "👦",
+    "icon": "ЁЯСж",
     "tags": [
       "classic"
     ],
@@ -681,7 +681,7 @@
     "title": "Mix a Pancake",
     "title_hi": null,
     "category": "Classic",
-    "icon": "🥞",
+    "icon": "ЁЯеЮ",
     "tags": [
       "classic",
       "food"
@@ -695,7 +695,7 @@
     "title": "Oh Where, Oh Where Has My Little Dog Gone?",
     "title_hi": null,
     "category": "Animal",
-    "icon": "🐕",
+    "icon": "ЁЯРХ",
     "tags": [
       "animal",
       "classic"
@@ -709,7 +709,7 @@
     "title": "One for Sorrow",
     "title_hi": null,
     "category": "Learning",
-    "icon": "🐦",
+    "icon": "ЁЯРж",
     "tags": [
       "learning",
       "animal"
@@ -724,7 +724,7 @@
     "title": "Oranges and Lemons",
     "title_hi": null,
     "category": "Classic",
-    "icon": "🍊🍋",
+    "icon": "ЁЯНКЁЯНЛ",
     "tags": [
       "classic",
       "food"
@@ -738,7 +738,7 @@
     "title": "Pease Porridge Hot",
     "title_hi": null,
     "category": "Classic",
-    "icon": "🍲",
+    "icon": "ЁЯН▓",
     "tags": [
       "classic",
       "food"
@@ -750,15 +750,15 @@
   {
     "id": 82,
     "title": "Akdam Bakdam",
-    "title_hi": "अक्कड़ बक्कड़ बम्बे बो",
+    "title_hi": "рдЕрдХреНрдХрдбрд╝ рдмрдХреНрдХрдбрд╝ рдмрдореНрдмреЗ рдмреЛ",
     "category": "Indian",
-    "icon": "🎠",
+    "icon": "ЁЯОа",
     "tags": [
       "indian",
       "silly"
     ],
     "lyrics": "Akdam Bakdam Dahi Chadam,\nThe horse ran on the dusty path.\nHe kicked a stone, the stone did fly,\nAnd hit the ground right from the sky.",
-    "lyrics_hi": "अक्कड़ बक्कड़ बम्बे बो,\nअस्सी नब्बे पूरे सौ।\nसौ में लगा धागा,\nचोर निकल के भागा।",
+    "lyrics_hi": "рдЕрдХреНрдХрдбрд╝ рдмрдХреНрдХрдбрд╝ рдмрдореНрдмреЗ рдмреЛ,\nрдЕрд╕реНрд╕реА рдирдмреНрдмреЗ рдкреВрд░реЗ рд╕реМред\nрд╕реМ рдореЗрдВ рд▓рдЧрд╛ рдзрд╛рдЧрд╛,\nрдЪреЛрд░ рдирд┐рдХрд▓ рдХреЗ рднрд╛рдЧрд╛ред",
     "funFact": "This is a very popular nonsense rhyme used in India by children to choose a 'denner' for games, similar to 'Eeny, Meeny, Miny, Moe'."
   },
   {
@@ -766,7 +766,7 @@
     "title": "See-Saw Margery Daw",
     "title_hi": null,
     "category": "Classic",
-    "icon": "⚖️",
+    "icon": "тЪЦя╕П",
     "tags": [
       "classic"
     ],
@@ -779,7 +779,7 @@
     "title": "Little Bo-Peep",
     "title_hi": null,
     "category": "Classic",
-    "icon": "🐑",
+    "icon": "ЁЯРС",
     "tags": [
       "classic",
       "animal"
@@ -793,7 +793,7 @@
     "title": "The North Wind Doth Blow",
     "title_hi": null,
     "category": "Animal",
-    "icon": "💨",
+    "icon": "ЁЯТи",
     "tags": [
       "animal"
     ],
@@ -806,7 +806,7 @@
     "title": "To Market, To Market",
     "title_hi": null,
     "category": "Classic",
-    "icon": "🛒",
+    "icon": "ЁЯЫТ",
     "tags": [
       "classic",
       "animal"
@@ -820,7 +820,7 @@
     "title": "Cobbler, Cobbler, Mend My Shoe",
     "title_hi": null,
     "category": "Classic",
-    "icon": "👞",
+    "icon": "ЁЯСЮ",
     "tags": [
       "classic"
     ],
@@ -833,7 +833,7 @@
     "title": "Diddle, Diddle, Dumpling",
     "title_hi": null,
     "category": "Classic",
-    "icon": "👶",
+    "icon": "ЁЯС╢",
     "tags": [
       "classic"
     ],
@@ -846,7 +846,7 @@
     "title": "Round and Round the Garden",
     "title_hi": null,
     "category": "Classic",
-    "icon": "🤏",
+    "icon": "ЁЯдП",
     "tags": [
       "classic"
     ],
@@ -857,15 +857,15 @@
   {
     "id": 98,
     "title": "Gaiya Meri (My Cow)",
-    "title_hi": "गैया मेरी",
+    "title_hi": "рдЧреИрдпрд╛ рдореЗрд░реА",
     "category": "Indian",
-    "icon": "🐄",
+    "icon": "ЁЯРД",
     "tags": [
       "indian",
       "animal"
     ],
     "lyrics": "My cow, my cow, my pretty cow,\nYou give sweet milk to me, and how!\nAll the children come to play,\nAnd drink your sweet milk every day.",
-    "lyrics_hi": "गैया मेरी, गैया मेरी, गैया मेरी,\nप्यारी प्यारी गैया मेरी।\nमीठा मीठा दूध देती,\nसब बच्चों को खुश करती।",
+    "lyrics_hi": "рдЧреИрдпрд╛ рдореЗрд░реА, рдЧреИрдпрд╛ рдореЗрд░реА, рдЧреИрдпрд╛ рдореЗрд░реА,\nрдкреНрдпрд╛рд░реА рдкреНрдпрд╛рд░реА рдЧреИрдпрд╛ рдореЗрд░реАред\nрдореАрдард╛ рдореАрдард╛ рджреВрдз рджреЗрддреА,\nрд╕рдм рдмрдЪреНрдЪреЛрдВ рдХреЛ рдЦреБрд╢ рдХрд░рддреАред",
     "funFact": null
   },
   {
@@ -873,7 +873,7 @@
     "title": "Bits of Paper",
     "title_hi": null,
     "category": "Learning",
-    "icon": "📄",
+    "icon": "ЁЯУД",
     "tags": [
       "learning"
     ],
@@ -887,7 +887,7 @@
     "title": "Counting Colors",
     "title_hi": null,
     "category": "Learning",
-    "icon": "🎨",
+    "icon": "ЁЯОи",
     "tags": [
       "learning"
     ],
@@ -901,7 +901,7 @@
     "title": "My Shadow",
     "title_hi": null,
     "category": "Learning",
-    "icon": "👤",
+    "icon": "ЁЯСд",
     "tags": [
       "learning",
       "silly"
@@ -916,7 +916,7 @@
     "title": "The Shape Song",
     "title_hi": null,
     "category": "Learning",
-    "icon": "🔺",
+    "icon": "ЁЯФ║",
     "tags": [
       "learning"
     ],
@@ -930,7 +930,7 @@
     "title": "The Fire Truck",
     "title_hi": null,
     "category": "Learning",
-    "icon": "🚒",
+    "icon": "ЁЯЪТ",
     "tags": [
       "learning"
     ],
@@ -944,7 +944,7 @@
     "title": "The Little Seed",
     "title_hi": null,
     "category": "Learning",
-    "icon": "🌱",
+    "icon": "ЁЯМ▒",
     "tags": [
       "learning"
     ],
@@ -958,7 +958,7 @@
     "title": "The Submarine",
     "title_hi": null,
     "category": "Learning",
-    "icon": "🚢",
+    "icon": "ЁЯЪв",
     "tags": [
       "learning",
       "transport"
@@ -973,7 +973,7 @@
     "title": "The Traffic Lights",
     "title_hi": null,
     "category": "Learning",
-    "icon": "🚦",
+    "icon": "ЁЯЪж",
     "tags": [
       "learning",
       "action"
@@ -988,7 +988,7 @@
     "title": "Five Little Snowmen",
     "title_hi": null,
     "category": "Learning",
-    "icon": "⛄",
+    "icon": "тЫД",
     "tags": [
       "learning"
     ],
@@ -1002,7 +1002,7 @@
     "title": "The Busy Bee",
     "title_hi": null,
     "category": "Learning",
-    "icon": "🐝",
+    "icon": "ЁЯРЭ",
     "tags": [
       "animal",
       "learning"
@@ -1017,7 +1017,7 @@
     "title": "The Rainbow Colors",
     "title_hi": null,
     "category": "Learning",
-    "icon": "🌈",
+    "icon": "ЁЯМИ",
     "tags": [
       "learning"
     ],
@@ -1031,7 +1031,7 @@
     "title": "The Doctor's Visit",
     "title_hi": null,
     "category": "Learning",
-    "icon": "🩺",
+    "icon": "ЁЯй║",
     "tags": [
       "learning"
     ],
@@ -1045,7 +1045,7 @@
     "title": "The Construction Site",
     "title_hi": null,
     "category": "Learning",
-    "icon": "🏗️",
+    "icon": "ЁЯПЧя╕П",
     "tags": [
       "learning"
     ],
@@ -1059,7 +1059,7 @@
     "title": "My Toothbrush",
     "title_hi": null,
     "category": "Learning",
-    "icon": "🪥",
+    "icon": "ЁЯке",
     "tags": [
       "learning"
     ],
@@ -1073,7 +1073,7 @@
     "title": "The Little Train",
     "title_hi": null,
     "category": "Learning",
-    "icon": "🚂",
+    "icon": "ЁЯЪВ",
     "tags": [
       "learning"
     ],
@@ -1087,7 +1087,7 @@
     "title": "My Feelings",
     "title_hi": null,
     "category": "Learning",
-    "icon": "😊",
+    "icon": "ЁЯШК",
     "tags": [
       "learning"
     ],
@@ -1101,7 +1101,7 @@
     "title": "The Little Cactus",
     "title_hi": null,
     "category": "Learning",
-    "icon": "🌵",
+    "icon": "ЁЯМ╡",
     "tags": [
       "learning",
       "animal"
@@ -1116,7 +1116,7 @@
     "title": "The Farmer's Tractor",
     "title_hi": null,
     "category": "Learning",
-    "icon": "🚜",
+    "icon": "ЁЯЪЬ",
     "tags": [
       "learning"
     ],
@@ -1130,7 +1130,7 @@
     "title": "The Mail Carrier",
     "title_hi": null,
     "category": "Learning",
-    "icon": "✉️",
+    "icon": "тЬЙя╕П",
     "tags": [
       "learning"
     ],
@@ -1144,7 +1144,7 @@
     "title": "The Artist's Brush",
     "title_hi": null,
     "category": "Learning",
-    "icon": "🖌️",
+    "icon": "ЁЯЦМя╕П",
     "tags": [
       "learning"
     ],
@@ -1158,7 +1158,7 @@
     "title": "My Body Bobs",
     "title_hi": null,
     "category": "Learning",
-    "icon": "🤸",
+    "icon": "ЁЯд╕",
     "tags": [
       "learning"
     ],
@@ -1170,7 +1170,7 @@
     "id": 151,
     "title": "The Captain on the Hill",
     "category": "Classic",
-    "icon": "👨‍✈️",
+    "icon": "ЁЯСитАНтЬИя╕П",
     "tags": [
       "classic"
     ],
@@ -1181,7 +1181,7 @@
     "id": 153,
     "title": "The Gardener's Day",
     "category": "Learning",
-    "icon": "👩‍🌾",
+    "icon": "ЁЯСйтАНЁЯМ╛",
     "tags": [
       "classic",
       "learning"
@@ -1194,7 +1194,7 @@
     "id": 155,
     "title": "My Little Kitty",
     "category": "Animal",
-    "icon": "🐈",
+    "icon": "ЁЯРИ",
     "tags": [
       "animal",
       "learning",
@@ -1208,7 +1208,7 @@
     "id": 156,
     "title": "A Letter for My Friend",
     "category": "Classic",
-    "icon": "💌",
+    "icon": "ЁЯТМ",
     "tags": [
       "classic"
     ],
@@ -1219,7 +1219,7 @@
     "id": 157,
     "title": "Morning Chimes",
     "category": "Classic",
-    "icon": "🔔",
+    "icon": "ЁЯФФ",
     "tags": [
       "classic"
     ],
@@ -1230,7 +1230,7 @@
     "id": 158,
     "title": "Let's All Dance Around",
     "category": "Classic",
-    "icon": "💃",
+    "icon": "ЁЯТГ",
     "tags": [
       "classic",
       "action"
@@ -1242,7 +1242,7 @@
     "id": 161,
     "title": "This Is How We Get Ready",
     "category": "Learning",
-    "icon": "☀️",
+    "icon": "тШАя╕П",
     "tags": [
       "classic",
       "learning"
@@ -1255,7 +1255,7 @@
     "id": 162,
     "title": "The Gingerbread Baker",
     "category": "Classic",
-    "icon": "👨‍🍳",
+    "icon": "ЁЯСитАНЁЯН│",
     "tags": [
       "classic",
       "food"
@@ -1267,7 +1267,7 @@
     "id": 164,
     "title": "The Explorer's Trip",
     "category": "Learning",
-    "icon": "🗺️",
+    "icon": "ЁЯЧ║я╕П",
     "tags": [
       "classic",
       "learning"
