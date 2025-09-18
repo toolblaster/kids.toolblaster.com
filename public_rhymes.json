@@ -4,12 +4,12 @@
     "title": "Twinkle, Twinkle, Little Star",
     "title_hi": null,
     "category": "Classic",
-    "icon": "ЁЯМЯ",
+    "icon": "тнР",
     "tags": [
       "lullaby",
       "classic"
     ],
-    "lyrics": "Twinkle, twinkle, little star,\nHow I wonder what you are!\nUp above the world so high,\nLike a diamond in the sky.",
+    "lyrics": "Twinkle, twinkle, little star,\nHow I wonder what you are!\nUp above the world so high,\nLike a diamond in the sky.\n\nWhen the blazing sun is gone,\nWhen he nothing shines upon,\nThen you show your little light,\nTwinkle, twinkle, all the night.",
     "lyrics_hi": null,
     "funFact": "The lyrics are from an early-19th-century English poem by Jane Taylor, 'The Star'. The tune is from an old French melody."
   },
@@ -24,7 +24,7 @@
       "classic",
       "learning"
     ],
-    "lyrics": "Baa, baa, black sheep,\nHave you any wool?\nYes, sir, yes, sir,\nThree bags full.",
+    "lyrics": "Baa, baa, black sheep,\nHave you any wool?\nYes, sir, yes, sir,\nThree bags full.\n\nOne for the master,\nOne for the dame,\nAnd one for the little boy\nWho lives down the lane.",
     "lyrics_hi": null,
     "funFact": "This rhyme is over 250 years old! It is one of the most popular nursery rhymes in the English language."
   },
@@ -39,7 +39,7 @@
       "indian"
     ],
     "lyrics": "Fish, the queen of water,\nHer life is made of water.\nTouch it, and she will be scared,\nTake her out, and she will die.",
-    "lyrics_hi": "рдордЫрд▓реА рдЬрд▓ рдХреА рд░рд╛рдиреА рд╣реИ,\nрдЬреАрд╡рди рдЙрд╕рдХрд╛ рдкрд╛рдиреА рд╣реИред\nрд╣рд╛рде рд▓рдЧрд╛рдУ рддреЛ рдбрд░ рдЬрд╛рдПрдЧреА,\nрдмрд╛рд╣рд░ рдирд┐рдХрд╛рд▓реЛ рддреЛ рдорд░ рдЬрд╛рдПрдЧреАред",
+    "lyrics_hi": "рдордЫрд▓реА рдЬрд▓ рдХреА рд░рд╛рдиреА рд╣реИ,\nрдЬреАрд╡рди рдЙрд╕рдХрд╛ рдкрд╛рдиреА рд╣реИред\nрд╣рд╛рде рд▓рдЧрд╛рдУ рдбрд░ рдЬрд╛рдПрдЧреА,\nрдмрд╛рд╣рд░ рдирд┐рдХрд╛рд▓реЛ рдорд░ рдЬрд╛рдПрдЧреАред",
     "funFact": "This is one of the first and most popular Hindi rhymes taught to children in India to help them learn about nature."
   },
   {
@@ -52,7 +52,7 @@
       "animal",
       "classic"
     ],
-    "lyrics": "Mary had a little lamb,\nIts fleece was white as snow;\nAnd everywhere that Mary went,\nThe lamb was sure to go.\n\nIt followed her to school one day,\nWhich was against the rule;\nIt made the children laugh and play\nTo see a lamb at school.",
+    "lyrics": "Mary had a little lamb,\nIts fleece was white as snow;\nAnd everywhere that Mary went,\nThe lamb was sure to go.\n\nIt followed her to school one day,\nWhich was against the rule;\nIt made the children laugh and play\nTo see a lamb at school.\n\nAnd so the teacher turned him out,\nBut still he lingered near,\nAnd waited patiently about\nTill Mary did appear.",
     "lyrics_hi": null,
     "funFact": "This rhyme is based on a real-life incident! A young girl named Mary Sawyer took her pet lamb to school in the 1830s."
   },
@@ -61,11 +61,11 @@
     "title": "Jack and Jill",
     "title_hi": null,
     "category": "Classic",
-    "icon": "ЁЯкг",
+    "icon": "ЁЯСжЁЯСз",
     "tags": [
       "classic"
     ],
-    "lyrics": "Jack and Jill went up the hill\nTo fetch a pail of water;\nJack fell down and broke his crown,\nAnd Jill came tumbling after.",
+    "lyrics": "Jack and Jill went up the hill\nTo fetch a pail of water;\nJack fell down and broke his crown,\nAnd Jill came tumbling after.\n\nUp Jack got and home did trot,\nAs fast as he could caper,\nTo old Dame Dob, who patched his nob\nWith vinegar and brown paper.",
     "lyrics_hi": null,
     "funFact": "Some historians think 'Jack and Jill' might be a story about King Louis XVI of France (who lost his 'crown') and his wife Marie Antoinette."
   },
@@ -74,7 +74,7 @@
     "title": "Hey Diddle Diddle",
     "title_hi": null,
     "category": "Classic",
-    "icon": "ЁЯРД",
+    "icon": "ЁЯР▒ЁЯО╗",
     "tags": [
       "silly",
       "animal",
@@ -89,7 +89,7 @@
     "title": "Itsy Bitsy Spider",
     "title_hi": null,
     "category": "Animal",
-    "icon": "ЁЯХ╖я╕П",
+    "icon": "ЁЯХ╖я╕ПЁЯХ╕я╕П",
     "tags": [
       "animal"
     ],
@@ -102,7 +102,7 @@
     "title": "Row, Row, Row Your Boat",
     "title_hi": null,
     "category": "Classic",
-    "icon": "ЁЯЪг",
+    "icon": "ЁЯЫ╢",
     "tags": [
       "classic"
     ],
@@ -119,7 +119,7 @@
     "tags": [
       "classic"
     ],
-    "lyrics": "London Bridge is falling down,\nFalling down, falling down.\nLondon Bridge is falling down,\nMy fair lady.",
+    "lyrics": "London Bridge is falling down,\nFalling down, falling down.\nLondon Bridge is falling down,\nMy fair lady.\n\nBuild it up with wood and clay,\nWood and clay, wood and clay,\nBuild it up with wood and clay,\nMy fair lady.",
     "lyrics_hi": null,
     "funFact": "The famous London Bridge has been rebuilt many times over the centuries. One of the old bridges was even sold and moved to Arizona, USA!"
   },
@@ -128,7 +128,7 @@
     "title": "Little Miss Muffet",
     "title_hi": null,
     "category": "Classic",
-    "icon": "ЁЯХ╖я╕П",
+    "icon": "ЁЯХ╖я╕ПЁЯХ╕я╕П",
     "tags": [
       "classic",
       "animal"
@@ -163,7 +163,7 @@
       "classic"
     ],
     "learningFocus": "Telling Time",
-    "lyrics": "Hickory dickory dock,\nThe mouse ran up the clock.\nThe clock struck one,\nThe mouse ran down.",
+    "lyrics": "Hickory dickory dock,\nThe mouse ran up the clock.\nThe clock struck one,\nThe mouse ran down.\nHickory dickory dock.",
     "lyrics_hi": null,
     "funFact": "This rhyme is a fun way to help children learn how to tell time and practice counting."
   },
@@ -191,7 +191,7 @@
       "animal",
       "classic"
     ],
-    "lyrics": "This little piggy went to market,\nThis little piggy stayed home,\nThis little piggy had roast beef,\nThis little piggy had none.",
+    "lyrics": "This little piggy went to market,\nThis little piggy stayed home,\nThis little piggy had roast beef,\nThis little piggy had none.\nThis little piggy cried, 'Wee, wee, wee!' all the way home.",
     "lyrics_hi": null,
     "funFact": "This is a popular 'toe play' rhyme, where each line corresponds to wiggling one of a baby's five toes."
   },
@@ -200,7 +200,7 @@
     "title": "Ring Around the Rosie",
     "title_hi": null,
     "category": "Classic",
-    "icon": "ЁЯМ╣",
+    "icon": "ЁЯТР",
     "tags": [
       "classic"
     ],
@@ -213,13 +213,13 @@
     "title": "One, Two, Buckle My Shoe",
     "title_hi": null,
     "category": "Learning",
-    "icon": "ЁЯСЮ",
+    "icon": "ЁЯФв",
     "tags": [
       "learning",
       "classic"
     ],
     "learningFocus": "Counting to 20",
-    "lyrics": "One, two, Buckle my shoe;\nThree, four, Knock at the door;\nFive, six, Pick up sticks;\nSeven, eight, Lay them straight.",
+    "lyrics": "One, two, Buckle my shoe;\nThree, four, Knock at the door;\nFive, six, Pick up sticks;\nSeven, eight, Lay them straight.\nNine, ten, A big fat hen;\nEleven, twelve, Dig and delve;\nThirteen, fourteen, Maids a-courting;\nFifteen, sixteen, Maids in the kitchen.\nSeventeen, eighteen, Maids a-waiting;\nNineteen, twenty, My plate's empty.",
     "lyrics_hi": null,
     "funFact": "This is a classic counting rhyme that helps children learn their numbers in a fun, memorable way."
   },
@@ -241,12 +241,12 @@
     "title": "Little Boy Blue",
     "title_hi": null,
     "category": "Classic",
-    "icon": "ЁЯСж",
+    "icon": "ЁЯО║",
     "tags": [
       "classic",
       "animal"
     ],
-    "lyrics": "Little Boy Blue, come blow your horn,\nThe sheep's in the meadow, the cow's in the corn.\nWhere is the boy who looks after the sheep?\nHe is under a haystack, fast asleep.",
+    "lyrics": "Little Boy Blue, come blow your horn,\nThe sheep's in the meadow, the cow's in the corn.\nWhere is the boy who looks after the sheep?\nHe is under a haystack, fast asleep.\n\nWill you wake him up? No, not I,\nFor if I do, he is sure to cry.",
     "lyrics_hi": null,
     "funFact": null
   },
@@ -255,12 +255,12 @@
     "title": "Old Mother Hubbard",
     "title_hi": null,
     "category": "Classic",
-    "icon": "ЁЯР╢",
+    "icon": "ЁЯРХ",
     "tags": [
       "classic",
       "animal"
     ],
-    "lyrics": "Old Mother Hubbard\nWent to the cupboard,\nTo give the poor dog a bone;\nBut when she got there,\nThe cupboard was bare,\nAnd so the poor dog had none.",
+    "lyrics": "Old Mother Hubbard\nWent to the cupboard,\nTo give the poor dog a bone;\nBut when she got there,\nThe cupboard was bare,\nAnd so the poor dog had none.\n\nShe went to the baker's\nTo buy him some bread;\nBut when she came back\nThe poor dog was dead.",
     "lyrics_hi": null,
     "funFact": null
   },
@@ -275,7 +275,7 @@
       "lullaby"
     ],
     "lyrics": "Moon uncle, so far away,\nCooking puddings day by day.\nYou eat from your plate so grand,\nGive me a bowl here in my hand.",
-    "lyrics_hi": "рдЪрдВрджрд╛ рдорд╛рдорд╛ рджреВрд░ рдХреЗ,\nрдкреБрдП рдкрдХрд╛рдПрдВ рдмреВрд░ рдХреЗред\nрдЖрдк рдЦрд╛рдПрдВ рдерд╛рд▓реА рдореЗрдВ,\nрдореБрдиреНрдиреЗ рдХреЛ рджреЗрдВ рдкреНрдпрд╛рд▓реА рдореЗрдВред",
+    "lyrics_hi": "рдЪрдВрджрд╛ рдорд╛рдорд╛ рджреВрд░ рдХреЗ,\nрдкреБрдП рдкрдХрд╛рдП рдмреВрд░ рдХреЗред\nрдЖрдк рдЦрд╛рдП рдерд╛рд▓реА рдореЗрдВ,\nрдореБрдиреНрдиреЗ рдХреЛ рджреЗ рдкреНрдпрд╛рд▓реА рдореЗрдВред",
     "funFact": "In Indian culture, the moon is often affectionately called 'Chanda Mama' (Moon Uncle), and is a central character in many lullabies and stories."
   },
   {
@@ -288,7 +288,7 @@
       "classic",
       "animal"
     ],
-    "lyrics": "Sing a song of sixpence,\nA pocket full of rye.\nFour and twenty blackbirds,\nBaked in a pie.\n\nWhen the pie was opened,\nThe birds began to sing;\nWas not that a dainty dish,\nTo set before the king?",
+    "lyrics": "Sing a song of sixpence,\nA pocket full of rye.\nFour and twenty blackbirds,\nBaked in a pie.\n\nWhen the pie was opened,\nThe birds began to sing;\nWas not that a dainty dish,\nTo set before the king?\n\nThe king was in his counting house\nCounting out his money;\nThe queen was in the parlor\nEating bread and honey.",
     "lyrics_hi": null,
     "funFact": null
   },
@@ -311,7 +311,7 @@
     "title": "Wee Willie Winkie",
     "title_hi": null,
     "category": "Classic",
-    "icon": "ЁЯПГ",
+    "icon": "ЁЯЫМ",
     "tags": [
       "classic",
       "lullaby"
@@ -325,7 +325,7 @@
     "title": "Monday's Child",
     "title_hi": null,
     "category": "Learning",
-    "icon": "ЁЯЧУя╕П",
+    "icon": "ЁЯУЕ",
     "tags": [
       "learning",
       "classic"
@@ -340,7 +340,7 @@
     "title": "Star Light, Star Bright",
     "title_hi": null,
     "category": "Classic",
-    "icon": "ЁЯМа",
+    "icon": "ЁЯМЯ",
     "tags": [
       "classic",
       "lullaby"
@@ -367,7 +367,7 @@
     "title": "Jack Be Nimble",
     "title_hi": null,
     "category": "Classic",
-    "icon": "ЁЯХпя╕П",
+    "icon": "ЁЯд╕",
     "tags": [
       "classic"
     ],
@@ -380,7 +380,7 @@
     "title": "Mary, Mary, Quite Contrary",
     "title_hi": null,
     "category": "Classic",
-    "icon": "ЁЯМ╖",
+    "icon": "ЁЯМ╕",
     "tags": [
       "classic"
     ],
@@ -421,7 +421,7 @@
     "title": "There Was an Old Woman Who Lived in a Shoe",
     "title_hi": null,
     "category": "Classic",
-    "icon": "ЁЯСв",
+    "icon": "ЁЯПб",
     "tags": [
       "classic"
     ],
@@ -434,7 +434,7 @@
     "title": "Pop Goes the Weasel",
     "title_hi": null,
     "category": "Classic",
-    "icon": "ЁЯР╡",
+    "icon": "ЁЯжб",
     "tags": [
       "classic",
       "animal"
@@ -448,7 +448,7 @@
     "title": "Rock-a-bye Baby",
     "title_hi": null,
     "category": "Classic",
-    "icon": "ЁЯС╢",
+    "icon": "ЁЯО╢",
     "tags": [
       "classic",
       "lullaby"
@@ -489,7 +489,7 @@
     "title": "Ride a Cock-Horse to Banbury Cross",
     "title_hi": null,
     "category": "Classic",
-    "icon": "ЁЯОа",
+    "icon": "ЁЯР┤",
     "tags": [
       "classic",
       "animal"
@@ -503,7 +503,7 @@
     "title": "Rub-a-Dub-Dub",
     "title_hi": null,
     "category": "Classic",
-    "icon": "ЁЯЫБ",
+    "icon": "ЁЯЫА",
     "tags": [
       "classic",
       "silly"
@@ -517,7 +517,7 @@
     "title": "Jack Sprat",
     "title_hi": null,
     "category": "Classic",
-    "icon": "ЁЯН╜я╕П",
+    "icon": "ЁЯНЦ",
     "tags": [
       "classic",
       "food"
@@ -545,7 +545,7 @@
     "title": "Hot Cross Buns",
     "title_hi": null,
     "category": "Classic",
-    "icon": "ЁЯеЦ",
+    "icon": "ЁЯеп",
     "tags": [
       "classic",
       "food"
@@ -573,7 +573,7 @@
     "title": "Georgie Porgie",
     "title_hi": null,
     "category": "Classic",
-    "icon": "ЁЯШв",
+    "icon": "ЁЯдЧ",
     "tags": [
       "classic"
     ],
@@ -586,7 +586,7 @@
     "title": "Pussy Cat, Pussy Cat",
     "title_hi": null,
     "category": "Animal",
-    "icon": "ЁЯРИ",
+    "icon": "ЁЯР▒",
     "tags": [
       "animal",
       "classic"
@@ -600,7 +600,7 @@
     "title": "I See the Moon",
     "title_hi": null,
     "category": "Classic",
-    "icon": "ЁЯОС",
+    "icon": "ЁЯМХ",
     "tags": [
       "classic",
       "lullaby"
@@ -619,7 +619,7 @@
       "lullaby",
       "classic"
     ],
-    "lyrics": "Hush, little baby, do not say a word,\nMama is gonna buy you a mockingbird.\nAnd if that mockingbird will not sing,\nMama is gonna buy you a a diamond ring.",
+    "lyrics": "Hush, little baby, do not say a word,\nMama is gonna buy you a mockingbird.\nAnd if that mockingbird will not sing,\nMama is gonna buy you a diamond ring.",
     "lyrics_hi": null,
     "funFact": null
   },
@@ -632,7 +632,7 @@
     "tags": [
       "animal"
     ],
-    "lyrics": "The bear went over the mountain,\nThe bear went over the mountain,\nThe bear went over the mountain,\nTo see what he could see.",
+    "lyrics": "The bear went over the mountain,\nThe bear went over the mountain,\nThe bear went over the mountain,\nTo see what he could see.\n\nAnd all that he could see, see, see,\nWas the other side of the mountain,\nThe other side of the mountain,\nAnd all that he could see.",
     "lyrics_hi": null,
     "funFact": null
   },
@@ -659,7 +659,7 @@
     "tags": [
       "animal"
     ],
-    "lyrics": "Little Robin Redbreast sat upon a tree,\nUp went Pussy-cat, and down went he;\nDown came Pussy-cat, and away Robin ran;\nSays little Robin Redbreast, 'Catch me if you can not.'",
+    "lyrics": "Little Robin Redbreast sat upon a tree,\nUp went Pussy-cat, and down went he;\nDown came Pussy-cat, and away Robin ran;\nSays little Robin Redbreast, 'Catch me if you can!'",
     "lyrics_hi": null,
     "funFact": null
   },
@@ -668,7 +668,7 @@
     "title": "Little Tommy Tucker",
     "title_hi": null,
     "category": "Classic",
-    "icon": "ЁЯСж",
+    "icon": "ЁЯО║",
     "tags": [
       "classic"
     ],
@@ -729,7 +729,7 @@
       "classic",
       "food"
     ],
-    "lyrics": "Oranges and lemons,\nSay the bells of St. Clement's.\nYou owe me five farthings,\nSay the bells of St. Martin's.",
+    "lyrics": "Oranges and lemons,\nSay the bells of St. Clement's.\nYou owe me five farthings,\nSay the bells of St. Martin's.\n\nWhen will you pay me?\nSay the bells of Old Bailey.\nWhen I grow rich,\nSay the bells of Shoreditch.\n\nHere comes a candle to light you to bed,\nHere comes a chopper to chop off your head!",
     "lyrics_hi": null,
     "funFact": null
   },
@@ -750,15 +750,15 @@
   {
     "id": 82,
     "title": "Akdam Bakdam",
-    "title_hi": "рдЕрдХреНрдХрдбрд╝ рдмрдХреНрдХрдбрд╝ рдмрдореНрдмреЗ рдмреЛ",
+    "title_hi": "рдЕрдХрдбрд╝рдо рдмрдХрдбрд╝рдо рджрд╣реА рдЪрдбрд╝рдо",
     "category": "Indian",
-    "icon": "ЁЯОа",
+    "icon": "ЁЯР┤",
     "tags": [
       "indian",
       "silly"
     ],
     "lyrics": "Akdam Bakdam Dahi Chadam,\nThe horse ran on the dusty path.\nHe kicked a stone, the stone did fly,\nAnd hit the ground right from the sky.",
-    "lyrics_hi": "рдЕрдХреНрдХрдбрд╝ рдмрдХреНрдХрдбрд╝ рдмрдореНрдмреЗ рдмреЛ,\nрдЕрд╕реНрд╕реА рдирдмреНрдмреЗ рдкреВрд░реЗ рд╕реМред\nрд╕реМ рдореЗрдВ рд▓рдЧрд╛ рдзрд╛рдЧрд╛,\nрдЪреЛрд░ рдирд┐рдХрд▓ рдХреЗ рднрд╛рдЧрд╛ред",
+    "lyrics_hi": "рдЕрдХрдбрд╝рдо рдмрдХрдбрд╝рдо рджрд╣реА рдЪрдбрд╝рдо,\nрдШреЛрдбрд╝рд╛ рднрд╛рдЧреЗ рдбрдо рдбрдо рдбрдоред\nрдШреЛрдбрд╝рд╛ рджреМрдбрд╝рд╛ рдШрд╛рд╕ рдкрд░,\nрдШрд╛рд╕ рдкрдбрд╝реА рдереА рдмрд░реНрдл рдкрд░ред",
     "funFact": "This is a very popular nonsense rhyme used in India by children to choose a 'denner' for games, similar to 'Eeny, Meeny, Miny, Moe'."
   },
   {
@@ -793,7 +793,7 @@
     "title": "The North Wind Doth Blow",
     "title_hi": null,
     "category": "Animal",
-    "icon": "ЁЯТи",
+    "icon": "ЁЯе╢",
     "tags": [
       "animal"
     ],
@@ -833,7 +833,7 @@
     "title": "Diddle, Diddle, Dumpling",
     "title_hi": null,
     "category": "Classic",
-    "icon": "ЁЯС╢",
+    "icon": "ЁЯО╢",
     "tags": [
       "classic"
     ],
@@ -859,13 +859,13 @@
     "title": "Gaiya Meri (My Cow)",
     "title_hi": "рдЧреИрдпрд╛ рдореЗрд░реА",
     "category": "Indian",
-    "icon": "ЁЯРД",
+    "icon": "ЁЯРо",
     "tags": [
       "indian",
       "animal"
     ],
     "lyrics": "My cow, my cow, my pretty cow,\nYou give sweet milk to me, and how!\nAll the children come to play,\nAnd drink your sweet milk every day.",
-    "lyrics_hi": "рдЧреИрдпрд╛ рдореЗрд░реА, рдЧреИрдпрд╛ рдореЗрд░реА, рдЧреИрдпрд╛ рдореЗрд░реА,\nрдкреНрдпрд╛рд░реА рдкреНрдпрд╛рд░реА рдЧреИрдпрд╛ рдореЗрд░реАред\nрдореАрдард╛ рдореАрдард╛ рджреВрдз рджреЗрддреА,\nрд╕рдм рдмрдЪреНрдЪреЛрдВ рдХреЛ рдЦреБрд╢ рдХрд░рддреАред",
+    "lyrics_hi": "рдЧреИрдпрд╛ рдореЗрд░реА, рдЧреИрдпрд╛ рдореЗрд░реА, рдЧреИрдпрд╛ рдореЗрд░реА,\nрдореАрдард╛ рдореАрдард╛ рджреВрдз рджреЗрддреА рдЧреИрдпрд╛ рдореЗрд░реАред\nрд╕рд╛рд░реЗ рдмрдЪреНрдЪреЗ рдЖрддреЗ рд╣реИ,\nрд░реЛрдЬрд╝ рд╕реБрдмрд╣ рджреВрдз рдкреАрддреЗ рд╣реИред",
     "funFact": null
   },
   {
@@ -873,7 +873,7 @@
     "title": "Bits of Paper",
     "title_hi": null,
     "category": "Learning",
-    "icon": "ЁЯУД",
+    "icon": "ЁЯЧСя╕П",
     "tags": [
       "learning"
     ],
@@ -916,7 +916,7 @@
     "title": "The Shape Song",
     "title_hi": null,
     "category": "Learning",
-    "icon": "ЁЯФ║",
+    "icon": "ЁЯУР",
     "tags": [
       "learning"
     ],
@@ -958,7 +958,7 @@
     "title": "The Submarine",
     "title_hi": null,
     "category": "Learning",
-    "icon": "ЁЯЪв",
+    "icon": "ц╜Ыц░┤шЙЗ",
     "tags": [
       "learning",
       "transport"
@@ -1130,7 +1130,7 @@
     "title": "The Mail Carrier",
     "title_hi": null,
     "category": "Learning",
-    "icon": "тЬЙя╕П",
+    "icon": "ЁЯУо",
     "tags": [
       "learning"
     ],
@@ -1158,7 +1158,7 @@
     "title": "My Body Bobs",
     "title_hi": null,
     "category": "Learning",
-    "icon": "ЁЯд╕",
+    "icon": "ЁЯХ║",
     "tags": [
       "learning"
     ],
@@ -1170,7 +1170,7 @@
     "id": 151,
     "title": "The Captain on the Hill",
     "category": "Classic",
-    "icon": "ЁЯСитАНтЬИя╕П",
+    "icon": "ЁЯТВтАНтЩАя╕П",
     "tags": [
       "classic"
     ],
@@ -1181,7 +1181,7 @@
     "id": 153,
     "title": "The Gardener's Day",
     "category": "Learning",
-    "icon": "ЁЯСйтАНЁЯМ╛",
+    "icon": "ЁЯзСтАНЁЯМ╛ЁЯМ▒",
     "tags": [
       "classic",
       "learning"
@@ -1194,7 +1194,7 @@
     "id": 155,
     "title": "My Little Kitty",
     "category": "Animal",
-    "icon": "ЁЯРИ",
+    "icon": "ЁЯР▒",
     "tags": [
       "animal",
       "learning",
@@ -1242,7 +1242,7 @@
     "id": 161,
     "title": "This Is How We Get Ready",
     "category": "Learning",
-    "icon": "тШАя╕П",
+    "icon": "ЁЯЪ┐",
     "tags": [
       "classic",
       "learning"
@@ -1255,7 +1255,7 @@
     "id": 162,
     "title": "The Gingerbread Baker",
     "category": "Classic",
-    "icon": "ЁЯСитАНЁЯН│",
+    "icon": "ЁЯзСтАНЁЯН│ЁЯНк",
     "tags": [
       "classic",
       "food"
