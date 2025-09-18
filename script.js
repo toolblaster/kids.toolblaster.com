@@ -25,6 +25,8 @@ document.addEventListener('DOMContentLoaded', () => {
     let isPlaylistMode = false;
     let currentPlaylistIndex = -1;
     const originalTitle = document.title;
+    let utterance = null;
+    let isReading = false;
 
     // --- ELEMENT SELECTORS ---
     const loadingIndicator = document.getElementById('loading-indicator');
@@ -60,6 +62,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const shareWhatsappBtn = document.getElementById('share-whatsapp');
     const previousDetailRhymeBtn = document.getElementById('previous-detail-rhyme-btn');
     const nextDetailRhymeBtn = document.getElementById('next-detail-rhyme-btn');
+    const readAloudRhymeBtn = document.getElementById('read-aloud-btn-rhyme');
 
     // Story Detail Elements
     const storyBackButton = document.getElementById('story-back-button');
@@ -67,6 +70,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const addToStoryPlaylistBtn = document.getElementById('add-to-story-playlist-btn');
     const previousDetailStoryBtn = document.getElementById('previous-detail-story-btn');
     const nextDetailStoryBtn = document.getElementById('next-detail-story-btn');
+    const readAloudStoryBtn = document.getElementById('read-aloud-btn-story');
 
     // Playlist Elements
     const playlistToggleBtn = document.getElementById('playlist-toggle-btn');
@@ -83,7 +87,6 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Toast Notification
     const toastNotification = document.getElementById('toast-notification');
-
 
     // --- INITIALIZATION ---
     function init() {
@@ -164,6 +167,7 @@ document.addEventListener('DOMContentLoaded', () => {
         controlsSection.classList.add('hidden');
         rhymeControls.classList.add('hidden');
         storyControls.classList.add('hidden');
+        stopReading();
     }
 
     function showMainView(viewName) {
@@ -262,6 +266,9 @@ document.addEventListener('DOMContentLoaded', () => {
         rhymeDetailView.classList.remove('hidden');
         document.title = `${currentRhyme.title} - Kids Rhymes`;
         updateUrl({ rhyme: rhymeId });
+        
+        stopReading();
+        updateReadAloudButton(readAloudRhymeBtn);
 
         isPlaylistMode = fromPlaylist;
         if (isPlaylistMode) {
@@ -363,6 +370,9 @@ document.addEventListener('DOMContentLoaded', () => {
         storyDetailView.classList.remove('hidden');
         document.title = `${currentStory.title} - Kids Stories`;
         updateUrl({ story: storyId });
+        
+        stopReading();
+        updateReadAloudButton(readAloudStoryBtn);
 
         document.getElementById('story-title').textContent = currentStory.title;
         document.getElementById('story-author').textContent = `by ${currentStory.author}`;
@@ -393,7 +403,7 @@ document.addEventListener('DOMContentLoaded', () => {
         storyCopyrightText.textContent = `Copyright © ${new Date().getFullYear()} kids.toolblaster.com. This is an Original and Exclusive Story 📚`;
         storyCopyrightContainer.classList.remove('hidden');
         
-        const currentIndex = allStories.findIndex(s => s.id === storyId);
+        const currentIndex = allStories.findIndex(s => s.id === currentStory.id);
         previousDetailStoryBtn.disabled = currentIndex <= 0;
         nextDetailStoryBtn.disabled = currentIndex >= allStories.length - 1;
 
@@ -435,6 +445,10 @@ document.addEventListener('DOMContentLoaded', () => {
         // Story buttons
         storyFavoriteBtn.addEventListener('click', handleFavoriteStoryClick);
         addToStoryPlaylistBtn.addEventListener('click', handleAddToStoryPlaylist);
+
+        // Read Aloud buttons
+        readAloudRhymeBtn.addEventListener('click', () => toggleReadAloud('rhyme'));
+        readAloudStoryBtn.addEventListener('click', () => toggleReadAloud('story'));
 
         // Playlist listeners
         playlistToggleBtn.addEventListener('click', togglePlaylistView);
@@ -549,6 +563,69 @@ document.addEventListener('DOMContentLoaded', () => {
         setTimeout(() => {
             toastNotification.classList.remove('show');
         }, 2500);
+    }
+    
+    // --- TEXT-TO-SPEECH FUNCTIONS ---
+    function toggleReadAloud(contentType) {
+        if ('speechSynthesis' in window) {
+            if (isReading) {
+                stopReading();
+            } else {
+                let textToRead = '';
+                let lang = 'en-US';
+
+                if (contentType === 'rhyme' && currentRhyme) {
+                    textToRead = currentRhyme.lyrics;
+                    if (currentRhyme.lyrics_hi) {
+                        textToRead += ' ' + currentRhyme.lyrics_hi;
+                        lang = 'en-US'; // Use a neutral voice for combined text
+                    }
+                } else if (contentType === 'story' && currentStory) {
+                    textToRead = currentStory.content.join(' ');
+                }
+
+                if (textToRead) {
+                    startReading(textToRead, lang, contentType);
+                }
+            }
+        } else {
+            showToast("Your browser does not support the Speech Synthesis API.");
+        }
+    }
+
+    function startReading(text, lang, contentType) {
+        utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = lang;
+        utterance.rate = 1.0; // Normal speed
+        
+        utterance.onstart = () => {
+            isReading = true;
+            updateReadAloudButton(contentType === 'rhyme' ? readAloudRhymeBtn : readAloudStoryBtn);
+        };
+        
+        utterance.onend = () => {
+            isReading = false;
+            updateReadAloudButton(contentType === 'rhyme' ? readAloudRhymeBtn : readAloudStoryBtn);
+        };
+        
+        window.speechSynthesis.speak(utterance);
+    }
+    
+    function stopReading() {
+        if (isReading) {
+            window.speechSynthesis.cancel();
+            isReading = false;
+        }
+    }
+    
+    function updateReadAloudButton(btn) {
+        if (isReading) {
+            btn.innerHTML = '⏹️';
+            btn.title = 'Stop Reading';
+        } else {
+            btn.innerHTML = '🔊';
+            btn.title = 'Read Aloud';
+        }
     }
 
     // --- PLAYLIST FUNCTIONS ---
