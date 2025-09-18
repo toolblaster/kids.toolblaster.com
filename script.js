@@ -14,6 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- GLOBAL VARIABLES & STATE ---
     let allRhymes = [];
     let allStories = [];
+    let currentRhymeList = [];
     let favorites = JSON.parse(localStorage.getItem('favoriteRhymes')) || [];
     let favoriteStories = JSON.parse(localStorage.getItem('favoriteStories')) || [];
     let playlist = JSON.parse(localStorage.getItem('playlist')) || [];
@@ -219,6 +220,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- DISPLAY FUNCTIONS (RHYMES) ---
     function displayRhymeGallery(rhymesToDisplay) {
+        currentRhymeList = rhymesToDisplay;
         rhymeGrid.innerHTML = '';
         if (rhymesToDisplay.length === 0) {
             const activeButton = document.querySelector('#category-filters .category-btn.active');
@@ -307,9 +309,10 @@ document.addEventListener('DOMContentLoaded', () => {
             copyrightContainer.classList.add('hidden');
         }
         
-        const currentIndex = allRhymes.findIndex(r => r.id === rhymeId);
+        const listToUse = currentRhymeList.find(r => r.id === rhymeId) ? currentRhymeList : allRhymes;
+        const currentIndex = listToUse.findIndex(r => r.id === rhymeId);
         previousDetailRhymeBtn.disabled = currentIndex <= 0;
-        nextDetailRhymeBtn.disabled = currentIndex >= allRhymes.length - 1;
+        nextDetailRhymeBtn.disabled = currentIndex >= listToUse.length - 1;
 
         updateAddToPlaylistButton();
         updatePlaylistNav();
@@ -496,17 +499,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function showPreviousRhyme() {
         if (!currentRhyme) return;
-        const currentIndex = allRhymes.findIndex(r => r.id === currentRhyme.id);
+        const listToUse = currentRhymeList.find(r => r.id === currentRhyme.id) ? currentRhymeList : allRhymes;
+        const currentIndex = listToUse.findIndex(r => r.id === currentRhyme.id);
         if (currentIndex > 0) {
-            showRhymeDetail(allRhymes[currentIndex - 1].id);
+            showRhymeDetail(listToUse[currentIndex - 1].id);
         }
     }
 
     function showNextRhyme() {
         if (!currentRhyme) return;
-        const currentIndex = allRhymes.findIndex(r => r.id === currentRhyme.id);
-        if (currentIndex < allRhymes.length - 1) {
-            showRhymeDetail(allRhymes[currentIndex + 1].id);
+        const listToUse = currentRhymeList.find(r => r.id === currentRhyme.id) ? currentRhymeList : allRhymes;
+        const currentIndex = listToUse.findIndex(r => r.id === currentRhyme.id);
+        if (currentIndex < listToUse.length - 1) {
+            showRhymeDetail(listToUse[currentIndex + 1].id);
         }
     }
 
