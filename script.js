@@ -276,6 +276,7 @@ document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('rhyme-lyrics-hi').textContent = currentRhyme.lyrics_hi;
             hindiColumn.classList.remove('hidden');
         } else {
+            titleHiEl.textContent = ''; // Clear the Hindi title if it doesn't exist
             hindiColumn.classList.add('hidden');
         }
         
