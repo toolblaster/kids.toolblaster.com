@@ -299,7 +299,8 @@ document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('rhyme-lyrics-hi').textContent = currentRhyme.lyrics_hi;
             hindiColumn.classList.remove('hidden');
         } else {
-            titleHiEl.textContent = ''; // Clear the Hindi title if it doesn't exist
+            titleHiEl.textContent = '';
+            document.getElementById('rhyme-lyrics-hi').textContent = ''; // Clear previous Hindi lyrics
             hindiColumn.classList.add('hidden');
         }
         
