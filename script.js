@@ -320,11 +320,13 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         
         const copyrightContainer = document.getElementById('copyright-notice-container');
+        const copyrightText = document.getElementById('copyright-text');
+        copyrightContainer.classList.remove('hidden');
+        
         if (currentRhyme.isExclusive) {
-            document.getElementById('copyright-text').textContent = `Copyright © ${new Date().getFullYear()} kids.toolblaster.com. This is an Original and Exclusive Rhyme 🎶`;
-            copyrightContainer.classList.remove('hidden');
+             copyrightText.textContent = `Copyright © ${new Date().getFullYear()} kids.toolblaster.com. This is an Original and Exclusive Rhyme 🎶`;
         } else {
-            copyrightContainer.classList.add('hidden');
+            copyrightText.textContent = `This content is in the public domain.`;
         }
         
         const listToUse = currentRhymeList.find(r => r.id === rhymeId) ? currentRhymeList : allRhymes;
@@ -430,7 +432,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         document.getElementById('rotd-icon').textContent = rhyme.icon || '🎶';
         document.getElementById('rotd-title').textContent = rhyme.title;
-        document.getElementById('rotd-snippet').textContent = rhyme.lyrics.split('\\n')[0];
         document.getElementById('rotd-card').addEventListener('click', () => showRhymeDetail(rhyme.id));
     }
     
