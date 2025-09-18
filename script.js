@@ -27,6 +27,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const originalTitle = document.title;
     let utterance = null;
     let isReading = false;
+    let englishVoice = null;
+    let hindiVoice = null;
 
     // --- ELEMENT SELECTORS ---
     const loadingIndicator = document.getElementById('loading-indicator');
@@ -111,7 +113,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 fetch('short_stories.json').then(res => res.json())
             ]);
 
-            allRhymes = [...rhymesPublic, ...rhymesExclusive].sort((a, b) => a.id - b.id);
+            const currentDate = new Date();
+            const filteredExclusiveRhymes = rhymesExclusive.filter(rhyme => {
+                if (rhyme.releaseDate) {
+                    const releaseDate = new Date(rhyme.releaseDate);
+                    return releaseDate <= currentDate;
+                }
+                return true;
+            });
+
+            allRhymes = [...rhymesPublic, ...filteredExclusiveRhymes].sort((a, b) => a.id - b.id);
             allStories = stories;
             
             setTimeout(() => {
@@ -419,7 +430,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         document.getElementById('rotd-icon').textContent = rhyme.icon || '🎶';
         document.getElementById('rotd-title').textContent = rhyme.title;
-        document.getElementById('rotd-snippet').textContent = rhyme.lyrics.split('\n')[0];
+        document.getElementById('rotd-snippet').textContent = rhyme.lyrics.split('\\n')[0];
         document.getElementById('rotd-card').addEventListener('click', () => showRhymeDetail(rhyme.id));
     }
     
@@ -566,26 +577,58 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     // --- TEXT-TO-SPEECH FUNCTIONS ---
+    function getVoiceForLanguage(lang) {
+        const allVoices = window.speechSynthesis.getVoices();
+        let preferredVoice = null;
+        let fallbackVoice = null;
+
+        // A list of voice names that are generally high-quality and female for English and Hindi
+        const voicePriorities = {
+            'en-US': ['Google US English Female', 'Microsoft Zira - English (United States)', 'Google UK English Female', 'Samantha'],
+            'hi-IN': ['Google हिन्दी']
+        };
+
+        // Try to find a high-quality voice
+        if (voicePriorities[lang]) {
+            preferredVoice = allVoices.find(voice => voicePriorities[lang].includes(voice.name));
+        }
+        
+        // If a high-quality voice is not found, find any female voice for the language
+        if (!preferredVoice) {
+            fallbackVoice = allVoices.find(voice => voice.lang.startsWith(lang) && (voice.name.includes('Female') || voice.name.includes('Feminine') || voice.name.includes('Google') || voice.name.includes('Zira')));
+        }
+
+        // If still no luck, find any voice for the language
+        if (!preferredVoice && !fallbackVoice) {
+            fallbackVoice = allVoices.find(voice => voice.lang.startsWith(lang));
+        }
+        
+        return preferredVoice || fallbackVoice || null;
+    }
+
+    // Ensure voices are loaded before we can access them
+    window.speechSynthesis.onvoiceschanged = () => {
+        englishVoice = getVoiceForLanguage('en-US');
+        hindiVoice = getVoiceForLanguage('hi-IN');
+    };
+
     function toggleReadAloud(contentType) {
         if ('speechSynthesis' in window) {
             if (isReading) {
                 stopReading();
             } else {
-                let textToRead = '';
-                let lang = 'en-US';
-
                 if (contentType === 'rhyme' && currentRhyme) {
-                    textToRead = currentRhyme.lyrics;
                     if (currentRhyme.lyrics_hi) {
-                        textToRead += ' ' + currentRhyme.lyrics_hi;
-                        lang = 'en-US'; // Use a neutral voice for combined text
+                        // Handle bilingual content by speaking English then Hindi
+                        speakBilingualRhyme(currentRhyme);
+                    } else {
+                        // Single language content
+                        startReading(currentRhyme.lyrics, 'en-US', readAloudRhymeBtn);
                     }
                 } else if (contentType === 'story' && currentStory) {
-                    textToRead = currentStory.content.join(' ');
-                }
-
-                if (textToRead) {
-                    startReading(textToRead, lang, contentType);
+                    // Stories are currently only in English
+                    const textToRead = currentStory.content.join(' ');
+                    startReading(textToRead, 'en-US', readAloudStoryBtn);
                 }
             }
         } else {
@@ -593,31 +636,71 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    function startReading(text, lang, contentType) {
+    function speakBilingualRhyme(rhyme) {
+        // English part
+        const utteranceEn = new SpeechSynthesisUtterance(rhyme.lyrics);
+        utteranceEn.lang = 'en-US';
+        if (englishVoice) {
+            utteranceEn.voice = englishVoice;
+        }
+
+        // Hindi part
+        const utteranceHi = new SpeechSynthesisUtterance(rhyme.lyrics_hi);
+        utteranceHi.lang = 'hi-IN';
+        if (hindiVoice) {
+            utteranceHi.voice = hindiVoice;
+        }
+
+        utteranceEn.onend = () => {
+            // Speak Hindi part after English part is done
+            window.speechSynthesis.speak(utteranceHi);
+        };
+
+        utteranceHi.onend = () => {
+            isReading = false;
+            updateReadAloudButton(readAloudRhymeBtn);
+        };
+
+        utteranceEn.onstart = () => {
+            isReading = true;
+            updateReadAloudButton(readAloudRhymeBtn);
+        };
+
+        window.speechSynthesis.speak(utteranceEn);
+    }
+
+    function startReading(text, lang, btn) {
         utterance = new SpeechSynthesisUtterance(text);
         utterance.lang = lang;
-        utterance.rate = 1.0; // Normal speed
+        utterance.rate = 1.0;
         
+        // Set the appropriate voice based on language
+        if (lang === 'en-US' && englishVoice) {
+            utterance.voice = englishVoice;
+        } else if (lang === 'hi-IN' && hindiVoice) {
+            utterance.voice = hindiVoice;
+        }
+
         utterance.onstart = () => {
             isReading = true;
-            updateReadAloudButton(contentType === 'rhyme' ? readAloudRhymeBtn : readAloudStoryBtn);
+            updateReadAloudButton(btn);
         };
         
         utterance.onend = () => {
             isReading = false;
-            updateReadAloudButton(contentType === 'rhyme' ? readAloudRhymeBtn : readAloudStoryBtn);
+            updateReadAloudButton(btn);
         };
         
         window.speechSynthesis.speak(utterance);
     }
-    
+
     function stopReading() {
         if (isReading) {
             window.speechSynthesis.cancel();
             isReading = false;
         }
     }
-    
+
     function updateReadAloudButton(btn) {
         if (isReading) {
             btn.innerHTML = '⏹️';
@@ -694,32 +777,6 @@ document.addEventListener('DOMContentLoaded', () => {
             : `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" /></svg>`;
         addToPlaylistBtn.title = inPlaylist ? "Added to Playlist" : "Add to Playlist";
         addToPlaylistBtn.setAttribute('aria-label', inPlaylist ? "Remove from Playlist" : "Add to Playlist");
-    }
-    
-    function triggerButtonAnimation(btn) {
-        btn.classList.add('animate-pop');
-        btn.addEventListener('animationend', () => {
-            btn.classList.remove('animate-pop');
-        }, { once: true });
-    }
-
-    function handleAddToPlaylist(e) {
-        if (!currentRhyme) return;
-        triggerButtonAnimation(e.currentTarget);
-        const rhymeId = currentRhyme.id;
-        const inPlaylist = isInPlaylist(rhymeId, 'rhyme');
-
-        if (inPlaylist) {
-            playlist = playlist.filter(item => !(item.id === rhymeId && item.type === 'rhyme'));
-            showToast('Removed from playlist');
-        } else {
-            playlist.push({ type: 'rhyme', id: rhymeId });
-            showToast('Added to playlist!');
-        }
-        
-        localStorage.setItem('playlist', JSON.stringify(playlist));
-        updatePlaylistCount();
-        updateAddToPlaylistButton();
     }
     
     function handleAddToStoryPlaylist(e) {
@@ -898,7 +955,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!currentRhyme) return;
         const shareUrl = `${window.location.origin}${window.location.pathname}?rhyme=${currentRhyme.id}`;
         const shareText = `Check out this rhyme: "${currentRhyme.title}"`;
-        const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(shareText + '\n' + shareUrl)}`;
+        const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(shareText + '\\n' + shareUrl)}`;
         window.open(whatsappUrl, '_blank');
     }
     
