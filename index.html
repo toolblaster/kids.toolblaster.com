@@ -240,10 +240,16 @@
                 </div>
             </div>
             <div class="bg-white dark:bg-gray-800 p-6 md:p-8 rounded-2xl shadow-xl max-w-6xl mx-auto">
-                <div class="flex justify-center items-center relative mb-2">
-                    <div class="flex-1"></div>
-                    <h2 id="story-title" class="text-3xl md:text-5xl font-baloo text-center text-purple-600 dark:text-purple-400 flex-shrink"></h2>
-                    <div class="flex-1 flex justify-end items-center gap-2">
+                
+                <!-- UPDATED: Responsive Story Header -->
+                <div class="flex flex-col md:flex-row justify-between items-center text-center md:text-left gap-4 mb-4">
+                    <!-- Titles -->
+                    <div class="flex-grow">
+                        <h2 id="story-title" class="text-3xl md:text-5xl font-baloo text-purple-600 dark:text-purple-400"></h2>
+                        <h3 id="story-title-hi" class="text-2xl md:text-3xl font-baloo text-purple-500 dark:text-purple-300 mt-1"></h3>
+                    </div>
+                    <!-- Action Buttons -->
+                    <div class="flex items-center gap-2 flex-shrink-0">
                         <button id="read-aloud-btn-story" class="social-share-btn text-2xl" title="Read Aloud" aria-label="Read Aloud">🔊</button>
                         <button id="add-to-story-playlist-btn" class="social-share-btn" title="Add to Playlist" aria-label="Add to Playlist">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" /></svg>
@@ -251,9 +257,11 @@
                         <button id="story-favorite-btn" class="social-share-btn" title="Add to Favorites" aria-label="Add to Favorites">🤍</button>
                     </div>
                 </div>
-                <h3 id="story-title-hi" class="text-2xl md:text-3xl font-baloo text-center text-purple-500 dark:text-purple-300 mt-1"></h3>
-                <p id="story-author" class="text-center text-gray-500 dark:text-gray-400 text-lg mb-1"></p>
-                <p id="story-read-time" class="text-center text-gray-400 dark:text-gray-500 text-sm mb-8"></p>
+
+                <div class="text-center">
+                    <p id="story-author" class="text-gray-500 dark:text-gray-400 text-lg mb-1"></p>
+                    <p id="story-read-time" class="text-gray-400 dark:text-gray-500 text-sm mb-8"></p>
+                </div>
                 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 mt-4">
                     <div id="story-content-en">
