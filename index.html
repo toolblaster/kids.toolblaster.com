@@ -17,7 +17,6 @@
 
     <script>
         tailwind.config = {
-            darkMode: 'class', // Enable dark mode based on a class
             theme: {
                 extend: {
                     colors: {
@@ -29,12 +28,12 @@
         }
     </script>
 </head>
-<body class="bg-gray-50 dark:bg-brand-dark font-poppins transition-colors duration-300 no-select">
+<body class="bg-gray-50 font-poppins transition-colors duration-300 no-select">
 
     <!-- Loading Indicator -->
-    <div id="loading-indicator" class="fixed inset-0 bg-white dark:bg-brand-dark flex flex-col justify-center items-center z-[100]">
+    <div id="loading-indicator" class="fixed inset-0 bg-white flex flex-col justify-center items-center z-[100]">
         <div class="text-6xl animate-bounce">🎶</div>
-        <p class="text-xl font-semibold text-brand-dark dark:text-white mt-4">Loading Content...</p>
+        <p class="text-xl font-semibold text-brand-dark mt-4">Loading Content...</p>
     </div>
 
     <!-- Header -->
@@ -54,14 +53,6 @@
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" /></svg>
                 <span id="playlist-count" class="absolute -top-1 -right-1 bg-yellow-400 text-black text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center hidden">0</span>
             </button>
-            <button id="theme-toggle" class="p-2 rounded-full text-white hover:bg-white/20 transition-colors" aria-label="Toggle Dark Mode">
-                <svg id="theme-icon-light" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
-                </svg>
-                <svg id="theme-icon-dark" class="h-6 w-6 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
-                </svg>
-            </button>
         </div>
     </header>
 
@@ -69,19 +60,19 @@
         
         <!-- Rhyme of the Day Section -->
         <section id="rhyme-of-the-day" class="mb-8 text-center">
-            <div id="rotd-card" class="bg-gradient-to-br from-yellow-100 to-orange-200 dark:from-gray-700 dark:to-gray-800 p-4 rounded-2xl shadow-lg cursor-pointer transform hover:scale-[1.03] transition-transform duration-300 relative overflow-hidden border-2 border-yellow-300 dark:border-yellow-500">
-                <h2 class="text-2xl font-baloo text-brand-dark dark:text-white mb-2">🌟 Rhyme of the Day 🌟</h2>
+            <div id="rotd-card" class="bg-gradient-to-br from-yellow-100 to-orange-200 p-4 rounded-2xl shadow-lg cursor-pointer transform hover:scale-[1.03] transition-transform duration-300 relative overflow-hidden border-2 border-yellow-300">
+                <h2 class="text-2xl font-baloo text-brand-dark mb-2">🌟 Rhyme of the Day 🌟</h2>
                 <div class="text-4xl mb-1" id="rotd-icon"></div>
-                <h3 class="text-xl font-bold text-purple-600 dark:text-purple-400" id="rotd-title"></h3>
-                <p class="text-gray-600 dark:text-gray-400 mt-1 max-w-prose mx-auto text-sm hidden" id="rotd-snippet"></p>
+                <h3 class="text-xl font-bold text-purple-600" id="rotd-title"></h3>
+                <p class="text-gray-600 mt-1 max-w-prose mx-auto text-sm hidden" id="rotd-snippet"></p>
             </div>
         </section>
 
         <!-- Controls Section -->
         <section id="controls-section" class="mb-8">
-            <div class="section-card border border-brand-red/50 dark:border-brand-red/70 rounded-3xl shadow-lg shadow-brand-red/20 dark:shadow-brand-red/30">
-                <h3 class="text-xl font-bold text-center text-brand-dark dark:text-white mb-2 font-baloo">Explore Our Collections</h3>
-                 <p class="text-center text-gray-600 dark:text-gray-400 mb-6">Discover a world of fun with our original stories and classic rhymes.</p>
+            <div class="section-card border border-brand-red/50 rounded-3xl shadow-lg shadow-brand-red/20">
+                <h3 class="text-xl font-bold text-center text-brand-dark mb-2 font-baloo">Explore Our Collections</h3>
+                 <p class="text-center text-gray-600 mb-6">Discover a world of fun with our original stories and classic rhymes.</p>
                 
                  <div id="main-navigation" class="flex flex-col sm:flex-row justify-center gap-4 mb-6">
                     <button class="main-nav-btn category-btn active" data-category="Rhymes">🎶 Rhymes</button>
@@ -90,14 +81,14 @@
 
                 <div id="rhyme-controls">
                      <div class="mb-6 grid grid-cols-1 md:grid-cols-[1fr_auto_1fr] items-center gap-4">
-                        <input type="search" id="search-bar" placeholder="Search for any rhyme..." class="w-full p-3 border-2 border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 dark:text-white rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-brand-red focus:border-transparent transition-all">
-                        <div class="h-px w-full bg-gray-300 dark:bg-gray-600 md:h-10 md:w-px"></div>
+                        <input type="search" id="search-bar" placeholder="Search for any rhyme..." class="w-full p-3 border-2 border-gray-200 bg-white rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-brand-red focus:border-transparent transition-all">
+                        <div class="h-px w-full bg-gray-300 md:h-10 md:w-px"></div>
                         <button id="surprise-button" class="w-full bg-yellow-400 hover:bg-yellow-500 text-gray-800 font-bold py-3 px-4 rounded-lg shadow-sm transition-transform transform hover:scale-105">
                             🎲 Surprise Me!
                         </button>
                     </div>
-                    <div id="category-filters" class="p-4 bg-gray-100 dark:bg-gray-800/50 rounded-2xl border-2 border-gray-200 dark:border-gray-600">
-                         <h4 class="text-center font-bold text-gray-700 dark:text-gray-300 mb-3">Or, filter rhymes by:</h4>
+                    <div id="category-filters" class="p-4 bg-gray-100 rounded-2xl border-2 border-gray-200">
+                         <h4 class="text-center font-bold text-gray-700 mb-3">Or, filter rhymes by:</h4>
                         <div class="flex flex-wrap items-center justify-center gap-x-4 gap-y-3">
                             <button class="category-btn" data-category="Rhymes">🎶 All Rhymes</button>
                             <button class="category-btn" data-category="Favorites">❤️ Favorites</button>
@@ -113,14 +104,14 @@
                 
                 <div id="story-controls" class="hidden">
                     <div class="mb-6 grid grid-cols-1 md:grid-cols-[1fr_auto_1fr] items-center gap-4">
-                        <input type="search" id="story-search-bar" placeholder="Search for any story..." class="w-full p-3 border-2 border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 dark:text-white rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-brand-red focus:border-transparent transition-all">
-                        <div class="h-px w-full bg-gray-300 dark:bg-gray-600 md:h-10 md:w-px"></div>
+                        <input type="search" id="story-search-bar" placeholder="Search for any story..." class="w-full p-3 border-2 border-gray-200 bg-white rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-brand-red focus:border-transparent transition-all">
+                        <div class="h-px w-full bg-gray-300 md:h-10 md:w-px"></div>
                         <button id="story-surprise-button" class="w-full bg-yellow-400 hover:bg-yellow-500 text-gray-800 font-bold py-3 px-4 rounded-lg shadow-sm transition-transform transform hover:scale-105">
                             🎲 Surprise Me!
                         </button>
                     </div>
-                    <div class="p-4 bg-gray-100 dark:bg-gray-800/50 rounded-2xl border-2 border-gray-200 dark:border-gray-600">
-                         <h4 class="text-center font-bold text-gray-700 dark:text-gray-300 mb-3">Filter stories by:</h4>
+                    <div class="p-4 bg-gray-100 rounded-2xl border-2 border-gray-200">
+                         <h4 class="text-center font-bold text-gray-700 mb-3">Filter stories by:</h4>
                         <div id="story-category-filters" class="flex flex-wrap items-center justify-center gap-x-4 gap-y-3">
                             <button class="category-btn" data-category="Stories">📚 All Stories</button>
                             <button class="category-btn" data-category="StoryFavorites">❤️ Your Favorites</button>
@@ -160,16 +151,16 @@
                     </button>
                 </div>
             </div>
-            <div class="bg-white dark:bg-gray-800 p-6 md:p-8 rounded-2xl shadow-xl">
+            <div class="bg-white p-6 md:p-8 rounded-2xl shadow-xl">
                 <div class="flex justify-between items-start mb-4">
                      <div>
-                        <h2 id="rhyme-title-en" class="text-3xl md:text-4xl font-baloo text-purple-600 dark:text-purple-400"></h2>
-                        <h2 id="rhyme-title-hi" class="text-2xl md:text-3xl font-baloo text-purple-500 dark:text-purple-300 mt-1"></h2>
+                        <h2 id="rhyme-title-en" class="text-3xl md:text-4xl font-baloo text-purple-600"></h2>
+                        <h2 id="rhyme-title-hi" class="text-2xl md:text-3xl font-baloo text-purple-500 mt-1"></h2>
                         <div id="learning-focus-badge-container" class="hidden mt-3">
-                            <span id="learning-focus-badge" class="inline-block bg-teal-100 dark:bg-teal-800 text-teal-800 dark:text-teal-200 text-sm font-semibold px-3 py-1 rounded-full"></span>
+                            <span id="learning-focus-badge" class="inline-block bg-teal-100 text-teal-800 text-sm font-semibold px-3 py-1 rounded-full"></span>
                         </div>
                     </div>
-                    <div class="flex flex-col md:flex-row items-center gap-2 text-gray-500 dark:text-gray-400">
+                    <div class="flex flex-col md:flex-row items-center gap-2 text-gray-500">
                         <!-- Action Buttons -->
                         <button id="read-aloud-btn-rhyme" class="social-share-btn text-2xl" title="Read Aloud" aria-label="Read Aloud">🔊</button>
                         <button id="add-to-playlist-btn" class="social-share-btn" title="Add to Playlist" aria-label="Add to Playlist">
@@ -191,34 +182,34 @@
                 
                  <!-- Playlist Navigation -->
                 <div id="playlist-nav-buttons" class="hidden flex justify-center items-center gap-4 my-4">
-                    <button id="prev-rhyme-btn" class="bg-gray-200 dark:bg-gray-600 hover:bg-gray-300 dark:hover:bg-gray-500 text-brand-dark dark:text-white font-bold py-2 px-4 rounded-lg shadow-md transition-colors disabled:opacity-50 disabled:cursor-not-allowed">&larr; Previous</button>
-                    <span id="playlist-position" class="text-gray-600 dark:text-gray-400 font-semibold"></span>
-                    <button id="next-rhyme-btn" class="bg-gray-200 dark:bg-gray-600 hover:bg-gray-300 dark:hover:bg-gray-500 text-brand-dark dark:text-white font-bold py-2 px-4 rounded-lg shadow-md transition-colors disabled:opacity-50 disabled:cursor-not-allowed">Next &rarr;</button>
+                    <button id="prev-rhyme-btn" class="bg-gray-200 hover:bg-gray-300 text-brand-dark font-bold py-2 px-4 rounded-lg shadow-md transition-colors disabled:opacity-50 disabled:cursor-not-allowed">&larr; Previous</button>
+                    <span id="playlist-position" class="text-gray-600 font-semibold"></span>
+                    <button id="next-rhyme-btn" class="bg-gray-200 hover:bg-gray-300 text-brand-dark font-bold py-2 px-4 rounded-lg shadow-md transition-colors disabled:opacity-50 disabled:cursor-not-allowed">Next &rarr;</button>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 mt-4">
                     <div>
-                        <h3 class="text-xl font-bold text-brand-dark dark:text-white mb-2">English</h3>
-                        <pre id="rhyme-lyrics-en" class="text-lg text-brand-dark dark:text-gray-300 whitespace-pre-wrap bg-gray-50 dark:bg-gray-700 p-4 rounded-lg font-poppins"></pre>
+                        <h3 class="text-xl font-bold text-brand-dark mb-2">English</h3>
+                        <pre id="rhyme-lyrics-en" class="text-lg text-brand-dark whitespace-pre-wrap bg-gray-50 p-4 rounded-lg font-poppins"></pre>
                     </div>
                     <div id="hindi-column">
-                        <h3 class="text-xl font-bold text-brand-dark dark:text-white mb-2">हिन्दी</h3>
-                        <pre id="rhyme-lyrics-hi" class="text-lg text-brand-dark dark:text-gray-300 whitespace-pre-wrap bg-gray-50 dark:bg-gray-700 p-4 rounded-lg font-poppins"></pre>
+                        <h3 class="text-xl font-bold text-brand-dark mb-2">हिन्दी</h3>
+                        <pre id="rhyme-lyrics-hi" class="text-lg text-brand-dark whitespace-pre-wrap bg-gray-50 p-4 rounded-lg font-poppins"></pre>
                     </div>
                 </div>
                 
                 <!-- Fun Fact Section -->
                 <div id="fun-fact-container" class="mt-6 hidden">
-                    <details id="fun-fact-details" class="bg-blue-50 dark:bg-gray-700 p-4 rounded-lg cursor-pointer">
-                        <summary class="font-bold text-lg text-brand-dark dark:text-white">💡 Did You Know?</summary>
-                        <p id="fun-fact-text" class="mt-2 text-brand-dark dark:text-gray-300"></p>
+                    <details id="fun-fact-details" class="bg-blue-50 p-4 rounded-lg cursor-pointer">
+                        <summary class="font-bold text-lg text-brand-dark">💡 Did You Know?</summary>
+                        <p id="fun-fact-text" class="mt-2 text-brand-dark"></p>
                     </details>
                 </div>
 
                 <!-- Copyright Notice Container -->
                  <div id="copyright-notice-container" class="mt-6 hidden">
-                    <div class="bg-gray-100 dark:bg-gray-700 p-3 rounded-lg text-center">
-                        <p id="copyright-text" class="text-xs text-gray-600 dark:text-gray-400 font-semibold"></p>
+                    <div class="bg-gray-100 p-3 rounded-lg text-center">
+                        <p id="copyright-text" class="text-xs text-gray-600 font-semibold"></p>
                     </div>
                 </div>
             </div>
@@ -239,10 +230,10 @@
                     </button>
                 </div>
             </div>
-            <div class="bg-white dark:bg-gray-800 p-6 md:p-8 rounded-2xl shadow-xl max-w-6xl mx-auto">
+            <div class="bg-white p-6 md:p-8 rounded-2xl shadow-xl max-w-6xl mx-auto">
                 <div class="flex justify-center items-center relative mb-2">
                     <div class="flex-1"></div>
-                    <h2 id="story-title" class="text-3xl md:text-5xl font-baloo text-center text-purple-600 dark:text-purple-400 flex-shrink"></h2>
+                    <h2 id="story-title" class="text-3xl md:text-5xl font-baloo text-center text-purple-600 flex-shrink"></h2>
                     <div class="flex-1 flex justify-end items-center gap-2">
                         <button id="read-aloud-btn-story" class="social-share-btn text-2xl" title="Read Aloud" aria-label="Read Aloud">🔊</button>
                         <button id="add-to-story-playlist-btn" class="social-share-btn" title="Add to Playlist" aria-label="Add to Playlist">
@@ -251,36 +242,36 @@
                         <button id="story-favorite-btn" class="social-share-btn" title="Add to Favorites" aria-label="Add to Favorites">🤍</button>
                     </div>
                 </div>
-                <h3 id="story-title-hi" class="text-2xl md:text-3xl font-baloo text-center text-purple-500 dark:text-purple-300 mt-1"></h3>
-                <p id="story-author" class="text-center text-gray-500 dark:text-gray-400 text-lg mb-1"></p>
-                <p id="story-read-time" class="text-center text-gray-400 dark:text-gray-500 text-sm mb-8"></p>
+                <h3 id="story-title-hi" class="text-2xl md:text-3xl font-baloo text-center text-purple-500 mt-1"></h3>
+                <p id="story-author" class="text-center text-gray-500 text-lg mb-1"></p>
+                <p id="story-read-time" class="text-center text-gray-400 text-sm mb-8"></p>
                 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 mt-4">
                     <div id="story-content-en">
-                        <h3 class="text-xl font-bold text-brand-dark dark:text-white mb-2">English</h3>
-                        <div id="story-content" class="prose dark:prose-invert lg:prose-xl max-w-none space-y-6">
+                        <h3 class="text-xl font-bold text-brand-dark mb-2">English</h3>
+                        <div id="story-content" class="prose lg:prose-xl max-w-none space-y-6">
                             <!-- Story paragraphs will be injected here -->
                         </div>
                     </div>
                     <div id="story-content-hi-container" class="hidden">
-                        <h3 class="text-xl font-bold text-brand-dark dark:text-white mb-2">हिन्दी</h3>
-                        <div id="story-content-hi" class="prose dark:prose-invert lg:prose-xl max-w-none space-y-6">
+                        <h3 class="text-xl font-bold text-brand-dark mb-2">हिन्दी</h3>
+                        <div id="story-content-hi" class="prose lg:prose-xl max-w-none space-y-6">
                             <!-- Hindi story paragraphs will be injected here -->
                         </div>
                     </div>
                 </div>
 
-                <div id="story-moral-container" class="mt-10 border-t-2 border-dashed border-gray-300 dark:border-gray-600 text-center p-6 rounded-lg bg-red-50 dark:bg-red-900/40">
-                     <p class="text-lg font-bold text-brand-dark dark:text-white">Moral of the Story:</p>
-                     <p id="story-moral" class="text-lg text-gray-700 dark:text-gray-300 italic mt-2"></p>
-                     <p class="text-lg font-bold text-brand-dark dark:text-white mt-4">कहानी का सार:</p>
-                     <p id="story-moral-hi" class="text-lg text-gray-700 dark:text-gray-300 italic mt-2"></p>
+                <div id="story-moral-container" class="mt-10 border-t-2 border-dashed border-gray-300 text-center p-6 rounded-lg bg-red-50">
+                     <p class="text-lg font-bold text-brand-dark">Moral of the Story:</p>
+                     <p id="story-moral" class="text-lg text-gray-700 italic mt-2"></p>
+                     <p class="text-lg font-bold text-brand-dark mt-4">कहानी का सार:</p>
+                     <p id="story-moral-hi" class="text-lg text-gray-700 italic mt-2"></p>
                 </div>
                 
                 <!-- Copyright Notice for Stories -->
                 <div id="story-copyright-notice-container" class="mt-8 hidden">
-                    <div class="bg-gray-100 dark:bg-gray-700 p-3 rounded-lg text-center">
-                        <p id="story-copyright-text" class="text-[11px] text-gray-600 dark:text-gray-400 font-semibold"></p>
+                    <div class="bg-gray-100 p-3 rounded-lg text-center">
+                        <p id="story-copyright-text" class="text-[11px] text-gray-600 font-semibold"></p>
                     </div>
                 </div>
             </div>
@@ -290,15 +281,15 @@
 
     <!-- Playlist View (Initially Hidden) -->
     <div id="playlist-view" class="fixed inset-0 bg-black/50 z-50 hidden flex justify-center items-center p-4">
-        <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl w-full max-w-md max-h-[90vh] flex flex-col">
-            <div class="flex justify-between items-center p-4 border-b border-gray-200 dark:border-gray-700">
-                <h2 class="text-2xl font-baloo text-brand-dark dark:text-white">Your Playlist</h2>
-                <button id="close-playlist-btn" class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700" aria-label="Close Playlist">&times;</button>
+        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md max-h-[90vh] flex flex-col">
+            <div class="flex justify-between items-center p-4 border-b border-gray-200">
+                <h2 class="text-2xl font-baloo text-brand-dark">Your Playlist</h2>
+                <button id="close-playlist-btn" class="p-2 rounded-full hover:bg-gray-200" aria-label="Close Playlist">&times;</button>
             </div>
             <div id="playlist-items" class="p-4 space-y-2 overflow-y-auto">
                 <!-- Playlist items will be injected here -->
             </div>
-            <div class="p-4 border-t border-gray-200 dark:border-gray-700">
+            <div class="p-4 border-t border-gray-200">
                 <button id="clear-playlist-btn" class="w-full bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-lg shadow-md disabled:opacity-50 disabled:cursor-not-allowed">Clear Playlist</button>
             </div>
         </div>
@@ -315,13 +306,13 @@
     <div id="toast-notification"></div>
 
     <!-- Footer -->
-    <footer class="bg-gray-100 dark:bg-gray-900 mt-12 py-6 border-t-2 border-brand-red">
-        <div class="container mx-auto px-4 text-gray-700 dark:text-gray-300">
+    <footer class="bg-gray-100 mt-12 py-6 border-t-2 border-brand-red">
+        <div class="container mx-auto px-4 text-gray-700">
             <div class="flex flex-col items-center text-center">
                 <div class="mb-4">
                     <div class="text-4xl mb-1 text-brand-red">🎶</div>
-                    <p class="text-xl font-baloo text-brand-dark dark:text-white mb-1">Nursery Rhymes & Stories</p>
-                    <p class="text-sm text-gray-500 dark:text-gray-400">by kids.toolblaster.com</p>
+                    <p class="text-xl font-baloo text-brand-dark mb-1">Nursery Rhymes & Stories</p>
+                    <p class="text-sm text-gray-500">by kids.toolblaster.com</p>
                 </div>
                 <div>
                     <p class="text-sm max-w-xl">
@@ -329,7 +320,7 @@
                     </p>
                 </div>
             </div>
-            <hr class="my-4 border-gray-300 dark:border-gray-700">
+            <hr class="my-4 border-gray-300">
             <div class="text-center">
                 <p class="text-xs text-gray-500">
                     Copyright &copy; <span id="footer-year">2025</span> Kids.Toolblaster.com. All Rights Reserved.
