@@ -249,7 +249,7 @@ document.addEventListener('DOMContentLoaded', () => {
             card.innerHTML = `
                 <div class="flex-grow flex flex-col items-center justify-center">
                     <div class="text-5xl mb-2">${rhyme.icon || '🎶'}</div>
-                    <h3 class="text-lg font-bold text-brand-dark">${rhyme.title}</h3>
+                    <h3 class="text-base font-bold text-brand-dark">${rhyme.title}</h3>
                 </div>
                 <div class="absolute top-2 right-2 text-xl favorite-indicator">${isFavorite(rhyme.id) ? '❤️' : ''}</div>
             `;
@@ -355,7 +355,7 @@ document.addEventListener('DOMContentLoaded', () => {
             card.innerHTML = `
                 <div class="flex-grow flex flex-col items-center justify-center">
                     <div class="text-5xl mb-2">${story.icon || '📚'}</div>
-                    <h3 class="text-lg font-bold text-brand-dark">${story.title}</h3>
+                    <h3 class="text-base font-bold text-brand-dark">${story.title}</h3>
                     <p class="text-sm text-gray-500 mt-1">by ${story.author}</p>
                 </div>
                 <div class="absolute top-2 right-2 text-xl favorite-indicator">${isFavoriteStory(story.id) ? '❤️' : ''}</div>
