@@ -7,10 +7,10 @@
 
 @layer base {
     body {
-        font-family: 'Poppins', sans-serif !important; /* Poppins site-wide */
+        font-family: 'Poppins', sans-serif; /* Poppins site-wide */
     }
      .prose {
-        font-family: 'Poppins', sans-serif !important;
+        font-family: 'Poppins', sans-serif;
     }
 }
 
@@ -19,13 +19,13 @@
         max-width: 1150px; /* Squeezed to Maximum */
     }
     .font-baloo {
-        font-family: 'Baloo 2', cursive !important;
+        font-family: 'Baloo 2', cursive;
     }
     .font-quicksand {
-        font-family: 'Quicksand', sans-serif !important;
+        font-family: 'Quicksand', sans-serif;
     }
     .font-poppins {
-        font-family: 'Poppins', sans-serif !important;
+        font-family: 'Poppins', sans-serif;
     }
     .category-btn {
         @apply px-4 py-2 text-sm font-semibold text-brand-dark bg-gray-100 rounded-full border-2 border-transparent hover:border-brand-red hover:text-brand-red transition-colors duration-200;
@@ -59,31 +59,6 @@
         max-width: 1150px;
         margin-left: auto;
         margin-right: auto;
-    }
-
-    /* Compact Collections Card */
-    #collections-card {
-        @apply py-3; /* Squeeze vertical padding */
-    }
-    #collections-card h3 {
-        @apply mb-1;
-    }
-     #collections-card p {
-        @apply mb-4;
-    }
-
-    /* Compact Rhyme of the Day */
-    #rotd-card {
-        @apply py-0 px-2; /* Squeezed padding */
-    }
-    #rotd-card h2 {
-        @apply text-base mb-0; /* Smaller font size */
-    }
-    #rotd-card #rotd-icon {
-        @apply text-2xl my-0; /* Smaller icon size */
-    }
-    #rotd-card h3 {
-        @apply text-xs; /* Even smaller font size */
     }
 
     .story-card {
@@ -146,6 +121,75 @@
   from { opacity: 0; transform: translateY(10px); }
   to { opacity: 1; transform: translateY(0); }
 }
+
+/* UTILITY OVERRIDES */
+/* These styles are placed outside of any @layer block to ensure they have */
+/* higher precedence than Tailwind's utility classes, removing the need for !important. */
+
+/* Compact Collections Card */
+#collections-card {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+}
+#collections-card h3 {
+    font-size: 1rem;
+    margin-bottom: 0.25rem;
+}
+ #collections-card p {
+    font-size: 0.875rem;
+    margin-bottom: 1rem;
+}
+ #collections-card #main-navigation {
+    margin-bottom: 0.5rem;
+}
+
+/* More Compact Rhyme of the Day */
+#rhyme-of-the-day {
+    margin-bottom: 1rem; /* Reduced from mb-8 (2rem) */
+}
+#rotd-card {
+    padding: 0.125rem; /* Squeezed padding even more */
+}
+#rotd-card h2 {
+    font-size: 0.875rem;
+    margin-bottom: 0; /* Removed margin */
+}
+#rotd-card #rotd-icon {
+    font-size: 1.125rem; /* text-lg, further reduced */
+    margin-top: 0;
+    margin-bottom: 0; /* Removed margin */
+}
+#rotd-card h3 {
+    font-size: 0.875rem;
+    font-family: 'Quicksand', sans-serif;
+}
+
+/* Compact Filter/Search Card */
+#filter-card {
+    padding: 0.75rem;
+}
+#filter-card .grid {
+    margin-bottom: 0.75rem;
+    gap: 0.5rem;
+}
+ #filter-card input, #filter-card #surprise-button, #filter-card #story-surprise-button {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    font-size: 0.875rem;
+}
+#filter-card h4 {
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+}
+#filter-card #category-filters, #filter-card #story-category-filters {
+    padding: 0.75rem;
+}
+
+/* Rhyme Card Title Font */
+#rhyme-grid .rhyme-card h3 {
+    font-family: 'Quicksand', sans-serif;
+}
+
 
 /* Print Styles */
 @media print {
