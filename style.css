@@ -16,7 +16,7 @@
 
 @layer components {
     .container {
-        max-width: 1100px; /* Squeezed to Maximum */
+        max-width: 1150px; /* Squeezed to Maximum */
     }
     .font-baloo {
         font-family: 'Baloo 2', cursive !important;
@@ -55,6 +55,12 @@
         margin-right: auto;
     }
 
+    #rhyme-gallery, #story-gallery {
+        max-width: 1150px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
     /* Compact Collections Card */
     #collections-card {
         @apply py-3; /* Squeeze vertical padding */
@@ -68,16 +74,16 @@
 
     /* Compact Rhyme of the Day */
     #rotd-card {
-        @apply p-2;
+        @apply py-0 px-2; /* Squeezed padding */
     }
     #rotd-card h2 {
-        @apply text-lg mb-1;
+        @apply text-base mb-0; /* Smaller font size */
     }
     #rotd-card #rotd-icon {
-        @apply text-3xl mb-1;
+        @apply text-2xl my-0; /* Smaller icon size */
     }
     #rotd-card h3 {
-        @apply text-sm;
+        @apply text-xs; /* Even smaller font size */
     }
 
     .story-card {
