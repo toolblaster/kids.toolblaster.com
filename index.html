@@ -7,14 +7,11 @@
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='%23E34037'%3E%3Cpath d='M18 3a1 1 0 00-1.196-.98l-10 2A1 1 0 006 5v9.114A4.369 4.369 0 005 14c-1.657 0-3 1.343-3 3s1.343 3 3 3 3-1.343 3-3V7.82l8-1.6v5.894A4.37 4.37 0 0015 12c-1.657 0-3 1.343-3 3s1.343 3 3 3 3-1.343 3-3V3z' /%3E%3C/svg%3E">
     <script src="https://cdn.tailwindcss.com"></script>
 
-    <!-- Fonts: Poppins (site default), Baloo 2 (display), Quicksand (optional) -->
+    <!-- Fonts: Baloo 2 (site default) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700&family=Quicksand:wght@400;700&family=Poppins:wght@400;700&display=swap" rel="stylesheet">
-
-    <!-- Your CSS -->
-    <link rel="stylesheet" href="style.css">
-
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700&display=swap" rel="stylesheet">
+    
     <script>
         tailwind.config = {
             theme: {
@@ -27,8 +24,265 @@
             }
         }
     </script>
+    <style>
+        /* Updated style.css */
+
+        /* Using @apply to leverage Tailwind's theme for custom fonts and styles */
+        @tailwind base;
+        @tailwind components;
+        @tailwind utilities;
+
+        @layer base {
+            body {
+                font-family: 'Baloo 2', cursive; /* Baloo 2 site-wide */
+            }
+            .prose {
+                font-family: 'Baloo 2', cursive;
+            }
+        }
+
+        @layer components {
+            .container {
+                max-width: 1150px; /* Squeezed to Maximum */
+            }
+            .font-baloo {
+                font-family: 'Baloo 2', cursive;
+            }
+            .category-btn {
+                @apply px-4 py-2 text-sm font-semibold text-brand-dark bg-gray-100 rounded-full border-2 border-transparent hover:border-brand-red hover:text-brand-red transition-colors duration-200;
+            }
+            .category-btn.active {
+                @apply bg-red-700 text-white border-red-700;
+            }
+
+            .main-nav-btn {
+                @apply w-full sm:w-auto text-lg font-bold py-3 px-6 rounded-lg shadow-md transition-transform transform hover:scale-105 bg-white text-brand-dark border-2 border-gray-200;
+            }
+            .main-nav-btn.active {
+                @apply bg-brand-red text-white border-brand-red ring-4 ring-red-200;
+            }
+
+            .social-share-btn {
+                @apply p-2 rounded-full text-gray-600 bg-gray-100 hover:bg-gray-200 transition-colors;
+            }
+
+            .section-card {
+                @apply p-6 bg-white rounded-2xl shadow-md;
+            }
+
+            #controls-section, #rhyme-of-the-day, #story-detail {
+                max-width: 1000px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            #rhyme-gallery, #story-gallery {
+                max-width: 1150px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            .story-card {
+                @apply bg-white rounded-xl shadow-lg cursor-pointer transform hover:scale-105 transition-all duration-300 flex flex-col p-4 text-center relative;
+            }
+            
+            .no-select {
+                -webkit-touch-callout: none; /* iOS Safari */
+                -webkit-user-select: none;   /* Safari */
+                -khtml-user-select: none;    /* Konqueror HTML */
+                -moz-user-select: none;      /* Old versions of Firefox */
+                -ms-user-select: none;       /* Internet Explorer/Edge */
+                user-select: none;           /* Non-prefixed version, currently supported by Chrome, Edge, Opera and Firefox */
+            }
+        }
+
+        /* Toast Notification */
+        #toast-notification {
+            visibility: hidden;
+            min-width: 150px;
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            border-radius: 8px;
+            padding: 12px;
+            position: fixed;
+            z-index: 100;
+            left: 50%;
+            transform: translateX(-50%);
+            bottom: 30px;
+            opacity: 0;
+            transition: opacity 0.3s, bottom 0.3s;
+        }
+
+        #toast-notification.show {
+            visibility: visible;
+            opacity: 1;
+            bottom: 50px;
+        }
+
+        /* Back to Top Button Show State */
+        #back-to-top-btn.show {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+
+        /* Button Pop Animation */
+        @keyframes pop {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+        .animate-pop {
+            animation: pop 0.3s ease-in-out;
+        }
+
+        /* Fade In Animation */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* UTILITY OVERRIDES */
+        /* These styles are placed outside of any @layer block to ensure they have */
+        /* higher precedence than Tailwind's utility classes, removing the need for !important. */
+
+        /* Compact Collections Card */
+        #collections-card {
+            padding-top: 0.5rem;
+            padding-bottom: 0.5rem;
+        }
+        #collections-card h3 {
+            font-size: 1rem;
+            margin-bottom: 0.25rem;
+        }
+        #collections-card p {
+            font-size: 0.875rem;
+            margin-bottom: 1rem;
+        }
+        #collections-card #main-navigation {
+            margin-bottom: 0.5rem;
+        }
+
+        /* More Compact Rhyme of the Day */
+        #rhyme-of-the-day {
+            margin-bottom: 1rem; /* Reduced from mb-8 (2rem) */
+        }
+        #rotd-card {
+            padding: 0.125rem; /* Squeezed padding even more */
+        }
+        #rotd-card h2 {
+            font-size: 0.875rem;
+            margin-bottom: 0; /* Removed margin */
+        }
+        #rotd-card #rotd-icon {
+            font-size: 1.125rem; /* text-lg, further reduced */
+            margin-top: 0;
+            margin-bottom: 0; /* Removed margin */
+        }
+        #rotd-card h3 {
+            font-size: 0.875rem;
+            font-family: 'Baloo 2', cursive;
+        }
+
+        /* Compact Filter/Search Card */
+        #filter-card {
+            padding: 0.75rem;
+        }
+        #filter-card .grid {
+            margin-bottom: 0.75rem;
+            gap: 0.5rem;
+        }
+        #filter-card input, #filter-card #surprise-button, #filter-card #story-surprise-button {
+            padding-top: 0.5rem;
+            padding-bottom: 0.5rem;
+            font-size: 0.875rem;
+        }
+        #filter-card h4 {
+            margin-bottom: 0.5rem;
+            font-size: 1rem;
+        }
+        #filter-card #category-filters, #filter-card #story-category-filters {
+            padding: 0.75rem;
+        }
+
+        /* Rhyme Card Title Font */
+        #rhyme-grid .rhyme-card h3 {
+            font-family: 'Baloo 2', cursive;
+        }
+
+
+        /* Print Styles */
+        @media print {
+            body {
+                background-color: white;
+                color: black;
+            }
+
+            /* Printing for Rhyme Text */
+            
+            /* 1. Hide all major sections except for <main> */
+            body.printing-rhyme > header,
+            body.printing-rhyme > footer,
+            body.printing-rhyme > #playlist-view,
+            body.printing-rhyme > #back-to-top-btn,
+            body.printing-rhyme > #toast-notification {
+                display: none;
+            }
+
+            /* 2. Inside <main>, hide all sections except for the rhyme detail view */
+            body.printing-rhyme main > *:not(#rhyme-detail) {
+                display: none;
+            }
+
+            /* 3. Ensure the rhyme detail view is visible and styled for print */
+            body.printing-rhyme main {
+                padding: 0;
+            }
+            body.printing-rhyme #rhyme-detail {
+                display: block;
+                box-shadow: none;
+            }
+            body.printing-rhyme #rhyme-detail > div {
+                box-shadow: none;
+                padding: 0;
+                margin: 0;
+            }
+            
+            /* 4. Hide interactive elements within the rhyme detail view */
+            body.printing-rhyme #back-button,
+            body.printing-rhyme .social-share-btn,
+            body.printing-rhyme #playlist-nav-buttons,
+            body.printing-rhyme #fun-fact-container,
+            body.printing-rhyme #copyright-notice-container {
+                display: none;
+            }
+            
+            /* 5. Style the content for printing */
+            pre {
+                background-color: #f9f9f9;
+                border: 1px solid #ddd;
+                page-break-inside: avoid;
+            }
+            h2, h3 {
+                color: black;
+            }
+            
+            /* 6. Ensure the grid container for lyrics is visible and correctly formatted */
+            body.printing-rhyme #rhyme-detail .grid {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 2rem;
+            }
+            
+            /* 7. Ensure both English and Hindi columns are visible */
+            body.printing-rhyme #rhyme-detail #hindi-column {
+                display: block;
+            }
+        }
+    </style>
 </head>
-<body class="bg-gray-50 font-poppins transition-colors duration-300">
+<body class="bg-gray-50 font-baloo transition-colors duration-300">
 
     <!-- Loading Indicator -->
     <div id="loading-indicator" class="fixed inset-0 bg-white flex flex-col justify-center items-center z-[100]">
@@ -181,11 +435,11 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 mt-4">
                     <div>
                         <h3 class="text-xl font-bold text-brand-dark mb-2">English</h3>
-                        <pre id="rhyme-lyrics-en" class="text-lg text-brand-dark whitespace-pre-wrap bg-gray-50 p-4 rounded-lg font-poppins"></pre>
+                        <pre id="rhyme-lyrics-en" class="text-lg text-brand-dark whitespace-pre-wrap bg-gray-50 p-4 rounded-lg"></pre>
                     </div>
                     <div id="hindi-column">
                         <h3 class="text-xl font-bold text-brand-dark mb-2">हिन्दी</h3>
-                        <pre id="rhyme-lyrics-hi" class="text-lg text-brand-dark whitespace-pre-wrap bg-gray-50 p-4 rounded-lg font-poppins"></pre>
+                        <pre id="rhyme-lyrics-hi" class="text-lg text-brand-dark whitespace-pre-wrap bg-gray-50 p-4 rounded-lg"></pre>
                     </div>
                 </div>
                 
