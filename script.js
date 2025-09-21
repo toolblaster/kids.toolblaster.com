@@ -32,9 +32,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- ELEMENT SELECTORS ---
     const loadingIndicator = document.getElementById('loading-indicator');
-    const themeToggle = document.getElementById('theme-toggle');
-    const themeIconLight = document.getElementById('theme-icon-light');
-    const themeIconDark = document.getElementById('theme-icon-dark');
     const homeButton = document.getElementById('home-button');
     
     // Main Views
@@ -94,16 +91,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- INITIALIZATION ---
     function init() {
-        setupTheme();
         loadAllData();
         addEventListeners();
         updatePlaylistCount();
-    }
-
-    function setupTheme() {
-        const isDarkMode = localStorage.getItem('theme') === 'dark';
-        document.documentElement.classList.toggle('dark', isDarkMode);
-        updateThemeIcon(isDarkMode);
     }
 
     // --- DATA HANDLING ---
@@ -127,7 +117,6 @@ document.addEventListener('DOMContentLoaded', () => {
             allRhymes = [...rhymesPublic, ...filteredExclusiveRhymes].sort((a, b) => a.id - b.id);
             allStories = stories;
             
-            // Fix: Hide loading indicator only after data is fully loaded and ready to be displayed.
             handleUrlParams();
             loadingIndicator.style.display = 'none';
 
@@ -241,14 +230,14 @@ document.addEventListener('DOMContentLoaded', () => {
         rhymeGrid.innerHTML = '';
         if (rhymesToDisplay.length === 0) {
             const activeButton = document.querySelector('#category-filters .category-btn.active');
-            let emptyMessage = '<p class="text-gray-500 dark:text-gray-400 col-span-full text-center">No rhymes found.</p>';
+            let emptyMessage = '<p class="text-gray-500 col-span-full text-center">No rhymes found.</p>';
             
             if (activeButton && activeButton.dataset.category === 'Favorites') {
                 emptyMessage = `
-                    <div class="col-span-full text-center p-6 bg-gray-50 dark:bg-gray-800/50 rounded-lg">
+                    <div class="col-span-full text-center p-6 bg-gray-50 rounded-lg">
                         <div class="text-4xl mb-2">❤️</div>
-                        <h4 class="text-lg font-bold text-brand-dark dark:text-white">Your Favorites is Empty</h4>
-                        <p class="text-gray-500 dark:text-gray-400 mt-1">Click the white heart on any rhyme to add it here!</p>
+                        <h4 class="text-lg font-bold text-brand-dark">Your Favorites is Empty</h4>
+                        <p class="text-gray-500 mt-1">Click the white heart on any rhyme to add it here!</p>
                     </div>
                 `;
             }
@@ -257,12 +246,12 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         rhymesToDisplay.forEach(rhyme => {
             const card = document.createElement('div');
-            card.className = 'rhyme-card bg-white dark:bg-gray-800 rounded-xl shadow-lg cursor-pointer transform hover:scale-105 transition-all duration-300 flex flex-col p-4 text-center relative';
+            card.className = 'rhyme-card bg-white rounded-xl shadow-lg cursor-pointer transform hover:scale-105 transition-all duration-300 flex flex-col p-4 text-center relative';
             card.dataset.rhymeId = rhyme.id;
             card.innerHTML = `
                 <div class="flex-grow flex flex-col items-center justify-center">
                     <div class="text-5xl mb-2">${rhyme.icon || '🎶'}</div>
-                    <h3 class="text-lg font-bold text-brand-dark dark:text-white">${rhyme.title}</h3>
+                    <h3 class="text-lg font-bold text-brand-dark">${rhyme.title}</h3>
                 </div>
                 <div class="absolute top-2 right-2 text-xl favorite-indicator">${isFavorite(rhyme.id) ? '❤️' : ''}</div>
             `;
@@ -347,14 +336,14 @@ document.addEventListener('DOMContentLoaded', () => {
         storyGrid.innerHTML = '';
         if (storiesToDisplay.length === 0) {
             const activeButton = document.querySelector('#story-category-filters .category-btn.active');
-            let emptyMessage = '<p class="text-gray-500 dark:text-gray-400 col-span-full text-center">No stories found.</p>';
+            let emptyMessage = '<p class="text-gray-500 col-span-full text-center">No stories found.</p>';
 
             if (activeButton && activeButton.dataset.category === 'StoryFavorites') {
                  emptyMessage = `
-                    <div class="col-span-full text-center p-6 bg-gray-50 dark:bg-gray-800/50 rounded-lg">
+                    <div class="col-span-full text-center p-6 bg-gray-50 rounded-lg">
                         <div class="text-4xl mb-2">❤️</div>
-                        <h4 class="text-lg font-bold text-brand-dark dark:text-white">Your Favorite Stories is Empty</h4>
-                        <p class="text-gray-500 dark:text-gray-400 mt-1">Click the white heart on any story to add it here!</p>
+                        <h4 class="text-lg font-bold text-brand-dark">Your Favorite Stories is Empty</h4>
+                        <p class="text-gray-500 mt-1">Click the white heart on any story to add it here!</p>
                     </div>
                 `;
             }
@@ -363,13 +352,13 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         storiesToDisplay.forEach(story => {
             const card = document.createElement('div');
-            card.className = 'rhyme-card bg-white dark:bg-gray-800 rounded-xl shadow-lg cursor-pointer transform hover:scale-105 transition-all duration-300 flex flex-col p-4 text-center relative';
+            card.className = 'rhyme-card bg-white rounded-xl shadow-lg cursor-pointer transform hover:scale-105 transition-all duration-300 flex flex-col p-4 text-center relative';
             card.dataset.storyId = story.id;
             card.innerHTML = `
                 <div class="flex-grow flex flex-col items-center justify-center">
                     <div class="text-5xl mb-2">${story.icon || '📚'}</div>
-                    <h3 class="text-lg font-bold text-brand-dark dark:text-white">${story.title}</h3>
-                    <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">by ${story.author}</p>
+                    <h3 class="text-lg font-bold text-brand-dark">${story.title}</h3>
+                    <p class="text-sm text-gray-500 mt-1">by ${story.author}</p>
                 </div>
                 <div class="absolute top-2 right-2 text-xl favorite-indicator">${isFavoriteStory(story.id) ? '❤️' : ''}</div>
             `;
@@ -476,7 +465,6 @@ document.addEventListener('DOMContentLoaded', () => {
         nextDetailRhymeBtn.addEventListener('click', showNextRhyme);
         previousDetailStoryBtn.addEventListener('click', showPreviousStory);
         nextDetailStoryBtn.addEventListener('click', showNextStory);
-        themeToggle.addEventListener('click', toggleTheme);
         favoriteBtn.addEventListener('click', handleFavoriteClick);
         printBtn.addEventListener('click', handlePrint);
         shareWhatsappBtn.addEventListener('click', handleShare);
@@ -601,17 +589,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if (currentIndex < allStories.length - 1) {
             showStoryDetail(allStories[currentIndex + 1].id);
         }
-    }
-
-    function toggleTheme() {
-        const isDark = document.documentElement.classList.toggle('dark');
-        localStorage.setItem('theme', isDark ? 'dark' : 'light');
-        updateThemeIcon(isDark);
-    }
-    
-    function updateThemeIcon(isDark) {
-        themeIconLight.classList.toggle('hidden', isDark);
-        themeIconDark.classList.toggle('hidden', !isDark);
     }
     
     // --- TOAST NOTIFICATION ---
@@ -807,7 +784,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function displayPlaylist() {
         playlistItemsContainer.innerHTML = '';
         if (playlist.length === 0) {
-            playlistItemsContainer.innerHTML = `<p class="text-center text-gray-500 dark:text-gray-400">Your playlist is empty.</p>`;
+            playlistItemsContainer.innerHTML = `<p class="text-center text-gray-500">Your playlist is empty.</p>`;
             clearPlaylistBtn.disabled = true;
             return;
         }
@@ -816,7 +793,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         playlist.forEach((item) => {
             const itemEl = document.createElement('div');
-            itemEl.className = 'flex items-center justify-between p-2 rounded-lg bg-gray-50 dark:bg-gray-700';
+            itemEl.className = 'flex items-center justify-between p-2 rounded-lg bg-gray-50';
 
             let details;
             let icon;
@@ -833,9 +810,9 @@ document.addEventListener('DOMContentLoaded', () => {
             itemEl.innerHTML = `
                 <div class="flex items-center gap-3 cursor-pointer flex-grow" data-item-id="${details.id}" data-item-type="${item.type}" data-action="play">
                     <span class="text-2xl">${icon}</span>
-                    <span class="font-semibold text-brand-dark dark:text-white">${details.title}</span>
+                    <span class="font-semibold text-brand-dark">${details.title}</span>
                 </div>
-                <button class="p-2 rounded-full hover:bg-red-100 dark:hover:bg-red-800 text-red-500" data-item-id="${details.id}" data-item-type="${item.type}" data-action="remove" aria-label="Remove ${details.title} from playlist" title="Remove from playlist">
+                <button class="p-2 rounded-full hover:bg-red-100 text-red-500" data-item-id="${details.id}" data-item-type="${item.type}" data-action="remove" aria-label="Remove ${details.title} from playlist" title="Remove from playlist">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 pointer-events-none" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" /></svg>
                 </button>
             `;
