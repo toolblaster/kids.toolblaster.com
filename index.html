@@ -28,7 +28,7 @@
         }
     </script>
 </head>
-<body class="bg-gray-50 font-poppins transition-colors duration-300 no-select">
+<body class="bg-gray-50 font-poppins transition-colors duration-300">
 
     <!-- Loading Indicator -->
     <div id="loading-indicator" class="fixed inset-0 bg-white flex flex-col justify-center items-center z-[100]">
@@ -70,15 +70,17 @@
 
         <!-- Controls Section -->
         <section id="controls-section" class="mb-8">
-            <div class="section-card border border-brand-red/50 rounded-3xl shadow-lg shadow-brand-red/20">
+            <div class="section-card border border-brand-red/50 rounded-3xl shadow-lg shadow-brand-red/20 mb-8">
                 <h3 class="text-xl font-bold text-center text-brand-dark mb-2 font-baloo">Explore Our Collections</h3>
                  <p class="text-center text-gray-600 mb-6">Discover a world of fun with our original stories and classic rhymes.</p>
                 
-                 <div id="main-navigation" class="flex flex-col sm:flex-row justify-center gap-4 mb-6">
+                 <div id="main-navigation" class="flex flex-col sm:flex-row justify-center gap-4">
                     <button class="main-nav-btn category-btn active" data-category="Rhymes">🎶 Rhymes</button>
                     <button class="main-nav-btn category-btn" data-category="Stories">📚 Short Stories</button>
                 </div>
+            </div>
 
+            <div class="section-card border border-gray-200 rounded-3xl">
                 <div id="rhyme-controls">
                      <div class="mb-6 grid grid-cols-1 md:grid-cols-[1fr_auto_1fr] items-center gap-4">
                         <input type="search" id="search-bar" placeholder="Search for any rhyme..." class="w-full p-3 border-2 border-gray-200 bg-white rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-brand-red focus:border-transparent transition-all">
@@ -118,7 +120,6 @@
                         </div>
                     </div>
                 </div>
-
             </div>
         </section>
 
