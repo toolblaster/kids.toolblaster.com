@@ -485,17 +485,6 @@ document.addEventListener('DOMContentLoaded', () => {
         // Back to Top Listeners
         window.addEventListener('scroll', handleScroll);
         backToTopBtn.addEventListener('click', scrollToTop);
-
-        // Prevent content copying
-        document.addEventListener('contextmenu', event => {
-            event.preventDefault();
-            showToast('Right-clicking is disabled to protect content.');
-        });
-
-        document.addEventListener('copy', event => {
-            event.preventDefault();
-            showToast('Copying content is disabled.');
-        });
     }
     
     function handleSearchInput() {
