@@ -59,8 +59,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // Rhyme Detail Elements
     const backButton = document.getElementById('back-button');
     const favoriteBtn = document.getElementById('favorite-btn');
-    const printBtn = document.getElementById('print-btn');
-    const shareWhatsappBtn = document.getElementById('share-whatsapp');
     const previousDetailRhymeBtn = document.getElementById('previous-detail-rhyme-btn');
     const nextDetailRhymeBtn = document.getElementById('next-detail-rhyme-btn');
     const readAloudRhymeBtn = document.getElementById('read-aloud-btn-rhyme');
@@ -466,8 +464,6 @@ document.addEventListener('DOMContentLoaded', () => {
         previousDetailStoryBtn.addEventListener('click', showPreviousStory);
         nextDetailStoryBtn.addEventListener('click', showNextStory);
         favoriteBtn.addEventListener('click', handleFavoriteClick);
-        printBtn.addEventListener('click', handlePrint);
-        shareWhatsappBtn.addEventListener('click', handleShare);
         
         // Story buttons
         storyFavoriteBtn.addEventListener('click', handleFavoriteStoryClick);
@@ -1024,20 +1020,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // --- UTILITY FUNCTIONS ---
-    function handlePrint() {
-        document.body.classList.add('printing-rhyme');
-        window.print();
-        document.body.classList.remove('printing-rhyme');
-    }
-
-    function handleShare() {
-        if (!currentRhyme) return;
-        const shareUrl = `${window.location.origin}${window.location.pathname}?rhyme=${currentRhyme.id}`;
-        const shareText = `Check out this rhyme: "${currentRhyme.title}"`;
-        const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(shareText + '\\n' + shareUrl)}`;
-        window.open(whatsappUrl, '_blank');
-    }
-    
     function handleScroll() {
         backToTopBtn.classList.toggle('show', window.scrollY > 300);
     }
