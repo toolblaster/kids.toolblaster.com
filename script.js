@@ -1,1035 +1,325 @@
-/**
- * =================================================================
- * COPYRIGHT & CONTENT POLICY
- * =================================================================
- * This website uses nursery rhyme text that is in the public domain.
- * Original stories are exclusive content.
- *
- * DO NOT ADD any content that may be copyrighted.
- * =================================================================
- */
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kids Rhymes & Stories - Toolblaster</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='%23E34037'%3E%3Cpath d='M18 3a1 1 0 00-1.196-.98l-10 2A1 1 0 006 5v9.114A4.369 4.369 0 005 14c-1.657 0-3 1.343-3 3s1.343 3 3 3 3-1.343 3-3V7.82l8-1.6v5.894A4.37 4.37 0 0015 12c-1.657 0-3 1.343-3 3s1.343 3 3 3 3-1.343 3-3V3z' /%3E%3C/svg%3E">
+    <script src="https://cdn.tailwindcss.com"></script>
 
-document.addEventListener('DOMContentLoaded', () => {
+    <!-- Fonts: Poppins (site default), Baloo 2 (display), Quicksand (optional) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700&family=Quicksand:wght@400;700&family=Poppins:wght@400;700&display=swap" rel="stylesheet">
 
-    // --- GLOBAL VARIABLES & STATE ---
-    let allRhymes = [];
-    let allStories = [];
-    let currentRhymeList = [];
-    let favorites = JSON.parse(localStorage.getItem('favoriteRhymes')) || [];
-    let favoriteStories = JSON.parse(localStorage.getItem('favoriteStories')) || [];
-    let playlist = JSON.parse(localStorage.getItem('playlist')) || [];
-    
-    let currentRhyme = null;
-    let currentStory = null;
+    <!-- Your CSS -->
+    <link rel="stylesheet" href="style.css">
 
-    let isPlaylistMode = false;
-    let currentPlaylistIndex = -1;
-    const originalTitle = document.title;
-    let utterance = null;
-    let isReading = false;
-    let englishVoice = null;
-    let hindiVoice = null;
-
-    // --- ELEMENT SELECTORS ---
-    const loadingIndicator = document.getElementById('loading-indicator');
-    const homeButton = document.getElementById('home-button');
-    
-    // Main Views
-    const rhymeGalleryView = document.getElementById('rhyme-gallery');
-    const storyGalleryView = document.getElementById('story-gallery');
-    const rhymeDetailView = document.getElementById('rhyme-detail');
-    const storyDetailView = document.getElementById('story-detail');
-
-    // Grids & Content Holders
-    const rhymeGrid = document.getElementById('rhyme-grid');
-    const storyGrid = document.getElementById('story-grid');
-
-    // Controls
-    const controlsSection = document.getElementById('controls-section');
-    const rhymeControls = document.getElementById('rhyme-controls');
-    const storyControls = document.getElementById('story-controls');
-    const searchBar = document.getElementById('search-bar');
-    const storySearchBar = document.getElementById('story-search-bar');
-    const categoryFilters = document.getElementById('category-filters');
-    const storyCategoryFilters = document.getElementById('story-category-filters');
-    const surpriseButton = document.getElementById('surprise-button');
-    const storySurpriseButton = document.getElementById('story-surprise-button');
-    const backToTopBtn = document.getElementById('back-to-top-btn');
-
-    // Rhyme Detail Elements
-    const backButton = document.getElementById('back-button');
-    const favoriteBtn = document.getElementById('favorite-btn');
-    const previousDetailRhymeBtn = document.getElementById('previous-detail-rhyme-btn');
-    const nextDetailRhymeBtn = document.getElementById('next-detail-rhyme-btn');
-    const readAloudRhymeBtn = document.getElementById('read-aloud-btn-rhyme');
-
-    // Story Detail Elements
-    const storyBackButton = document.getElementById('story-back-button');
-    const storyFavoriteBtn = document.getElementById('story-favorite-btn');
-    const addToStoryPlaylistBtn = document.getElementById('add-to-story-playlist-btn');
-    const previousDetailStoryBtn = document.getElementById('previous-detail-story-btn');
-    const nextDetailStoryBtn = document.getElementById('next-detail-story-btn');
-    const readAloudStoryBtn = document.getElementById('read-aloud-btn-story');
-
-    // Playlist Elements
-    const playlistToggleBtn = document.getElementById('playlist-toggle-btn');
-    const playlistView = document.getElementById('playlist-view');
-    const closePlaylistBtn = document.getElementById('close-playlist-btn');
-    const playlistItemsContainer = document.getElementById('playlist-items');
-    const clearPlaylistBtn = document.getElementById('clear-playlist-btn');
-    const playlistCountEl = document.getElementById('playlist-count');
-    const addToPlaylistBtn = document.getElementById('add-to-playlist-btn');
-    const playlistNavButtons = document.getElementById('playlist-nav-buttons');
-    const prevRhymeBtn = document.getElementById('prev-rhyme-btn');
-    const nextRhymeBtn = document.getElementById('next-rhyme-btn');
-    const playlistPositionEl = document.getElementById('playlist-position');
-    
-    // Toast Notification
-    const toastNotification = document.getElementById('toast-notification');
-
-    // --- INITIALIZATION ---
-    function init() {
-        loadAllData();
-        addEventListeners();
-        updatePlaylistCount();
-    }
-
-    // --- DATA HANDLING ---
-    async function loadAllData() {
-        try {
-            const [rhymesPublic, rhymesExclusive, stories] = await Promise.all([
-                fetch('public_rhymes.json').then(res => res.json()),
-                fetch('exclusive_rhymes.json').then(res => res.json()),
-                fetch('short_stories.json').then(res => res.json())
-            ]);
-
-            const currentDate = new Date();
-            const filteredExclusiveRhymes = rhymesExclusive.filter(rhyme => {
-                if (rhyme.releaseDate) {
-                    const releaseDate = new Date(rhyme.releaseDate);
-                    return releaseDate <= currentDate;
-                }
-                return true;
-            });
-
-            allRhymes = [...rhymesPublic, ...filteredExclusiveRhymes].sort((a, b) => a.id - b.id);
-            allStories = stories;
-            
-            handleUrlParams();
-            loadingIndicator.style.display = 'none';
-
-        } catch (error) {
-            console.error("Could not fetch data:", error);
-            loadingIndicator.innerHTML = '<p class="text-red-500 text-center">Sorry, could not load content. Please try refreshing the page.</p>';
-        }
-    }
-
-    // --- URL & NAVIGATION HANDLING ---
-    function handleUrlParams() {
-        const urlParams = new URLSearchParams(window.location.search);
-        const rhymeId = urlParams.get('rhyme');
-        const storyId = urlParams.get('story');
-        const category = urlParams.get('category');
-
-        if (rhymeId) {
-            showRhymeDetail(parseInt(rhymeId));
-        } else if (storyId) {
-            showStoryDetail(parseInt(storyId));
-        } else if (category) {
-            updateActiveCategoryButton(category);
-            showMainView(category);
-        } else {
-            // Default view
-            showMainView('Rhymes');
-            displayRhymeOfTheDay();
-        }
-    }
-    
-    function updateUrl(params) {
-        const url = new URL(window.location);
-        url.search = ''; // Clear existing params
-        for (const key in params) {
-            if (params[key]) {
-                url.searchParams.set(key, params[key]);
-            }
-        }
-        window.history.pushState({}, '', url);
-    }
-
-    // --- VIEW MANAGEMENT ---
-    function hideAllViews() {
-        rhymeGalleryView.classList.add('hidden');
-        storyGalleryView.classList.add('hidden');
-        rhymeDetailView.classList.add('hidden');
-        storyDetailView.classList.add('hidden');
-        document.getElementById('rhyme-of-the-day').classList.add('hidden');
-        controlsSection.classList.add('hidden');
-        rhymeControls.classList.add('hidden');
-        storyControls.classList.add('hidden');
-        stopReading();
-    }
-
-    function showMainView(viewName) {
-        hideAllViews();
-        controlsSection.classList.remove('hidden');
-
-        if (viewName === 'Stories' || viewName === 'StoryFavorites') {
-            storyGalleryView.classList.remove('hidden');
-            storyControls.classList.remove('hidden');
-            
-            let storiesToDisplay;
-            if (viewName === 'StoryFavorites') {
-                storiesToDisplay = allStories.filter(s => isFavoriteStory(s.id));
-            } else { // 'Stories'
-                storiesToDisplay = allStories;
-            }
-            displayStoryGallery(storiesToDisplay);
-        } else { // Rhymes and all its categories
-            rhymeGalleryView.classList.remove('hidden');
-            rhymeControls.classList.remove('hidden');
-            document.getElementById('rhyme-of-the-day').classList.remove('hidden');
-            
-            let rhymesToDisplay;
-            if (viewName === 'Favorites') {
-                rhymesToDisplay = allRhymes.filter(r => isFavorite(r.id));
-            } else if (viewName === 'New') {
-                rhymesToDisplay = allRhymes.filter(r => r.isExclusive);
-            } else if (viewName === 'Lullaby') { // Tag-based filter
-                rhymesToDisplay = allRhymes.filter(r => r.tags && r.tags.includes('lullaby'));
-            } else if (['Animal', 'Learning', 'Classic', 'Indian'].includes(viewName)) { // Category-based filters
-                rhymesToDisplay = allRhymes.filter(r => r.category === viewName);
-            } else { // Default to 'Rhymes' (which means all)
-                rhymesToDisplay = allRhymes;
-            }
-            
-            displayRhymeGallery(rhymesToDisplay);
-            displayRhymeOfTheDay();
-        }
-    }
-
-    function goHome() {
-        searchBar.value = '';
-        storySearchBar.value = '';
-        updateActiveCategoryButton('Rhymes');
-        showMainView('Rhymes');
-        updateUrl({ category: 'Rhymes' });
-    }
-
-    function goBackToGallery() {
-        document.title = originalTitle;
-        const activeCategory = document.querySelector('.main-nav-btn.active').dataset.category || 'Rhymes';
-        showMainView(activeCategory);
-        updateUrl({ category: activeCategory });
-    }
-
-    // --- DISPLAY FUNCTIONS (RHYMES) ---
-    function displayRhymeGallery(rhymesToDisplay) {
-        currentRhymeList = rhymesToDisplay;
-        rhymeGrid.innerHTML = '';
-        if (rhymesToDisplay.length === 0) {
-            const activeButton = document.querySelector('#category-filters .category-btn.active');
-            let emptyMessage = '<p class="text-gray-500 col-span-full text-center">No rhymes found.</p>';
-            
-            if (activeButton && activeButton.dataset.category === 'Favorites') {
-                emptyMessage = `
-                    <div class="col-span-full text-center p-6 bg-gray-50 rounded-lg">
-                        <div class="text-4xl mb-2">❤️</div>
-                        <h4 class="text-lg font-bold text-brand-dark">Your Favorites is Empty</h4>
-                        <p class="text-gray-500 mt-1">Click the white heart on any rhyme to add it here!</p>
-                    </div>
-                `;
-            }
-            rhymeGrid.innerHTML = emptyMessage;
-            return;
-        }
-        rhymesToDisplay.forEach(rhyme => {
-            const card = document.createElement('div');
-            card.className = 'rhyme-card bg-white rounded-xl shadow-lg cursor-pointer transform hover:scale-105 transition-all duration-300 flex flex-col p-4 text-center relative';
-            card.dataset.rhymeId = rhyme.id;
-            card.innerHTML = `
-                <div class="flex-grow flex flex-col items-center justify-center">
-                    <div class="text-5xl mb-2">${rhyme.icon || '🎶'}</div>
-                    <h3 class="text-sm font-bold text-brand-dark">${rhyme.title}</h3>
-                </div>
-                <div class="absolute top-2 right-2 text-xl favorite-indicator">${isFavorite(rhyme.id) ? '❤️' : ''}</div>
-            `;
-            card.addEventListener('click', () => showRhymeDetail(rhyme.id));
-            rhymeGrid.appendChild(card);
-        });
-    }
-
-    function showRhymeDetail(rhymeId, fromPlaylist = false, playlistIndex = -1) {
-        currentRhyme = allRhymes.find(r => r.id === rhymeId);
-        if (!currentRhyme) return;
-
-        hideAllViews();
-        rhymeDetailView.classList.remove('hidden');
-        document.title = `${currentRhyme.title} - Kids Rhymes`;
-        updateUrl({ rhyme: rhymeId });
-        
-        stopReading();
-        updateReadAloudButton(readAloudRhymeBtn);
-
-        isPlaylistMode = fromPlaylist;
-        if (isPlaylistMode) {
-            currentPlaylistIndex = playlistIndex;
-        }
-
-        document.getElementById('rhyme-title-en').textContent = currentRhyme.title;
-        document.getElementById('rhyme-lyrics-en').textContent = currentRhyme.lyrics;
-        
-        const titleHiEl = document.getElementById('rhyme-title-hi');
-        const hindiColumn = document.getElementById('hindi-column');
-        if (currentRhyme.title_hi && currentRhyme.lyrics_hi) {
-            titleHiEl.textContent = currentRhyme.title_hi;
-            document.getElementById('rhyme-lyrics-hi').textContent = currentRhyme.lyrics_hi;
-            hindiColumn.classList.remove('hidden');
-        } else {
-            titleHiEl.textContent = '';
-            document.getElementById('rhyme-lyrics-hi').textContent = ''; // Clear previous Hindi lyrics
-            hindiColumn.classList.add('hidden');
-        }
-        
-        const learningFocusContainer = document.getElementById('learning-focus-badge-container');
-        if (currentRhyme.learningFocus) {
-            document.getElementById('learning-focus-badge').textContent = `Focus: ${currentRhyme.learningFocus}`;
-            learningFocusContainer.classList.remove('hidden');
-        } else {
-            learningFocusContainer.classList.add('hidden');
-        }
-
-        favoriteBtn.textContent = isFavorite(rhymeId) ? '❤️' : '🤍';
-        favoriteBtn.setAttribute('data-id', rhymeId);
-
-        const funFactContainer = document.getElementById('fun-fact-container');
-        if (currentRhyme.funFact) {
-            document.getElementById('fun-fact-text').textContent = currentRhyme.funFact;
-            funFactContainer.classList.remove('hidden');
-        } else {
-            funFactContainer.classList.add('hidden');
-        }
-        
-        const copyrightContainer = document.getElementById('copyright-notice-container');
-        const copyrightText = document.getElementById('copyright-text');
-        copyrightContainer.classList.remove('hidden');
-        
-        if (currentRhyme.isExclusive) {
-             copyrightText.textContent = `Copyright © ${new Date().getFullYear()} kids.toolblaster.com. This is an Original and Exclusive Rhyme 🎶`;
-        } else {
-            copyrightText.textContent = `This content is in the public domain.`;
-        }
-        
-        const listToUse = currentRhymeList.find(r => r.id === rhymeId) ? currentRhymeList : allRhymes;
-        const currentIndex = listToUse.findIndex(r => r.id === rhymeId);
-        previousDetailRhymeBtn.disabled = currentIndex <= 0;
-        nextDetailRhymeBtn.disabled = currentIndex >= listToUse.length - 1;
-
-        updateAddToPlaylistButton();
-        updatePlaylistNav();
-        window.scrollTo(0, 0);
-    }
-    
-    // --- DISPLAY FUNCTIONS (STORIES) ---
-    function displayStoryGallery(storiesToDisplay) {
-        storyGrid.innerHTML = '';
-        if (storiesToDisplay.length === 0) {
-            const activeButton = document.querySelector('#story-category-filters .category-btn.active');
-            let emptyMessage = '<p class="text-gray-500 col-span-full text-center">No stories found.</p>';
-
-            if (activeButton && activeButton.dataset.category === 'StoryFavorites') {
-                 emptyMessage = `
-                    <div class="col-span-full text-center p-6 bg-gray-50 rounded-lg">
-                        <div class="text-4xl mb-2">❤️</div>
-                        <h4 class="text-lg font-bold text-brand-dark">Your Favorite Stories is Empty</h4>
-                        <p class="text-gray-500 mt-1">Click the white heart on any story to add it here!</p>
-                    </div>
-                `;
-            }
-             storyGrid.innerHTML = emptyMessage;
-            return;
-        }
-        storiesToDisplay.forEach(story => {
-            const card = document.createElement('div');
-            card.className = 'rhyme-card bg-white rounded-xl shadow-lg cursor-pointer transform hover:scale-105 transition-all duration-300 flex flex-col p-4 text-center relative';
-            card.dataset.storyId = story.id;
-            card.innerHTML = `
-                <div class="flex-grow flex flex-col items-center justify-center">
-                    <div class="text-5xl mb-2">${story.icon || '📚'}</div>
-                    <h3 class="text-sm font-bold text-brand-dark">${story.title}</h3>
-                    <p class="text-sm text-gray-500 mt-1">by ${story.author}</p>
-                </div>
-                <div class="absolute top-2 right-2 text-xl favorite-indicator">${isFavoriteStory(story.id) ? '❤️' : ''}</div>
-            `;
-            card.addEventListener('click', () => showStoryDetail(story.id));
-            storyGrid.appendChild(card);
-        });
-    }
-
-    function showStoryDetail(storyId) {
-        currentStory = allStories.find(s => s.id === storyId);
-        if (!currentStory) return;
-
-        hideAllViews();
-        storyDetailView.classList.remove('hidden');
-        document.title = `${currentStory.title} - Kids Stories`;
-        updateUrl({ story: storyId });
-        
-        stopReading();
-        updateReadAloudButton(readAloudStoryBtn);
-
-        document.getElementById('story-title').textContent = currentStory.title;
-        document.getElementById('story-author').textContent = `by ${currentStory.author}`;
-        document.getElementById('story-read-time').textContent = currentStory.readTime;
-        
-        const storyContentEl = document.getElementById('story-content');
-        storyContentEl.innerHTML = '';
-        currentStory.content.forEach(paragraph => {
-            const p = document.createElement('p');
-            p.textContent = paragraph.trim();
-            storyContentEl.appendChild(p);
-        });
-
-        const storyTitleHiEl = document.getElementById('story-title-hi');
-        const storyContentHiContainer = document.getElementById('story-content-hi-container');
-        const storyContentHiEl = document.getElementById('story-content-hi');
-        
-        if (currentStory.title_hi && currentStory.content_hi) {
-            storyTitleHiEl.textContent = currentStory.title_hi;
-            storyContentHiEl.innerHTML = '';
-            currentStory.content_hi.forEach(paragraph => {
-                const p = document.createElement('p');
-                p.textContent = paragraph.trim();
-                storyContentHiEl.appendChild(p);
-            });
-            storyContentHiContainer.classList.remove('hidden');
-        } else {
-            storyTitleHiEl.textContent = '';
-            storyContentHiContainer.classList.add('hidden');
-        }
-
-        const moralContainer = document.getElementById('story-moral-container');
-        if (currentStory.moral) {
-            document.getElementById('story-moral').textContent = currentStory.moral;
-            const storyMoralHiEl = document.getElementById('story-moral-hi');
-            if (currentStory.moral_hi) {
-                storyMoralHiEl.textContent = currentStory.moral_hi;
-                storyMoralHiEl.parentElement.classList.remove('hidden');
-            } else {
-                storyMoralHiEl.textContent = '';
-                storyMoralHiEl.parentElement.classList.add('hidden');
-            }
-            moralContainer.classList.remove('hidden');
-        } else {
-            moralContainer.classList.add('hidden');
-        }
-
-        const storyCopyrightContainer = document.getElementById('story-copyright-notice-container');
-        const storyCopyrightText = document.getElementById('story-copyright-text');
-        storyCopyrightText.textContent = `Copyright © ${new Date().getFullYear()} kids.toolblaster.com. This is an Original and Exclusive Story 📚`;
-        storyCopyrightContainer.classList.remove('hidden');
-        
-        const currentIndex = allStories.findIndex(s => s.id === currentStory.id);
-        previousDetailStoryBtn.disabled = currentIndex <= 0;
-        nextDetailStoryBtn.disabled = currentIndex >= allStories.length - 1;
-
-        storyFavoriteBtn.textContent = isFavoriteStory(storyId) ? '❤️' : '🤍';
-        updateAddToStoryPlaylistButton();
-        window.scrollTo(0, 0);
-    }
-
-    function displayRhymeOfTheDay() {
-        const dayOfYear = Math.floor((new Date() - new Date(new Date().getFullYear(), 0, 0)) / (1000 * 60 * 60 * 24));
-        const rhyme = allRhymes[dayOfYear % allRhymes.length];
-        if (!rhyme) return;
-
-        document.getElementById('rotd-icon').textContent = rhyme.icon || '🎶';
-        document.getElementById('rotd-title').textContent = rhyme.title;
-        document.getElementById('rotd-card').addEventListener('click', () => showRhymeDetail(rhyme.id));
-    }
-    
-    // --- EVENT HANDLING & LOGIC ---
-    function addEventListeners() {
-        homeButton.addEventListener('click', goHome);
-        backButton.addEventListener('click', goBackToGallery);
-        storyBackButton.addEventListener('click', goBackToGallery);
-        searchBar.addEventListener('input', handleSearchInput);
-        storySearchBar.addEventListener('input', handleStorySearchInput);
-        document.getElementById('main-navigation').addEventListener('click', handleCategoryClick);
-        categoryFilters.addEventListener('click', handleCategoryClick);
-        storyCategoryFilters.addEventListener('click', handleCategoryClick);
-        surpriseButton.addEventListener('click', showRandomRhyme);
-        storySurpriseButton.addEventListener('click', showRandomStory);
-        previousDetailRhymeBtn.addEventListener('click', showPreviousRhyme);
-        nextDetailRhymeBtn.addEventListener('click', showNextRhyme);
-        previousDetailStoryBtn.addEventListener('click', showPreviousStory);
-        nextDetailStoryBtn.addEventListener('click', showNextStory);
-        favoriteBtn.addEventListener('click', handleFavoriteClick);
-        
-        // Story buttons
-        storyFavoriteBtn.addEventListener('click', handleFavoriteStoryClick);
-        addToStoryPlaylistBtn.addEventListener('click', handleAddToStoryPlaylist);
-
-        // Read Aloud buttons
-        readAloudRhymeBtn.addEventListener('click', () => toggleReadAloud('rhyme'));
-        readAloudStoryBtn.addEventListener('click', () => toggleReadAloud('story'));
-
-        // Playlist listeners
-        playlistToggleBtn.addEventListener('click', togglePlaylistView);
-        closePlaylistBtn.addEventListener('click', togglePlaylistView);
-        addToPlaylistBtn.addEventListener('click', handleAddToPlaylist);
-        clearPlaylistBtn.addEventListener('click', clearPlaylist);
-        playlistItemsContainer.addEventListener('click', handlePlaylistItemClick);
-        prevRhymeBtn.addEventListener('click', playPreviousRhyme);
-        nextRhymeBtn.addEventListener('click', playNextRhyme);
-        
-        // Back to Top Listeners
-        window.addEventListener('scroll', handleScroll);
-        backToTopBtn.addEventListener('click', scrollToTop);
-    }
-    
-    function handleSearchInput() {
-        let filtered = allRhymes.filter(rhyme =>
-            rhyme.title.toLowerCase().includes(searchBar.value.toLowerCase()) ||
-            rhyme.lyrics.toLowerCase().includes(searchBar.value.toLowerCase())
-        );
-        displayRhymeGallery(filtered);
-    }
-
-    function handleStorySearchInput() {
-        let filtered = allStories.filter(story =>
-            story.title.toLowerCase().includes(storySearchBar.value.toLowerCase()) ||
-            story.content.join(' ').toLowerCase().includes(storySearchBar.value.toLowerCase())
-        );
-        displayStoryGallery(filtered);
-    }
-
-    function handleCategoryClick(e) {
-        const clickedButton = e.target.closest('.category-btn');
-        if (clickedButton) {
-            searchBar.value = '';
-            const category = clickedButton.dataset.category;
-            updateActiveCategoryButton(category);
-            showMainView(category);
-            updateUrl({ category: category });
-        }
-    }
-
-    function updateActiveCategoryButton(categoryToActivate) {
-        // Deactivate all sub-filters first
-        document.querySelectorAll('#category-filters .category-btn, #story-category-filters .category-btn').forEach(btn => {
-            btn.classList.remove('active');
-        });
-
-        // Activate the clicked sub-filter
-        const activeButton = document.querySelector(`.category-btn[data-category="${categoryToActivate}"]`);
-        if (activeButton && !activeButton.closest('#main-navigation')) {
-            activeButton.classList.add('active');
-        }
-
-        // Handle main navigation buttons
-        const isStoryFilter = ['Stories', 'StoryFavorites'].includes(categoryToActivate);
-        document.querySelector('.main-nav-btn[data-category="Stories"]').classList.toggle('active', isStoryFilter);
-        document.querySelector('.main-nav-btn[data-category="Rhymes"]').classList.toggle('active', !isStoryFilter);
-    }
-
-    function showRandomRhyme() {
-        const randomIndex = Math.floor(Math.random() * allRhymes.length);
-        showRhymeDetail(allRhymes[randomIndex].id);
-    }
-
-    function showRandomStory() {
-        const randomIndex = Math.floor(Math.random() * allStories.length);
-        showStoryDetail(allStories[randomIndex].id);
-    }
-
-    function showPreviousRhyme() {
-        if (!currentRhyme) return;
-        const listToUse = currentRhymeList.find(r => r.id === currentRhyme.id) ? currentRhymeList : allRhymes;
-        const currentIndex = listToUse.findIndex(r => r.id === currentRhyme.id);
-        if (currentIndex > 0) {
-            showRhymeDetail(listToUse[currentIndex - 1].id);
-        }
-    }
-
-    function showNextRhyme() {
-        if (!currentRhyme) return;
-        const listToUse = currentRhymeList.find(r => r.id === currentRhyme.id) ? currentRhymeList : allRhymes;
-        const currentIndex = listToUse.findIndex(r => r.id === currentRhyme.id);
-        if (currentIndex < listToUse.length - 1) {
-            showRhymeDetail(listToUse[currentIndex + 1].id);
-        }
-    }
-
-    function showPreviousStory() {
-        if (!currentStory) return;
-        const currentIndex = allStories.findIndex(s => s.id === currentStory.id);
-        if (currentIndex > 0) {
-            showStoryDetail(allStories[currentIndex - 1].id);
-        }
-    }
-
-    function showNextStory() {
-        if (!currentStory) return;
-        const currentIndex = allStories.findIndex(s => s.id === currentStory.id);
-        if (currentIndex < allStories.length - 1) {
-            showStoryDetail(allStories[currentIndex + 1].id);
-        }
-    }
-    
-    // --- TOAST NOTIFICATION ---
-    function showToast(message) {
-        toastNotification.textContent = message;
-        toastNotification.classList.add('show');
-        setTimeout(() => {
-            toastNotification.classList.remove('show');
-        }, 2500);
-    }
-    
-    // --- TEXT-TO-SPEECH FUNCTIONS ---
-    function getVoiceForLanguage(lang) {
-        const allVoices = window.speechSynthesis.getVoices();
-        let preferredVoice = null;
-        let fallbackVoice = null;
-
-        // A list of voice names that are generally high-quality and female for English and Hindi
-        const voicePriorities = {
-            'en-US': ['Google US English Female', 'Microsoft Zira - English (United States)', 'Google UK English Female', 'Samantha'],
-            'hi-IN': ['Google हिन्दी']
-        };
-
-        // Try to find a high-quality voice
-        if (voicePriorities[lang]) {
-            preferredVoice = allVoices.find(voice => voicePriorities[lang].includes(voice.name));
-        }
-        
-        // If a high-quality voice is not found, find any female voice for the language
-        if (!preferredVoice) {
-            fallbackVoice = allVoices.find(voice => voice.lang.startsWith(lang) && (voice.name.includes('Female') || voice.name.includes('Feminine') || voice.name.includes('Google') || voice.name.includes('Zira')));
-        }
-
-        // If still no luck, find any voice for the language
-        if (!preferredVoice && !fallbackVoice) {
-            fallbackVoice = allVoices.find(voice => voice.lang.startsWith(lang));
-        }
-        
-        return preferredVoice || fallbackVoice || null;
-    }
-
-    // Ensure voices are loaded before we can access them
-    window.speechSynthesis.onvoiceschanged = () => {
-        englishVoice = getVoiceForLanguage('en-US');
-        hindiVoice = getVoiceForLanguage('hi-IN');
-    };
-
-    function toggleReadAloud(contentType) {
-        if ('speechSynthesis' in window) {
-            if (isReading) {
-                stopReading();
-            } else {
-                if (contentType === 'rhyme' && currentRhyme) {
-                    if (currentRhyme.lyrics_hi) {
-                        // Handle bilingual content by speaking English then Hindi
-                        speakBilingualRhyme(currentRhyme);
-                    } else {
-                        // Single language content
-                        startReading(currentRhyme.lyrics, 'en-US', readAloudRhymeBtn);
-                    }
-                } else if (contentType === 'story' && currentStory) {
-                    if (currentStory.content_hi) {
-                        speakBilingualStory(currentStory);
-                    } else {
-                        const textToRead = currentStory.content.join(' ');
-                        startReading(textToRead, 'en-US', readAloudStoryBtn);
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'brand-red': '#E34037',
+                        'brand-dark': '#121212',
                     }
                 }
             }
-        } else {
-            showToast("Your browser does not support the Speech Synthesis API.");
         }
-    }
+    </script>
+</head>
+<body class="bg-gray-50 font-poppins transition-colors duration-300">
 
-    function speakBilingualRhyme(rhyme) {
-        // English part
-        const utteranceEn = new SpeechSynthesisUtterance(rhyme.lyrics);
-        utteranceEn.lang = 'en-US';
-        if (englishVoice) {
-            utteranceEn.voice = englishVoice;
-        }
+    <!-- Loading Indicator -->
+    <div id="loading-indicator" class="fixed inset-0 bg-white flex flex-col justify-center items-center z-[100]">
+        <div class="text-6xl animate-bounce">ЁЯО╢</div>
+        <p class="text-xl font-semibold text-brand-dark mt-4">Loading Content...</p>
+    </div>
 
-        // Hindi part
-        const utteranceHi = new SpeechSynthesisUtterance(rhyme.lyrics_hi);
-        utteranceHi.lang = 'hi-IN';
-        if (hindiVoice) {
-            utteranceHi.voice = hindiVoice;
-        }
+    <!-- Header -->
+    <header class="bg-brand-red text-white text-center px-3 py-1 md:px-6 md:py-2 shadow-lg relative flex justify-center items-center">
+        <div class="flex-1"></div>
+        <div class="flex flex-col justify-center items-center flex-shrink-0">
+            <h1 id="home-button" class="text-lg md:text-4xl font-bold font-baloo pb-1 md:pb-2 border-b-2 border-white flex items-center cursor-pointer">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 md:h-9 md:w-9 inline-block mr-1 md:mr-3" viewBox="0 0 20 20" fill="currentColor">
+                    <path d="M18 3a1 1 0 00-1.196-.98l-10 2A1 1 0 006 5v9.114A4.369 4.369 0 005 14c-1.657 0-3 1.343-3 3s1.343 3 3 3 3-1.343 3-3V7.82l8-1.6v5.894A4.37 4.37 0 0015 12c-1.657 0-3 1.343-3 3s1.343 3 3 3 3-1.343 3-3V3z" />
+                </svg>
+                <span>Nursery Rhymes & Stories</span>
+            </h1>
+            <p class="text-xs text-white/80 mt-1 font-baloo">by: kids.toolblaster.com</p>
+        </div>
+        <div class="flex-1 flex justify-end items-center gap-2">
+             <button id="playlist-toggle-btn" class="p-2 rounded-full text-white hover:bg-white/20 transition-colors relative" aria-label="View Playlist">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" /></svg>
+                <span id="playlist-count" class="absolute -top-1 -right-1 bg-yellow-400 text-black text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center hidden">0</span>
+            </button>
+        </div>
+    </header>
 
-        utteranceEn.onend = () => {
-            // Speak Hindi part after English part is done
-            window.speechSynthesis.speak(utteranceHi);
-        };
-
-        utteranceHi.onend = () => {
-            isReading = false;
-            updateReadAloudButton(readAloudRhymeBtn);
-        };
-
-        utteranceEn.onstart = () => {
-            isReading = true;
-            updateReadAloudButton(readAloudRhymeBtn);
-        };
-
-        window.speechSynthesis.speak(utteranceEn);
-    }
-
-    function speakBilingualStory(story) {
-        // English part
-        const utteranceEn = new SpeechSynthesisUtterance(story.content.join(' '));
-        utteranceEn.lang = 'en-US';
-        if (englishVoice) {
-            utteranceEn.voice = englishVoice;
-        }
-
-        // Hindi part
-        const utteranceHi = new SpeechSynthesisUtterance(story.content_hi.join(' '));
-        utteranceHi.lang = 'hi-IN';
-        if (hindiVoice) {
-            utteranceHi.voice = hindiVoice;
-        }
-
-        utteranceEn.onend = () => {
-            // Speak Hindi part after English part is done
-            window.speechSynthesis.speak(utteranceHi);
-        };
-
-        utteranceHi.onend = () => {
-            isReading = false;
-            updateReadAloudButton(readAloudStoryBtn);
-        };
-
-        utteranceEn.onstart = () => {
-            isReading = true;
-            updateReadAloudButton(readAloudStoryBtn);
-        };
-
-        window.speechSynthesis.speak(utteranceEn);
-    }
-
-    function startReading(text, lang, btn) {
-        utterance = new SpeechSynthesisUtterance(text);
-        utterance.lang = lang;
-        utterance.rate = 1.0;
+    <main class="container mx-auto p-4 md:p-8">
         
-        // Set the appropriate voice based on language
-        if (lang === 'en-US' && englishVoice) {
-            utterance.voice = englishVoice;
-        } else if (lang === 'hi-IN' && hindiVoice) {
-            utterance.voice = hindiVoice;
-        }
+        <!-- Rhyme of the Day Section -->
+        <section id="rhyme-of-the-day" class="mb-8 text-center">
+            <div id="rotd-card" class="bg-gradient-to-br from-yellow-100 to-orange-200 p-4 rounded-2xl shadow-lg cursor-pointer transform hover:scale-[1.03] transition-transform duration-300 relative overflow-hidden border-2 border-yellow-300">
+                <h2 class="text-2xl font-baloo text-brand-dark mb-2">ЁЯМЯ Rhyme of the Day ЁЯМЯ</h2>
+                <div class="text-4xl mb-1" id="rotd-icon"></div>
+                <h3 class="text-xl font-bold text-purple-600" id="rotd-title"></h3>
+                <p class="text-gray-600 mt-1 max-w-prose mx-auto text-sm hidden" id="rotd-snippet"></p>
+            </div>
+        </section>
 
-        utterance.onstart = () => {
-            isReading = true;
-            updateReadAloudButton(btn);
-        };
-        
-        utterance.onend = () => {
-            isReading = false;
-            updateReadAloudButton(btn);
-        };
-        
-        window.speechSynthesis.speak(utterance);
-    }
-
-    function stopReading() {
-        if (isReading) {
-            window.speechSynthesis.cancel();
-            isReading = false;
-        }
-    }
-
-    function updateReadAloudButton(btn) {
-        if (isReading) {
-            btn.innerHTML = '⏹️';
-            btn.title = 'Stop Reading';
-        } else {
-            btn.innerHTML = '🔊';
-            btn.title = 'Read Aloud';
-        }
-    }
-
-    // --- PLAYLIST FUNCTIONS ---
-    function togglePlaylistView() {
-        if (playlistView.classList.contains('hidden')) {
-            displayPlaylist();
-            playlistView.classList.remove('hidden');
-        } else {
-            playlistView.classList.add('hidden');
-        }
-    }
-    
-    function displayPlaylist() {
-        playlistItemsContainer.innerHTML = '';
-        if (playlist.length === 0) {
-            playlistItemsContainer.innerHTML = `<p class="text-center text-gray-500">Your playlist is empty.</p>`;
-            clearPlaylistBtn.disabled = true;
-            return;
-        }
-
-        clearPlaylistBtn.disabled = false;
-
-        playlist.forEach((item) => {
-            const itemEl = document.createElement('div');
-            itemEl.className = 'flex items-center justify-between p-2 rounded-lg bg-gray-50';
-
-            let details;
-            let icon;
-            if (item.type === 'rhyme') {
-                details = allRhymes.find(r => r.id === item.id);
-                icon = details ? details.icon || '🎶' : '🎶';
-            } else { // story
-                details = allStories.find(s => s.id === item.id);
-                icon = details ? details.icon || '📚' : '📚';
-            }
-
-            if (!details) return; // Skip if item from a previous session is no longer available
-
-            itemEl.innerHTML = `
-                <div class="flex items-center gap-3 cursor-pointer flex-grow" data-item-id="${details.id}" data-item-type="${item.type}" data-action="play">
-                    <span class="text-2xl">${icon}</span>
-                    <span class="font-semibold text-brand-dark">${details.title}</span>
+        <!-- Controls Section -->
+        <section id="controls-section" class="mb-8">
+            <div class="section-card border border-brand-red/50 rounded-3xl shadow-lg shadow-brand-red/20 mb-8">
+                <h3 class="text-xl font-bold text-center text-brand-dark mb-2 font-baloo">Explore Our Collections</h3>
+                 <p class="text-center text-gray-600 mb-6">Discover a world of fun with our original stories and classic rhymes.</p>
+                
+                 <div id="main-navigation" class="flex flex-col sm:flex-row justify-center gap-4">
+                    <button class="main-nav-btn category-btn active" data-category="Rhymes">ЁЯО╢ Rhymes</button>
+                    <button class="main-nav-btn category-btn" data-category="Stories">ЁЯУЪ Short Stories</button>
                 </div>
-                <button class="p-2 rounded-full hover:bg-red-100 text-red-500" data-item-id="${details.id}" data-item-type="${item.type}" data-action="remove" aria-label="Remove ${details.title} from playlist" title="Remove from playlist">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 pointer-events-none" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" /></svg>
+            </div>
+
+            <div class="section-card border border-gray-200 rounded-3xl">
+                <div id="rhyme-controls">
+                     <div class="mb-6 grid grid-cols-1 md:grid-cols-[1fr_auto_1fr] items-center gap-4">
+                        <input type="search" id="search-bar" placeholder="Search for any rhyme..." class="w-full p-3 border-2 border-gray-200 bg-white rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-brand-red focus:border-transparent transition-all">
+                        <div class="h-px w-full bg-gray-300 md:h-10 md:w-px"></div>
+                        <button id="surprise-button" class="w-full bg-yellow-400 hover:bg-yellow-500 text-gray-800 font-bold py-3 px-4 rounded-lg shadow-sm transition-transform transform hover:scale-105">
+                            ЁЯО▓ Surprise Me!
+                        </button>
+                    </div>
+                    <div id="category-filters" class="p-4 bg-gray-100 rounded-2xl border-2 border-gray-200">
+                         <h4 class="text-center font-bold text-gray-700 mb-3">Or, filter rhymes by:</h4>
+                        <div class="flex flex-wrap items-center justify-center gap-x-4 gap-y-3">
+                            <button class="category-btn" data-category="Rhymes">ЁЯО╢ All Rhymes</button>
+                            <button class="category-btn" data-category="Favorites">тЭдя╕П Favorites</button>
+                            <button class="category-btn" data-category="New">тЬи New & Exclusive</button>
+                            <button class="category-btn" data-category="Animal">ЁЯР╛ Animals</button>
+                            <button class="category-btn" data-category="Learning">ЁЯОУ Learning</button>
+                            <button class="category-btn" data-category="Classic">ЁЯУЬ Classics</button>
+                            <button class="category-btn" data-category="Indian">ЁЯЗоЁЯЗ│ Indian</button>
+                            <button class="category-btn" data-category="Lullaby">ЁЯМЩ Lullabies</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="story-controls" class="hidden">
+                    <div class="mb-6 grid grid-cols-1 md:grid-cols-[1fr_auto_1fr] items-center gap-4">
+                        <input type="search" id="story-search-bar" placeholder="Search for any story..." class="w-full p-3 border-2 border-gray-200 bg-white rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-brand-red focus:border-transparent transition-all">
+                        <div class="h-px w-full bg-gray-300 md:h-10 md:w-px"></div>
+                        <button id="story-surprise-button" class="w-full bg-yellow-400 hover:bg-yellow-500 text-gray-800 font-bold py-3 px-4 rounded-lg shadow-sm transition-transform transform hover:scale-105">
+                            ЁЯО▓ Surprise Me!
+                        </button>
+                    </div>
+                    <div class="p-4 bg-gray-100 rounded-2xl border-2 border-gray-200">
+                         <h4 class="text-center font-bold text-gray-700 mb-3">Filter stories by:</h4>
+                        <div id="story-category-filters" class="flex flex-wrap items-center justify-center gap-x-4 gap-y-3">
+                            <button class="category-btn" data-category="Stories">ЁЯУЪ All Stories</button>
+                            <button class="category-btn" data-category="StoryFavorites">тЭдя╕П Your Favorites</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Rhyme Gallery View -->
+        <section id="rhyme-gallery">
+            <div id="rhyme-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 md:gap-6">
+                <!-- Poem cards will be injected here by JavaScript -->
+            </div>
+        </section>
+        
+        <!-- Story Gallery View -->
+        <section id="story-gallery" class="hidden">
+             <div id="story-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
+                <!-- Story cards will be injected here -->
+            </div>
+        </section>
+
+        <!-- Single Rhyme Detail View (Initially Hidden) -->
+        <section id="rhyme-detail" class="hidden">
+            <div class="flex flex-col sm:flex-row justify-between items-center gap-4 mb-6">
+                <button id="back-button" class="w-full sm:w-auto bg-brand-red hover:bg-opacity-90 text-white font-bold py-2 px-3 rounded-lg shadow-md transition-transform transform hover:scale-105 active:scale-95">
+                    &larr; Back to Rhymes
                 </button>
-            `;
-            playlistItemsContainer.appendChild(itemEl);
-        });
-    }
-    
-    function updatePlaylistCount() {
-        playlistCountEl.textContent = playlist.length;
-        playlistCountEl.classList.toggle('hidden', playlist.length === 0);
-    }
+                <div class="flex items-center gap-2 w-full sm:w-auto">
+                    <button id="previous-detail-rhyme-btn" class="w-1/2 sm:w-auto bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-3 rounded-lg shadow-md transition-transform transform hover:scale-105 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed">
+                        &larr; Previous
+                    </button>
+                    <button id="next-detail-rhyme-btn" class="w-1/2 sm:w-auto bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-3 rounded-lg shadow-md transition-transform transform hover:scale-105 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed">
+                        Next &rarr;
+                    </button>
+                </div>
+            </div>
+            <div class="bg-white p-6 md:p-8 rounded-2xl shadow-xl">
+                <div class="flex justify-between items-start mb-4">
+                     <div>
+                        <h2 id="rhyme-title-en" class="text-3xl md:text-4xl font-baloo text-purple-600"></h2>
+                        <h2 id="rhyme-title-hi" class="text-2xl md:text-3xl font-baloo text-purple-500 mt-1"></h2>
+                        <div id="learning-focus-badge-container" class="hidden mt-3">
+                            <span id="learning-focus-badge" class="inline-block bg-teal-100 text-teal-800 text-sm font-semibold px-3 py-1 rounded-full"></span>
+                        </div>
+                    </div>
+                    <div class="flex flex-col md:flex-row items-center gap-2 text-gray-500">
+                        <!-- Action Buttons -->
+                        <button id="read-aloud-btn-rhyme" class="social-share-btn text-2xl" title="Read Aloud" aria-label="Read Aloud">ЁЯФК</button>
+                        <button id="add-to-playlist-btn" class="social-share-btn" title="Add to Playlist" aria-label="Add to Playlist">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" /></svg>
+                        </button>
+                        <button id="favorite-btn" class="social-share-btn" title="Add to Favorites" aria-label="Add to Favorites">тЭдя╕П</button>
+                    </div>
+                </div>
+                
+                 <!-- Playlist Navigation -->
+                <div id="playlist-nav-buttons" class="hidden flex justify-center items-center gap-4 my-4">
+                    <button id="prev-rhyme-btn" class="bg-gray-200 hover:bg-gray-300 text-brand-dark font-bold py-2 px-4 rounded-lg shadow-md transition-colors disabled:opacity-50 disabled:cursor-not-allowed">&larr; Previous</button>
+                    <span id="playlist-position" class="text-gray-600 font-semibold"></span>
+                    <button id="next-rhyme-btn" class="bg-gray-200 hover:bg-gray-300 text-brand-dark font-bold py-2 px-4 rounded-lg shadow-md transition-colors disabled:opacity-50 disabled:cursor-not-allowed">Next &rarr;</button>
+                </div>
 
-    function isInPlaylist(id, type) {
-        return playlist.some(item => item.id === id && item.type === type);
-    }
-    
-    function handleAddToPlaylist(e) {
-        if (!currentRhyme) return;
-        triggerButtonAnimation(e.currentTarget);
-        const rhymeId = currentRhyme.id;
-        const inPlaylist = isInPlaylist(rhymeId, 'rhyme');
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 mt-4">
+                    <div>
+                        <h3 class="text-xl font-bold text-brand-dark mb-2">English</h3>
+                        <pre id="rhyme-lyrics-en" class="text-lg text-brand-dark whitespace-pre-wrap bg-gray-50 p-4 rounded-lg font-poppins"></pre>
+                    </div>
+                    <div id="hindi-column">
+                        <h3 class="text-xl font-bold text-brand-dark mb-2">рд╣рд┐рдиреНрджреА</h3>
+                        <pre id="rhyme-lyrics-hi" class="text-lg text-brand-dark whitespace-pre-wrap bg-gray-50 p-4 rounded-lg font-poppins"></pre>
+                    </div>
+                </div>
+                
+                <!-- Fun Fact Section -->
+                <div id="fun-fact-container" class="mt-6 hidden">
+                    <details id="fun-fact-details" class="bg-blue-50 p-4 rounded-lg cursor-pointer">
+                        <summary class="font-bold text-lg text-brand-dark">ЁЯТб Did You Know?</summary>
+                        <p id="fun-fact-text" class="mt-2 text-brand-dark"></p>
+                    </details>
+                </div>
 
-        if (inPlaylist) {
-            playlist = playlist.filter(item => !(item.id === rhymeId && item.type === 'rhyme'));
-            showToast('Removed from playlist');
-        } else {
-            playlist.push({ type: 'rhyme', id: rhymeId });
-            showToast('Added to playlist!');
-        }
+                <!-- Copyright Notice Container -->
+                 <div id="copyright-notice-container" class="mt-6 hidden">
+                    <div class="bg-gray-100 p-3 rounded-lg text-center">
+                        <p id="copyright-text" class="text-xs text-gray-600 font-semibold"></p>
+                    </div>
+                </div>
+            </div>
+        </section>
         
-        localStorage.setItem('playlist', JSON.stringify(playlist));
-        updatePlaylistCount();
-        updateAddToPlaylistButton();
-    }
+        <!-- Single Story Detail View -->
+        <section id="story-detail" class="hidden">
+            <div class="flex flex-col sm:flex-row justify-between items-center gap-4 mb-6">
+                <button id="story-back-button" class="w-full sm:w-auto bg-brand-red hover:bg-opacity-90 text-white font-bold py-2 px-3 rounded-lg shadow-md transition-transform transform hover:scale-105 active:scale-95">
+                    &larr; Back to Stories
+                </button>
+                <div class="flex items-center gap-2 w-full sm:w-auto">
+                    <button id="previous-detail-story-btn" class="w-1/2 sm:w-auto bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-3 rounded-lg shadow-md transition-transform transform hover:scale-105 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed">
+                        &larr; Previous
+                    </button>
+                    <button id="next-detail-story-btn" class="w-1/2 sm:w-auto bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-3 rounded-lg shadow-md transition-transform transform hover:scale-105 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed">
+                        Next &rarr;
+                    </button>
+                </div>
+            </div>
+            <div class="bg-white p-6 md:p-8 rounded-2xl shadow-xl max-w-6xl mx-auto">
+                <div class="flex justify-center items-center relative mb-2">
+                    <div class="flex-1"></div>
+                    <h2 id="story-title" class="text-3xl md:text-5xl font-baloo text-center text-purple-600 flex-shrink"></h2>
+                    <div class="flex-1 flex justify-end items-center gap-2">
+                        <button id="read-aloud-btn-story" class="social-share-btn text-2xl" title="Read Aloud" aria-label="Read Aloud">ЁЯФК</button>
+                        <button id="add-to-story-playlist-btn" class="social-share-btn" title="Add to Playlist" aria-label="Add to Playlist">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" /></svg>
+                        </button>
+                        <button id="story-favorite-btn" class="social-share-btn" title="Add to Favorites" aria-label="Add to Favorites">ЁЯдН</button>
+                    </div>
+                </div>
+                <h3 id="story-title-hi" class="text-2xl md:text-3xl font-baloo text-center text-purple-500 mt-1"></h3>
+                <p id="story-author" class="text-center text-gray-500 text-lg mb-1"></p>
+                <p id="story-read-time" class="text-center text-gray-400 text-sm mb-8"></p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 mt-4">
+                    <div id="story-content-en">
+                        <h3 class="text-xl font-bold text-brand-dark mb-2">English</h3>
+                        <div id="story-content" class="prose lg:prose-xl max-w-none space-y-6">
+                            <!-- Story paragraphs will be injected here -->
+                        </div>
+                    </div>
+                    <div id="story-content-hi-container" class="hidden">
+                        <h3 class="text-xl font-bold text-brand-dark mb-2">рд╣рд┐рдиреНрджреА</h3>
+                        <div id="story-content-hi" class="prose lg:prose-xl max-w-none space-y-6">
+                            <!-- Hindi story paragraphs will be injected here -->
+                        </div>
+                    </div>
+                </div>
 
-    function updateAddToPlaylistButton() {
-        if (!currentRhyme) return;
-        const inPlaylist = isInPlaylist(currentRhyme.id, 'rhyme');
-        addToPlaylistBtn.innerHTML = inPlaylist 
-            ? `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" /></svg>`
-            : `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" /></svg>`;
-        addToPlaylistBtn.title = inPlaylist ? "Added to Playlist" : "Add to Playlist";
-        addToPlaylistBtn.setAttribute('aria-label', inPlaylist ? "Remove from Playlist" : "Add to Playlist");
-    }
-    
-    function handleAddToStoryPlaylist(e) {
-        if (!currentStory) return;
-        triggerButtonAnimation(e.currentTarget);
-        const storyId = currentStory.id;
-        const inPlaylist = isInPlaylist(storyId, 'story');
+                <div id="story-moral-container" class="mt-10 border-t-2 border-dashed border-gray-300 text-center p-6 rounded-lg bg-red-50">
+                     <p class="text-lg font-bold text-brand-dark">Moral of the Story:</p>
+                     <p id="story-moral" class="text-lg text-gray-700 italic mt-2"></p>
+                     <p class="text-lg font-bold text-brand-dark mt-4">рдХрд╣рд╛рдиреА рдХрд╛ рд╕рд╛рд░:</p>
+                     <p id="story-moral-hi" class="text-lg text-gray-700 italic mt-2"></p>
+                </div>
+                
+                <!-- Copyright Notice for Stories -->
+                <div id="story-copyright-notice-container" class="mt-8 hidden">
+                    <div class="bg-gray-100 p-3 rounded-lg text-center">
+                        <p id="story-copyright-text" class="text-[11px] text-gray-600 font-semibold"></p>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-        if (inPlaylist) {
-            playlist = playlist.filter(item => !(item.id === storyId && item.type === 'story'));
-            showToast('Removed from playlist');
-        } else {
-            playlist.push({ type: 'story', id: storyId });
-            showToast('Added to playlist!');
-        }
-        
-        localStorage.setItem('playlist', JSON.stringify(playlist));
-        updatePlaylistCount();
-        updateAddToStoryPlaylistButton();
-    }
+    </main>
 
-    function updateAddToStoryPlaylistButton() {
-        if (!currentStory) return;
-        const inPlaylist = isInPlaylist(currentStory.id, 'story');
-        addToStoryPlaylistBtn.innerHTML = inPlaylist 
-            ? `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" /></svg>`
-            : `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" /></svg>`;
-        addToStoryPlaylistBtn.title = inPlaylist ? "Added to Playlist" : "Add to Playlist";
-        addToStoryPlaylistBtn.setAttribute('aria-label', inPlaylist ? "Remove from Playlist" : "Add to Playlist");
-    }
+    <!-- Playlist View (Initially Hidden) -->
+    <div id="playlist-view" class="fixed inset-0 bg-black/50 z-50 hidden flex justify-center items-center p-4">
+        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md max-h-[90vh] flex flex-col">
+            <div class="flex justify-between items-center p-4 border-b border-gray-200">
+                <h2 class="text-2xl font-baloo text-brand-dark">Your Playlist</h2>
+                <button id="close-playlist-btn" class="p-2 rounded-full hover:bg-gray-200" aria-label="Close Playlist">&times;</button>
+            </div>
+            <div id="playlist-items" class="p-4 space-y-2 overflow-y-auto">
+                <!-- Playlist items will be injected here -->
+            </div>
+            <div class="p-4 border-t border-gray-200">
+                <button id="clear-playlist-btn" class="w-full bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-lg shadow-md disabled:opacity-50 disabled:cursor-not-allowed">Clear Playlist</button>
+            </div>
+        </div>
+    </div>
 
-    function clearPlaylist() {
-        playlist = [];
-        localStorage.setItem('playlist', JSON.stringify(playlist));
-        updatePlaylistCount();
-        displayPlaylist();
-    }
-    
-    function handlePlaylistItemClick(e) {
-        const target = e.target.closest('[data-action]');
-        if (!target) return;
-        
-        const itemId = parseInt(target.dataset.itemId);
-        const itemType = target.dataset.itemType;
-        const action = target.dataset.action;
+    <!-- Back to Top Button -->
+    <button id="back-to-top-btn" class="fixed bottom-5 right-5 bg-brand-red text-white p-3 rounded-full shadow-lg hover:bg-opacity-90 opacity-0 transform translate-y-4 transition-all duration-300 z-50 pointer-events-none" aria-label="Back to Top">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />
+        </svg>
+    </button>
 
-        if (action === 'play') {
-            togglePlaylistView();
-            const playlistIndex = playlist.findIndex(item => item.id === itemId && item.type === itemType);
-            
-            if (itemType === 'rhyme') {
-                showRhymeDetail(itemId, true, playlistIndex);
-            } else {
-                showStoryDetail(itemId); // Playlist navigation doesn't apply to stories
-            }
-        } else if (action === 'remove') {
-            playlist = playlist.filter(item => !(item.id === itemId && item.type === itemType));
-            localStorage.setItem('playlist', JSON.stringify(playlist));
-            updatePlaylistCount();
-            displayPlaylist();
-            // Also update the button on the detail page if it's currently viewed
-            if (currentRhyme && currentRhyme.id === itemId && itemType === 'rhyme') {
-                updateAddToPlaylistButton();
-            }
-            if (currentStory && currentStory.id === itemId && itemType === 'story') {
-                updateAddToStoryPlaylistButton();
-            }
-        }
-    }
-    
-    function updatePlaylistNav() {
-        const rhymePlaylistItems = playlist.map((item, index) => ({...item, originalIndex: index}))
-                                         .filter(item => item.type === 'rhyme');
+    <!-- Toast Notification -->
+    <div id="toast-notification"></div>
 
-        if (isPlaylistMode && rhymePlaylistItems.length > 0) {
-            playlistNavButtons.classList.remove('hidden');
-            
-            const currentItemInRhymeList = rhymePlaylistItems.find(item => item.originalIndex === currentPlaylistIndex);
-            const currentRhymeListIndex = currentItemInRhymeList ? rhymePlaylistItems.indexOf(currentItemInRhymeList) : -1;
+    <!-- Footer -->
+    <footer class="bg-gray-100 mt-12 py-6 border-t-2 border-brand-red">
+        <div class="container mx-auto px-4 text-gray-700">
+            <div class="flex flex-col items-center text-center">
+                <div class="mb-4">
+                    <div class="text-4xl mb-1 text-brand-red">ЁЯО╢</div>
+                    <p class="text-xl font-baloo text-brand-dark mb-1">Nursery Rhymes & Stories</p>
+                    <p class="text-sm text-gray-500">by kids.toolblaster.com</p>
+                </div>
+                <div>
+                    <p class="text-sm max-w-xl">
+                        A wonderful collection of classic and exclusive content to delight children, parents, and educators. Read, sing, and share the joy.
+                    </p>
+                </div>
+            </div>
+            <hr class="my-4 border-gray-300">
+            <div class="text-center">
+                <p class="text-xs text-gray-500">
+                    Copyright &copy; <span id="footer-year">2025</span> Kids.Toolblaster.com. All Rights Reserved.
+                </p>
+            </div>
+        </div>
+    </footer>
 
-            playlistPositionEl.textContent = `${currentRhymeListIndex + 1} / ${rhymePlaylistItems.length}`;
-            prevRhymeBtn.disabled = currentRhymeListIndex <= 0;
-            nextRhymeBtn.disabled = currentRhymeListIndex >= rhymePlaylistItems.length - 1;
-        } else {
-            playlistNavButtons.classList.add('hidden');
-        }
-    }
-    
-    function playNextRhyme() {
-        const rhymePlaylistItems = playlist.map((item, index) => ({...item, originalIndex: index}))
-                                         .filter(item => item.type === 'rhyme');
-        const currentItemInRhymeList = rhymePlaylistItems.find(item => item.originalIndex === currentPlaylistIndex);
-        const currentRhymeListIndex = rhymePlaylistItems.indexOf(currentItemInRhymeList);
-
-        if (isPlaylistMode && currentRhymeListIndex < rhymePlaylistItems.length - 1) {
-            const nextRhymeItem = rhymePlaylistItems[currentRhymeListIndex + 1];
-            showRhymeDetail(nextRhymeItem.id, true, nextRhymeItem.originalIndex);
-        }
-    }
-
-    function playPreviousRhyme() {
-        const rhymePlaylistItems = playlist.map((item, index) => ({...item, originalIndex: index}))
-                                         .filter(item => item.type === 'rhyme');
-        const currentItemInRhymeList = rhymePlaylistItems.find(item => item.originalIndex === currentPlaylistIndex);
-        const currentRhymeListIndex = rhymePlaylistItems.indexOf(currentItemInRhymeList);
-
-        if (isPlaylistMode && currentRhymeListIndex > 0) {
-            const prevRhymeItem = rhymePlaylistItems[currentRhymeListIndex - 1];
-            showRhymeDetail(prevRhymeItem.id, true, prevRhymeItem.originalIndex);
-        }
-    }
-
-    // --- FAVORITES FUNCTIONS ---
-    function handleFavoriteClick(e) {
-        if (!currentRhyme) return;
-        triggerButtonAnimation(e.currentTarget);
-        const rhymeId = currentRhyme.id;
-        const favoriteIndex = favorites.indexOf(rhymeId);
-        
-        if (favoriteIndex > -1) {
-            favorites.splice(favoriteIndex, 1);
-        } else {
-            favorites.push(rhymeId);
-        }
-        localStorage.setItem('favoriteRhymes', JSON.stringify(favorites));
-
-        // Update button in detail view
-        e.currentTarget.textContent = isFavorite(rhymeId) ? '❤️' : '🤍';
-        
-        // Update indicator in gallery view if it exists
-        const rhymeCard = rhymeGrid.querySelector(`.rhyme-card[data-rhyme-id="${rhymeId}"] .favorite-indicator`);
-        if (rhymeCard) {
-            rhymeCard.textContent = isFavorite(rhymeId) ? '❤️' : '';
-        }
-    }
-
-    function isFavorite(rhymeId) {
-        return favorites.includes(rhymeId);
-    }
-
-    function handleFavoriteStoryClick() {
-        if (!currentStory) return;
-        triggerButtonAnimation(storyFavoriteBtn);
-        const storyId = currentStory.id;
-        const favoriteIndex = favoriteStories.indexOf(storyId);
-        
-        if (favoriteIndex > -1) {
-            favoriteStories.splice(favoriteIndex, 1);
-        } else {
-            favoriteStories.push(storyId);
-        }
-        localStorage.setItem('favoriteStories', JSON.stringify(favoriteStories));
-
-        // Update button in detail view
-        storyFavoriteBtn.textContent = isFavoriteStory(storyId) ? '❤️' : '🤍';
-        
-        // Update indicator in gallery view if it exists
-        const storyCard = storyGrid.querySelector(`.rhyme-card[data-story-id="${storyId}"] .favorite-indicator`);
-        if (storyCard) {
-            storyCard.textContent = isFavoriteStory(storyId) ? '❤️' : '';
-        }
-    }
-
-    function isFavoriteStory(storyId) {
-        return favoriteStories.includes(storyId);
-    }
-
-    // --- UTILITY FUNCTIONS ---
-    function handleScroll() {
-        backToTopBtn.classList.toggle('show', window.scrollY > 300);
-    }
-
-    function scrollToTop() {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
-    function triggerButtonAnimation(btn) {
-        btn.classList.add('animate-pop');
-        btn.addEventListener('animationend', () => {
-            btn.classList.remove('animate-pop');
-        }, { once: true });
-    }
-
-    // --- START THE APP ---
-    init();
-
-    // --- FOOTER YEAR ---
-    const footerYear = document.getElementById('footer-year');
-    if (footerYear) {
-        footerYear.textContent = new Date().getFullYear();
-    }
-});
+    <script src="script.js"></script>
+</body>
+</html>
