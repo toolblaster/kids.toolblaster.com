@@ -10,7 +10,7 @@
     <!-- Fonts: Baloo 2 (site default) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700&family=Nunito:wght@400;700&display=swap" rel="stylesheet">
     
     <script>
         tailwind.config = {
@@ -210,7 +210,15 @@
         #rhyme-grid .rhyme-card h3 {
             font-family: 'Baloo 2', cursive;
         }
-
+        
+        /* New rules for Nunito font on content */
+        #rhyme-lyrics-en,
+        #rhyme-lyrics-hi,
+        #story-content,
+        #story-content-hi {
+            font-family: 'Nunito', sans-serif;
+            font-weight: 700;
+        }
 
         /* Print Styles */
         @media print {
