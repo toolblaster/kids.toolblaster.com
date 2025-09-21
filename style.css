@@ -50,9 +50,20 @@
     }
 
     #controls-section, #rhyme-of-the-day, #story-detail {
-        max-width: 950px;
+        max-width: 1000px;
         margin-left: auto;
         margin-right: auto;
+    }
+
+    /* Compact Collections Card */
+    #collections-card {
+        @apply py-3; /* Squeeze vertical padding */
+    }
+    #collections-card h3 {
+        @apply mb-1;
+    }
+     #collections-card p {
+        @apply mb-4;
     }
 
     /* Compact Rhyme of the Day */
