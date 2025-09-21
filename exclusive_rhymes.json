@@ -521,5 +521,58 @@
     "releaseDate": "2025-09-10",
     "lyrics": "In a magical garden, the flowers can sing,\nAnd butterflies whisper on shimmering wing.\nThe clouds are all fluffy like cotton candy sweet,\nA wonderful place for my two little feet.",
     "funFact": null
+  },
+  {
+    "id": 167,
+    "title": "The Little Glimmer Bug",
+    "category": "Animal",
+    "icon": "✨",
+    "tags": [
+      "animal",
+      "lullaby"
+    ],
+    "isExclusive": true,
+    "lyrics": "A little glimmer bug at night,\nFlashes his tiny, happy light.\nHe dances in the moonlit air,\nWithout a worry, without a care.",
+    "funFact": "Fireflies create their light through a chemical reaction in their bodies called bioluminescence."
+  },
+  {
+    "id": 168,
+    "title": "The Dreamland Train",
+    "category": "Learning",
+    "icon": "🚂",
+    "tags": [
+      "lullaby",
+      "transport"
+    ],
+    "isExclusive": true,
+    "lyrics": "The Dreamland Train goes choo-choo-choo,\nCarrying sleepy dreams for you.\nIt chugs along a starry track,\nDon't worry, it will bring them back.",
+    "funFact": "Many old steam trains had a 'cowcatcher' on the front, not to catch cows, but to clear obstacles off the tracks."
+  },
+  {
+    "id": 169,
+    "title": "The Cloud Sheep",
+    "category": "Classic",
+    "icon": "☁️",
+    "tags": [
+      "silly",
+      "animal"
+    ],
+    "isExclusive": true,
+    "lyrics": "A fluffy cloud, a sheep so white,\nFloated by in broad daylight.\nHe did a baa-baa in the sky,\nAnd winked his little cloudy eye.",
+    "funFact": "Clouds are made of tiny water droplets or ice crystals that are so light they can float in the air."
+  },
+  {
+    "id": 170,
+    "title": "The Toothbrush March",
+    "category": "Learning",
+    "icon": "🪥",
+    "tags": [
+      "learning",
+      "action"
+    ],
+    "learningFocus": "Personal Hygiene",
+    "isExclusive": true,
+    "lyrics": "My toothbrush marches left and right,\nTo make my teeth so clean and bright.\nIt marches up and marches down,\nThe cleanest teeth in all the town!",
+    "funFact": "It's important to brush your teeth for two minutes, which is about the length of singing 'Twinkle, Twinkle, Little Star' three times!"
   }
 ]
