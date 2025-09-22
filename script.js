@@ -233,7 +233,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (activeButton && activeButton.dataset.category === 'Favorites') {
                 emptyMessage = `
                     <div class="col-span-full text-center p-6 bg-gray-50 rounded-lg">
-                        <div class="text-4xl mb-2">тЭдя╕П</div>
+                        <div class="text-4xl mb-2">❤️</div>
                         <h4 class="text-lg font-bold text-brand-dark">Your Favorites is Empty</h4>
                         <p class="text-gray-500 mt-1">Click the white heart on any rhyme to add it here!</p>
                     </div>
@@ -248,10 +248,10 @@ document.addEventListener('DOMContentLoaded', () => {
             card.dataset.rhymeId = rhyme.id;
             card.innerHTML = `
                 <div class="flex-grow flex flex-col items-center justify-center">
-                    <div class="text-5xl mb-2">${rhyme.icon || 'ЁЯО╡'}</div>
+                    <div class="text-5xl mb-2">${rhyme.icon || '🎵'}</div>
                     <h3 class="text-sm font-bold text-brand-dark">${rhyme.title}</h3>
                 </div>
-                <div class="absolute top-2 right-2 text-xl favorite-indicator">${isFavorite(rhyme.id) ? 'тЭдя╕П' : ''}</div>
+                <div class="absolute top-2 right-2 text-xl favorite-indicator">${isFavorite(rhyme.id) ? '❤️' : ''}</div>
             `;
             card.addEventListener('click', () => showRhymeDetail(rhyme.id));
             rhymeGrid.appendChild(card);
@@ -298,7 +298,7 @@ document.addEventListener('DOMContentLoaded', () => {
             learningFocusContainer.classList.add('hidden');
         }
 
-        favoriteBtn.textContent = isFavorite(rhymeId) ? 'тЭдя╕П' : 'ЁЯдН';
+        favoriteBtn.textContent = isFavorite(rhymeId) ? '❤️' : '🤍';
         favoriteBtn.setAttribute('data-id', rhymeId);
 
         const funFactContainer = document.getElementById('fun-fact-container');
@@ -314,7 +314,7 @@ document.addEventListener('DOMContentLoaded', () => {
         copyrightContainer.classList.remove('hidden');
         
         if (currentRhyme.isExclusive) {
-             copyrightText.textContent = `Copyright ┬й ${new Date().getFullYear()} kids.toolblaster.com. This is an Original and Exclusive Rhyme ЁЯО╡`;
+             copyrightText.textContent = `Copyright © ${new Date().getFullYear()} kids.toolblaster.com. This is an Original and Exclusive Rhyme 🎵`;
         } else {
             copyrightText.textContent = `This content is in the public domain.`;
         }
@@ -339,7 +339,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (activeButton && activeButton.dataset.category === 'StoryFavorites') {
                  emptyMessage = `
                     <div class="col-span-full text-center p-6 bg-gray-50 rounded-lg">
-                        <div class="text-4xl mb-2">тЭдя╕П</div>
+                        <div class="text-4xl mb-2">❤️</div>
                         <h4 class="text-lg font-bold text-brand-dark">Your Favorite Stories is Empty</h4>
                         <p class="text-gray-500 mt-1">Click the white heart on any story to add it here!</p>
                     </div>
@@ -354,11 +354,11 @@ document.addEventListener('DOMContentLoaded', () => {
             card.dataset.storyId = story.id;
             card.innerHTML = `
                 <div class="flex-grow flex flex-col items-center justify-center">
-                    <div class="text-5xl mb-2">${story.icon || 'ЁЯУЦ'}</div>
+                    <div class="text-5xl mb-2">${story.icon || '📖'}</div>
                     <h3 class="text-sm font-bold text-brand-dark">${story.title}</h3>
                     <p class="text-sm text-gray-500 mt-1">by ${story.author}</p>
                 </div>
-                <div class="absolute top-2 right-2 text-xl favorite-indicator">${isFavoriteStory(story.id) ? 'тЭдя╕П' : ''}</div>
+                <div class="absolute top-2 right-2 text-xl favorite-indicator">${isFavoriteStory(story.id) ? '❤️' : ''}</div>
             `;
             card.addEventListener('click', () => showStoryDetail(story.id));
             storyGrid.appendChild(card);
@@ -425,14 +425,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const storyCopyrightContainer = document.getElementById('story-copyright-notice-container');
         const storyCopyrightText = document.getElementById('story-copyright-text');
-        storyCopyrightText.textContent = `Copyright ┬й ${new Date().getFullYear()} kids.toolblaster.com. This is an Original and Exclusive Story ЁЯУЦ`;
+        storyCopyrightText.textContent = `Copyright © ${new Date().getFullYear()} kids.toolblaster.com. This is an Original and Exclusive Story 📖`;
         storyCopyrightContainer.classList.remove('hidden');
         
         const currentIndex = allStories.findIndex(s => s.id === currentStory.id);
         previousDetailStoryBtn.disabled = currentIndex <= 0;
         nextDetailStoryBtn.disabled = currentIndex >= allStories.length - 1;
 
-        storyFavoriteBtn.textContent = isFavoriteStory(storyId) ? 'тЭдя╕П' : 'ЁЯдН';
+        storyFavoriteBtn.textContent = isFavoriteStory(storyId) ? '❤️' : '🤍';
         updateAddToStoryPlaylistButton();
         window.scrollTo(0, 0);
     }
@@ -442,7 +442,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const rhyme = allRhymes[dayOfYear % allRhymes.length];
         if (!rhyme) return;
 
-        document.getElementById('rotd-icon').textContent = rhyme.icon || 'ЁЯО╡';
+        document.getElementById('rotd-icon').textContent = rhyme.icon || '🎵';
         document.getElementById('rotd-title').textContent = rhyme.title;
         document.getElementById('rotd-card').addEventListener('click', () => showRhymeDetail(rhyme.id));
     }
@@ -594,7 +594,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // A list of voice names that are generally high-quality and female for English and Hindi
         const voicePriorities = {
             'en-US': ['Google US English Female', 'Microsoft Zira - English (United States)', 'Google UK English Female', 'Samantha'],
-            'hi-IN': ['Google рд╣рд┐рдиреНрджреА']
+            'hi-IN': ['Google हिन्दी']
         };
 
         // Try to find a high-quality voice
@@ -748,10 +748,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function updateReadAloudButton(btn) {
         if (isReading) {
-            btn.innerHTML = 'тП╕я╕П';
+            btn.innerHTML = '⏸️';
             btn.title = 'Stop Reading';
         } else {
-            btn.innerHTML = 'тЦ╢я╕П';
+            btn.innerHTML = '▶️';
             btn.title = 'Read Aloud';
         }
     }
@@ -784,10 +784,10 @@ document.addEventListener('DOMContentLoaded', () => {
             let icon;
             if (item.type === 'rhyme') {
                 details = allRhymes.find(r => r.id === item.id);
-                icon = details ? details.icon || 'ЁЯО╡' : 'ЁЯО╡';
+                icon = details ? details.icon || '🎵' : '🎵';
             } else { // story
                 details = allStories.find(s => s.id === item.id);
-                icon = details ? details.icon || 'ЁЯУЦ' : 'ЁЯУЦ';
+                icon = details ? details.icon || '📖' : '📖';
             }
 
             if (!details) return; // Skip if item from a previous session is no longer available
@@ -797,7 +797,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <span class="text-2xl">${icon}</span>
                     <span class="font-semibold text-brand-dark">${details.title}</span>
                 </div>
-                <button class="p-2 rounded-full hover:bg-red-100 text-red-500" data-item-id="${details.id}" data-item-type="${item.type}" data-action="remove" aria-label="Remove ${details.title} from playlist" title="Remove from playlist">
+                <button class="p-2 rounded-full hover:bg-red-100 text-red-500 button-pop" data-item-id="${details.id}" data-item-type="${item.type}" data-action="remove" aria-label="Remove ${details.title} from playlist" title="Remove from playlist">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 pointer-events-none" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" /></svg>
                 </button>
             `;
@@ -968,12 +968,12 @@ document.addEventListener('DOMContentLoaded', () => {
         localStorage.setItem('favoriteRhymes', JSON.stringify(favorites));
 
         // Update button in detail view
-        e.currentTarget.textContent = isFavorite(rhymeId) ? 'тЭдя╕П' : 'ЁЯдН';
+        e.currentTarget.textContent = isFavorite(rhymeId) ? '❤️' : '🤍';
         
         // Update indicator in gallery view if it exists
         const rhymeCard = rhymeGrid.querySelector(`.rhyme-card[data-rhyme-id="${rhymeId}"] .favorite-indicator`);
         if (rhymeCard) {
-            rhymeCard.textContent = isFavorite(rhymeId) ? 'тЭдя╕П' : '';
+            rhymeCard.textContent = isFavorite(rhymeId) ? '❤️' : '';
         }
     }
 
@@ -995,12 +995,12 @@ document.addEventListener('DOMContentLoaded', () => {
         localStorage.setItem('favoriteStories', JSON.stringify(favoriteStories));
 
         // Update button in detail view
-        storyFavoriteBtn.textContent = isFavoriteStory(storyId) ? 'тЭдя╕П' : 'ЁЯдН';
+        storyFavoriteBtn.textContent = isFavoriteStory(storyId) ? '❤️' : '🤍';
         
         // Update indicator in gallery view if it exists
         const storyCard = storyGrid.querySelector(`.rhyme-card[data-story-id="${storyId}"] .favorite-indicator`);
         if (storyCard) {
-            storyCard.textContent = isFavoriteStory(storyId) ? 'тЭдя╕П' : '';
+            storyCard.textContent = isFavoriteStory(storyId) ? '❤️' : '';
         }
     }
 
