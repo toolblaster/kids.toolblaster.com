@@ -248,7 +248,7 @@ document.addEventListener('DOMContentLoaded', () => {
             card.dataset.rhymeId = rhyme.id;
             card.innerHTML = `
                 <div class="flex-grow flex flex-col items-center justify-center">
-                    <div class="text-5xl mb-2">${rhyme.icon || 'ЁЯО╢'}</div>
+                    <div class="text-5xl mb-2">${rhyme.icon || 'ЁЯО╡'}</div>
                     <h3 class="text-sm font-bold text-brand-dark">${rhyme.title}</h3>
                 </div>
                 <div class="absolute top-2 right-2 text-xl favorite-indicator">${isFavorite(rhyme.id) ? 'тЭдя╕П' : ''}</div>
@@ -314,7 +314,7 @@ document.addEventListener('DOMContentLoaded', () => {
         copyrightContainer.classList.remove('hidden');
         
         if (currentRhyme.isExclusive) {
-             copyrightText.textContent = `Copyright ┬й ${new Date().getFullYear()} kids.toolblaster.com. This is an Original and Exclusive Rhyme ЁЯО╢`;
+             copyrightText.textContent = `Copyright ┬й ${new Date().getFullYear()} kids.toolblaster.com. This is an Original and Exclusive Rhyme ЁЯО╡`;
         } else {
             copyrightText.textContent = `This content is in the public domain.`;
         }
@@ -354,7 +354,7 @@ document.addEventListener('DOMContentLoaded', () => {
             card.dataset.storyId = story.id;
             card.innerHTML = `
                 <div class="flex-grow flex flex-col items-center justify-center">
-                    <div class="text-5xl mb-2">${story.icon || 'ЁЯУЪ'}</div>
+                    <div class="text-5xl mb-2">${story.icon || 'ЁЯУЦ'}</div>
                     <h3 class="text-sm font-bold text-brand-dark">${story.title}</h3>
                     <p class="text-sm text-gray-500 mt-1">by ${story.author}</p>
                 </div>
@@ -425,7 +425,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const storyCopyrightContainer = document.getElementById('story-copyright-notice-container');
         const storyCopyrightText = document.getElementById('story-copyright-text');
-        storyCopyrightText.textContent = `Copyright ┬й ${new Date().getFullYear()} kids.toolblaster.com. This is an Original and Exclusive Story ЁЯУЪ`;
+        storyCopyrightText.textContent = `Copyright ┬й ${new Date().getFullYear()} kids.toolblaster.com. This is an Original and Exclusive Story ЁЯУЦ`;
         storyCopyrightContainer.classList.remove('hidden');
         
         const currentIndex = allStories.findIndex(s => s.id === currentStory.id);
@@ -442,7 +442,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const rhyme = allRhymes[dayOfYear % allRhymes.length];
         if (!rhyme) return;
 
-        document.getElementById('rotd-icon').textContent = rhyme.icon || 'ЁЯО╢';
+        document.getElementById('rotd-icon').textContent = rhyme.icon || 'ЁЯО╡';
         document.getElementById('rotd-title').textContent = rhyme.title;
         document.getElementById('rotd-card').addEventListener('click', () => showRhymeDetail(rhyme.id));
     }
@@ -748,10 +748,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function updateReadAloudButton(btn) {
         if (isReading) {
-            btn.innerHTML = 'тП╣я╕П';
+            btn.innerHTML = 'тП╕я╕П';
             btn.title = 'Stop Reading';
         } else {
-            btn.innerHTML = 'ЁЯФК';
+            btn.innerHTML = 'тЦ╢я╕П';
             btn.title = 'Read Aloud';
         }
     }
@@ -784,10 +784,10 @@ document.addEventListener('DOMContentLoaded', () => {
             let icon;
             if (item.type === 'rhyme') {
                 details = allRhymes.find(r => r.id === item.id);
-                icon = details ? details.icon || 'ЁЯО╢' : 'ЁЯО╢';
+                icon = details ? details.icon || 'ЁЯО╡' : 'ЁЯО╡';
             } else { // story
                 details = allStories.find(s => s.id === item.id);
-                icon = details ? details.icon || 'ЁЯУЪ' : 'ЁЯУЪ';
+                icon = details ? details.icon || 'ЁЯУЦ' : 'ЁЯУЦ';
             }
 
             if (!details) return; // Skip if item from a previous session is no longer available
