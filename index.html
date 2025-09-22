@@ -94,6 +94,24 @@
                 -ms-user-select: none;       /* Internet Explorer/Edge */
                 user-select: none;           /* Non-prefixed version, currently supported by Chrome, Edge, Opera and Firefox */
             }
+            
+            /* Vertical toolbar for story view on mobile */
+            @media (max-width: 639px) { /* Tailind's sm: breakpoint is 640px */
+                #story-detail .toolbar-container {
+                    flex-direction: column;
+                    align-items: center;
+                }
+
+                #story-detail .toolbar-container .flex-1 {
+                    flex-basis: 0;
+                    height: 0;
+                    overflow: hidden;
+                }
+                
+                #story-detail .social-buttons {
+                    margin-top: 1rem;
+                }
+            }
         }
 
         /* Toast Notification */
@@ -291,7 +309,7 @@
 
     <!-- Loading Indicator -->
     <div id="loading-indicator" class="fixed inset-0 bg-white flex flex-col justify-center items-center z-[100]">
-        <div class="text-6xl animate-bounce">ЁЯО╢</div>
+        <div class="text-6xl animate-bounce">🤖</div>
         <p class="text-xl font-semibold text-brand-dark mt-4">Loading Content...</p>
     </div>
 
@@ -324,8 +342,8 @@
                  <p class="text-center text-gray-600 mb-6">Discover a world of fun with our original stories and classic rhymes.</p>
                 
                  <div id="main-navigation" class="flex flex-col sm:flex-row justify-center gap-4">
-                    <button class="main-nav-btn category-btn active" data-category="Rhymes">ЁЯО╢ Rhymes</button>
-                    <button class="main-nav-btn category-btn" data-category="Stories">ЁЯУЪ Short Stories</button>
+                    <button class="main-nav-btn category-btn active" data-category="Rhymes">🤖 Rhymes</button>
+                    <button class="main-nav-btn category-btn" data-category="Stories">📖 Short Stories</button>
                 </div>
             </div>
 
@@ -335,20 +353,20 @@
                         <input type="search" id="search-bar" placeholder="Search for any rhyme..." class="w-full p-3 border-2 border-gray-200 bg-white rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-brand-red focus:border-transparent transition-all">
                         <div class="h-px w-full bg-gray-300 md:h-10 md:w-px"></div>
                         <button id="surprise-button" class="w-full bg-yellow-400 hover:bg-yellow-500 text-gray-800 font-bold py-3 px-4 rounded-lg shadow-sm transition-transform transform hover:scale-105">
-                            ЁЯО▓ Surprise Me!
+                            🎲 Surprise Me!
                         </button>
                     </div>
                     <div id="category-filters" class="p-4 bg-gray-100 rounded-2xl border-2 border-gray-200">
                          <h4 class="text-center font-bold text-gray-700 mb-3">Or, filter rhymes by:</h4>
                         <div class="flex flex-wrap items-center justify-center gap-x-4 gap-y-3">
-                            <button class="category-btn" data-category="Rhymes">ЁЯО╢ All Rhymes</button>
-                            <button class="category-btn" data-category="Favorites">тЭдя╕П Favorites</button>
-                            <button class="category-btn" data-category="New">тЬи New & Exclusive</button>
-                            <button class="category-btn" data-category="Animal">ЁЯР╛ Animals</button>
-                            <button class="category-btn" data-category="Learning">ЁЯОУ Learning</button>
-                            <button class="category-btn" data-category="Classic">ЁЯУЬ Classics</button>
-                            <button class="category-btn" data-category="Indian">ЁЯЗоЁЯЗ│ Indian</button>
-                            <button class="category-btn" data-category="Lullaby">ЁЯМЩ Lullabies</button>
+                            <button class="category-btn" data-category="Rhymes">🤖 All Rhymes</button>
+                            <button class="category-btn" data-category="Favorites">⭐ Favorites</button>
+                            <button class="category-btn" data-category="New">✨ New & Exclusive</button>
+                            <button class="category-btn" data-category="Animal">🐾 Animals</button>
+                            <button class="category-btn" data-category="Learning">🎓 Learning</button>
+                            <button class="category-btn" data-category="Classic">📖 Classics</button>
+                            <button class="category-btn" data-category="Indian">🇮🇳 Indian</button>
+                            <button class="category-btn" data-category="Lullaby">😴 Lullabies</button>
                         </div>
                     </div>
                 </div>
@@ -358,14 +376,14 @@
                         <input type="search" id="story-search-bar" placeholder="Search for any story..." class="w-full p-3 border-2 border-gray-200 bg-white rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-brand-red focus:border-transparent transition-all">
                         <div class="h-px w-full bg-gray-300 md:h-10 md:w-px"></div>
                         <button id="story-surprise-button" class="w-full bg-yellow-400 hover:bg-yellow-500 text-gray-800 font-bold py-3 px-4 rounded-lg shadow-sm transition-transform transform hover:scale-105">
-                            ЁЯО▓ Surprise Me!
+                            🎲 Surprise Me!
                         </button>
                     </div>
                     <div class="p-4 bg-gray-100 rounded-2xl border-2 border-gray-200">
                          <h4 class="text-center font-bold text-gray-700 mb-3">Filter stories by:</h4>
                         <div id="story-category-filters" class="flex flex-wrap items-center justify-center gap-x-4 gap-y-3">
-                            <button class="category-btn" data-category="Stories">ЁЯУЪ All Stories</button>
-                            <button class="category-btn" data-category="StoryFavorites">тЭдя╕П Your Favorites</button>
+                            <button class="category-btn" data-category="Stories">📖 All Stories</button>
+                            <button class="category-btn" data-category="StoryFavorites">⭐ Your Favorites</button>
                         </div>
                     </div>
                 </div>
@@ -375,7 +393,7 @@
         <!-- Rhyme of the Day Section -->
         <section id="rhyme-of-the-day" class="mb-8 text-center">
             <div id="rotd-card" class="bg-gradient-to-br from-yellow-100 to-orange-200 p-4 rounded-2xl shadow-lg cursor-pointer transform hover:scale-[1.03] transition-transform duration-300 relative overflow-hidden border-2 border-yellow-300">
-                <h2 class="text-4xl font-baloo text-brand-dark mb-2">ЁЯМЯ Rhyme of the Day ЁЯМЯ</h2>
+                <h2 class="text-4xl font-baloo text-brand-dark mb-2">✨ Rhyme of the Day ✨</h2>
                 <div class="text-5xl mb-1" id="rotd-icon"></div>
                 <h3 class="text-3xl font-bold text-purple-600" id="rotd-title"></h3>
                 <p class="text-gray-600 mt-1 max-w-prose mx-auto text-sm hidden" id="rotd-snippet"></p>
@@ -422,11 +440,11 @@
                     </div>
                     <div class="flex flex-col md:flex-row items-center gap-2 text-gray-500">
                         <!-- Action Buttons -->
-                        <button id="read-aloud-btn-rhyme" class="social-share-btn text-2xl" title="Read Aloud" aria-label="Read Aloud">ЁЯФК</button>
+                        <button id="read-aloud-btn-rhyme" class="social-share-btn text-2xl" title="Read Aloud" aria-label="Read Aloud">🔊</button>
                         <button id="add-to-playlist-btn" class="social-share-btn" title="Add to Playlist" aria-label="Add to Playlist">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" /></svg>
                         </button>
-                        <button id="favorite-btn" class="social-share-btn" title="Add to Favorites" aria-label="Add to Favorites">тЭдя╕П</button>
+                        <button id="favorite-btn" class="social-share-btn" title="Add to Favorites" aria-label="Add to Favorites">⭐</button>
                     </div>
                 </div>
                 
@@ -443,7 +461,7 @@
                         <pre id="rhyme-lyrics-en" class="text-lg text-brand-dark whitespace-pre-wrap bg-gray-50 p-4 rounded-lg"></pre>
                     </div>
                     <div id="hindi-column">
-                        <h3 class="text-xl font-bold text-brand-dark mb-2">рд╣рд┐рдиреНрджреА</h3>
+                        <h3 class="text-xl font-bold text-brand-dark mb-2">हिंदी</h3>
                         <pre id="rhyme-lyrics-hi" class="text-lg text-brand-dark whitespace-pre-wrap bg-gray-50 p-4 rounded-lg"></pre>
                     </div>
                 </div>
@@ -451,7 +469,7 @@
                 <!-- Fun Fact Section -->
                 <div id="fun-fact-container" class="mt-6 hidden">
                     <details id="fun-fact-details" class="bg-blue-50 p-4 rounded-lg cursor-pointer">
-                        <summary class="font-bold text-lg text-brand-dark">ЁЯТб Did You Know?</summary>
+                        <summary class="font-bold text-lg text-brand-dark">💡 Did You Know?</summary>
                         <p id="fun-fact-text" class="mt-2 text-brand-dark"></p>
                     </details>
                 </div>
@@ -481,30 +499,33 @@
                 </div>
             </div>
             <div class="bg-white p-6 md:p-8 rounded-2xl shadow-xl max-w-6xl mx-auto">
-                <div class="flex justify-center items-center relative mb-2">
-                    <div class="flex-1"></div>
-                    <h2 id="story-title" class="text-3xl md:text-5xl font-baloo text-center text-purple-600 flex-shrink"></h2>
-                    <div class="flex-1 flex justify-end items-center gap-2">
-                        <button id="read-aloud-btn-story" class="social-share-btn text-2xl" title="Read Aloud" aria-label="Read Aloud">ЁЯФК</button>
+                <div class="flex flex-col sm:flex-row justify-between items-center relative mb-2">
+                    <!-- This container now holds the titles and metadata -->
+                    <div class="flex-1 text-center sm:text-left">
+                        <h2 id="story-title" class="text-3xl md:text-5xl font-baloo text-center text-purple-600"></h2>
+                        <h3 id="story-title-hi" class="text-2xl md:text-3xl font-baloo text-center text-purple-500 mt-1"></h3>
+                        <p id="story-author" class="text-center text-gray-500 text-lg mb-1"></p>
+                        <p id="story-read-time" class="text-center text-gray-400 text-sm mb-8"></p>
+                    </div>
+                    <!-- This container holds the social action buttons -->
+                    <div class="flex justify-center sm:justify-end items-center gap-2">
+                        <button id="read-aloud-btn-story" class="social-share-btn text-2xl" title="Read Aloud" aria-label="Read Aloud">🔊</button>
                         <button id="add-to-story-playlist-btn" class="social-share-btn" title="Add to Playlist" aria-label="Add to Playlist">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" /></svg>
                         </button>
-                        <button id="story-favorite-btn" class="social-share-btn" title="Add to Favorites" aria-label="Add to Favorites">ЁЯдН</button>
+                        <button id="story-favorite-btn" class="social-share-btn" title="Add to Favorites" aria-label="Add to Favorites">❤️</button>
                     </div>
                 </div>
-                <h3 id="story-title-hi" class="text-2xl md:text-3xl font-baloo text-center text-purple-500 mt-1"></h3>
-                <p id="story-author" class="text-center text-gray-500 text-lg mb-1"></p>
-                <p id="story-read-time" class="text-center text-gray-400 text-sm mb-8"></p>
                 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 mt-4">
-                    <div id="story-content-en">
+                    <div id="story-content-en" class="p-4 border-2 border-green-300 rounded-lg">
                         <h3 class="text-xl font-bold text-brand-dark mb-2">English</h3>
                         <div id="story-content" class="prose lg:prose-xl max-w-none space-y-6">
                             <!-- Story paragraphs will be injected here -->
                         </div>
                     </div>
-                    <div id="story-content-hi-container" class="hidden">
-                        <h3 class="text-xl font-bold text-brand-dark mb-2">рд╣рд┐рдиреНрджреА</h3>
+                    <div id="story-content-hi-container" class="hidden p-4 border-2 border-blue-300 rounded-lg">
+                        <h3 class="text-xl font-bold text-brand-dark mb-2">हिंदी</h3>
                         <div id="story-content-hi" class="prose lg:prose-xl max-w-none space-y-6">
                             <!-- Hindi story paragraphs will be injected here -->
                         </div>
@@ -512,9 +533,9 @@
                 </div>
 
                 <div id="story-moral-container" class="mt-10 border-t-2 border-dashed border-gray-300 text-center p-6 rounded-lg bg-red-50">
-                     <p class="text-lg font-bold text-brand-dark">Moral of the Story:</p>
+                     <p class="text-lg font-bold text-brand-dark p-2 border-2 border-green-300 rounded-lg mb-4">Moral of the Story:</p>
                      <p id="story-moral" class="text-lg text-gray-700 italic mt-2"></p>
-                     <p class="text-lg font-bold text-brand-dark mt-4">рдХрд╣рд╛рдиреА рдХрд╛ рд╕рд╛рд░:</p>
+                     <p class="text-lg font-bold text-brand-dark mt-4 p-2 border-2 border-blue-300 rounded-lg mb-4">कहानी का सार:</p>
                      <p id="story-moral-hi" class="text-lg text-gray-700 italic mt-2"></p>
                 </div>
                 
@@ -560,7 +581,7 @@
         <div class="container mx-auto px-4 text-center">
             <div class="flex flex-col sm:flex-row justify-center items-center text-gray-700">
                 <div class="mb-2 sm:mb-0 sm:mr-4 flex items-center">
-                    <div class="text-2xl text-brand-red mr-2">ЁЯО╢</div>
+                    <div class="text-2xl text-brand-red mr-2">🤖</div>
                     <p class="text-base font-baloo text-brand-dark">kids.toolblaster.com</p>
                 </div>
                 <div class="sm:border-l-2 sm:border-gray-300 sm:h-6 sm:mx-4 hidden sm:block"></div>
