@@ -172,16 +172,16 @@
             padding: 0.125rem; /* Squeezed padding even more */
         }
         #rotd-card h2 {
-            font-size: 0.875rem;
+            font-size: 1.5rem;
             margin-bottom: 0; /* Removed margin */
         }
         #rotd-card #rotd-icon {
-            font-size: 1.125rem; /* text-lg, further reduced */
+            font-size: 2.5rem; /* text-lg, further reduced */
             margin-top: 0;
             margin-bottom: 0; /* Removed margin */
         }
         #rotd-card h3 {
-            font-size: 0.875rem;
+            font-size: 1.5rem;
             font-family: 'Baloo 2', cursive;
         }
 
@@ -296,16 +296,16 @@
     </div>
 
     <!-- Header -->
-    <header class="bg-brand-red text-white text-center px-3 py-0.5 md:px-6 md:py-1 shadow-lg relative flex justify-center items-center">
+    <header class="bg-brand-red text-white text-center px-3 py-1 md:px-6 md:py-2 shadow-lg relative flex justify-center items-center">
         <div class="flex-1"></div>
         <div class="flex flex-col justify-center items-center flex-shrink-0">
-            <h1 id="home-button" class="text-lg md:text-4xl font-bold font-baloo pb-0 md:pb-1 border-b-2 border-white flex items-center cursor-pointer">
+            <h1 id="home-button" class="text-lg md:text-4xl font-bold font-baloo pb-1 md:pb-2 border-b-2 border-white flex items-center cursor-pointer">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 md:h-9 md:w-9 inline-block mr-1 md:mr-3" viewBox="0 0 20 20" fill="currentColor">
                     <path d="M18 3a1 1 0 00-1.196-.98l-10 2A1 1 0 006 5v9.114A4.369 4.369 0 005 14c-1.657 0-3 1.343-3 3s1.343 3 3 3 3-1.343 3-3V7.82l8-1.6v5.894A4.37 4.37 0 0015 12c-1.657 0-3 1.343-3 3s1.343 3 3 3 3-1.343 3-3V3z" />
                 </svg>
                 <span>Nursery Rhymes & Stories</span>
             </h1>
-            <p class="text-xs text-white/80 mt-0.5 font-baloo">kids.toolblaster.com</p>
+            <p class="text-xs text-white/80 mt-1 font-baloo">by: kids.toolblaster.com</p>
         </div>
         <div class="flex-1 flex justify-end items-center gap-2">
              <button id="playlist-toggle-btn" class="p-2 rounded-full text-white hover:bg-white/20 transition-colors relative" aria-label="View Playlist">
@@ -328,16 +328,6 @@
                     <button class="main-nav-btn category-btn" data-category="Stories">📚 Short Stories</button>
                 </div>
             </div>
-
-            <!-- Rhyme of the Day Section -->
-            <section id="rhyme-of-the-day" class="mb-8 text-center">
-                <div id="rotd-card" class="bg-gradient-to-br from-yellow-100 to-orange-200 p-4 rounded-2xl shadow-lg cursor-pointer transform hover:scale-[1.03] transition-transform duration-300 relative overflow-hidden border-2 border-yellow-300">
-                    <h2 class="text-2xl font-baloo text-brand-dark mb-2">🌟 Rhyme of the Day 🌟</h2>
-                    <div class="text-4xl mb-1" id="rotd-icon"></div>
-                    <h3 class="text-xl font-bold text-purple-600" id="rotd-title"></h3>
-                    <p class="text-gray-600 mt-1 max-w-prose mx-auto text-sm hidden" id="rotd-snippet"></p>
-                </div>
-            </section>
 
             <div class="section-card border border-gray-200 rounded-3xl">
                 <div id="rhyme-controls">
@@ -379,6 +369,16 @@
                         </div>
                     </div>
                 </div>
+            </div>
+        </section>
+
+        <!-- Rhyme of the Day Section -->
+        <section id="rhyme-of-the-day" class="mb-8 text-center">
+            <div id="rotd-card" class="bg-gradient-to-br from-yellow-100 to-orange-200 p-4 rounded-2xl shadow-lg cursor-pointer transform hover:scale-[1.03] transition-transform duration-300 relative overflow-hidden border-2 border-yellow-300">
+                <h2 class="text-4xl font-baloo text-brand-dark mb-2">🌟 Rhyme of the Day 🌟</h2>
+                <div class="text-5xl mb-1" id="rotd-icon"></div>
+                <h3 class="text-3xl font-bold text-purple-600" id="rotd-title"></h3>
+                <p class="text-gray-600 mt-1 max-w-prose mx-auto text-sm hidden" id="rotd-snippet"></p>
             </div>
         </section>
 
@@ -556,14 +556,25 @@
     <div id="toast-notification"></div>
 
     <!-- Footer -->
-    <footer class="bg-gray-100 mt-12 py-4 border-t border-gray-300">
-        <div class="container mx-auto px-4 text-xs text-gray-500 font-sans flex flex-col items-center text-center">
-            <div class="flex items-center gap-2 mb-2">
-                <div class="text-lg text-brand-red">🎶</div>
-                <span class="font-bold text-brand-dark">Nursery Rhymes & Stories</span>
+    <footer class="bg-gray-100 mt-12 py-6 border-t-2 border-brand-red">
+        <div class="container mx-auto px-4 text-gray-700">
+            <div class="flex flex-col items-center text-center">
+                <div class="mb-4">
+                    <div class="text-4xl mb-1 text-brand-red">🎶</div>
+                    <p class="text-xl font-baloo text-brand-dark mb-1">Nursery Rhymes & Stories</p>
+                    <p class="text-sm text-gray-500">by kids.toolblaster.com</p>
+                </div>
+                <div>
+                    <p class="text-sm max-w-xl">
+                        A wonderful collection of classic and exclusive content to delight children, parents, and educators. Read, sing, and share the joy.
+                    </p>
+                </div>
             </div>
+            <hr class="my-4 border-gray-300">
             <div class="text-center">
-                &copy; <span id="footer-year">2025</span> Kids.Toolblaster.com. All Rights Reserved.
+                <p class="text-xs text-gray-500">
+                    Copyright &copy; <span id="footer-year">2025</span> Kids.Toolblaster.com. All Rights Reserved.
+                </p>
             </div>
         </div>
     </footer>
