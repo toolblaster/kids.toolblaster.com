@@ -163,7 +163,7 @@
     <main class="container mx-auto p-4 md:p-8">
         
         <!-- Rhyme of the Day Section -->
-        <section id="rhyme-of-the-day" class="mb-8 text-center">
+        <section id="rhyme-of-the-day" class="mb-4 text-center">
             <div id="rotd-card" class="bg-gradient-to-br from-yellow-100 to-orange-200 p-3 rounded-2xl shadow-lg cursor-pointer transform hover:scale-[1.03] transition-transform duration-300 relative overflow-hidden border-2 border-yellow-300">
                 <h2 class="text-2xl font-bold text-brand-dark mb-1">🌟 Rhyme of the Day 🌟</h2>
                 <div class="text-4xl" id="rotd-icon"></div>
@@ -172,21 +172,21 @@
         </section>
 
         <!-- Controls Section -->
-        <section id="controls-section" class="mb-8">
-            <div class="section-card border border-brand-red/50 rounded-3xl shadow-lg shadow-brand-red/20 mb-8">
-                <h3 class="text-xl font-bold text-center text-brand-dark mb-2">Explore Our Collections</h3>
-                 <p class="text-center text-gray-600 mb-6 font-body">Discover a world of fun with our original stories and classic rhymes.</p>
+        <section id="controls-section" class="mb-4">
+            <div class="section-card border border-brand-red/50 rounded-3xl shadow-lg shadow-brand-red/20 mb-4 p-4">
+                <h3 class="text-lg font-bold text-center text-brand-dark mb-2">Explore Our Collections</h3>
+                <p class="text-center text-gray-600 mb-2 font-body text-sm">Discover a world of fun with our original stories and classic rhymes.</p>
                 
                  <div id="main-navigation" class="relative flex flex-col sm:flex-row justify-center gap-4">
-                    <button class="main-nav-btn category-btn active" data-category="Rhymes">🎵 Rhymes</button>
-                    <button class="main-nav-btn category-btn" data-category="Stories">📚 Short Stories</button>
+                    <button class="main-nav-btn category-btn active text-xl" data-category="Rhymes">🎵 Rhymes</button>
+                    <button class="main-nav-btn category-btn text-xl" data-category="Stories">📚 Short Stories</button>
                     <div class="absolute inset-0 z-[-1] bg-brand-red rounded-lg blur-xl opacity-20 transform scale-x-110"></div>
                 </div>
             </div>
 
-            <div class="section-card border border-gray-200 rounded-3xl">
+            <div class="section-card border border-gray-200 rounded-3xl p-4">
                 <div id="rhyme-controls" class="p-2 bg-gray-100 rounded-2xl border-2 border-gray-200 shadow-inner">
-                     <div class="mb-6 grid grid-cols-1 md:grid-cols-[2fr_auto_1fr] items-center gap-4">
+                     <div class="mb-4 grid grid-cols-1 md:grid-cols-[2fr_auto_1fr] items-center gap-4">
                         <input type="search" id="search-bar" placeholder="Search for any rhyme..." class="w-full p-2 text-sm font-body border-2 border-gray-200 bg-white rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-brand-red focus:border-transparent transition-all">
                         <div class="h-px w-full bg-gray-300 md:h-10 md:w-px"></div>
                         <button id="surprise-button" class="w-full bg-yellow-400 hover:bg-yellow-500 text-gray-800 font-bold py-2 px-3 text-sm rounded-lg shadow-sm transition-transform transform hover:scale-105 button-pop">
@@ -209,7 +209,7 @@
                 </div>
                 
                 <div id="story-controls" class="hidden p-2 bg-gray-100 rounded-2xl border-2 border-gray-200 shadow-inner">
-                    <div class="mb-6 grid grid-cols-1 md:grid-cols-[2fr_auto_1fr] items-center gap-4">
+                    <div class="mb-4 grid grid-cols-1 md:grid-cols-[2fr_auto_1fr] items-center gap-4">
                         <input type="search" id="story-search-bar" placeholder="Search for any story..." class="w-full p-2 text-sm font-body border-2 border-gray-200 bg-white rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-brand-red focus:border-transparent transition-all">
                         <div class="h-px w-full bg-gray-300 md:h-10 md:w-px"></div>
                         <button id="story-surprise-button" class="w-full bg-yellow-400 hover:bg-yellow-500 text-gray-800 font-bold py-2 px-3 text-sm rounded-lg shadow-sm transition-transform transform hover:scale-105 button-pop">
