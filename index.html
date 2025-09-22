@@ -95,23 +95,6 @@
                 user-select: none;           /* Non-prefixed version, currently supported by Chrome, Edge, Opera and Firefox */
             }
             
-            /* Vertical toolbar for story view on mobile */
-            @media (max-width: 639px) { /* Tailind's sm: breakpoint is 640px */
-                #story-detail .toolbar-container {
-                    flex-direction: column;
-                    align-items: center;
-                }
-
-                #story-detail .toolbar-container .flex-1 {
-                    flex-basis: 0;
-                    height: 0;
-                    overflow: hidden;
-                }
-                
-                #story-detail .social-buttons {
-                    margin-top: 1rem;
-                }
-            }
         }
 
         /* Toast Notification */
@@ -499,16 +482,13 @@
                 </div>
             </div>
             <div class="bg-white p-6 md:p-8 rounded-2xl shadow-xl max-w-6xl mx-auto">
-                <div class="flex flex-col sm:flex-row justify-between items-center relative mb-2">
-                    <!-- This container now holds the titles and metadata -->
-                    <div class="flex-1 text-center sm:text-left">
-                        <h2 id="story-title" class="text-3xl md:text-5xl font-baloo text-center text-purple-600"></h2>
-                        <h3 id="story-title-hi" class="text-2xl md:text-3xl font-baloo text-center text-purple-500 mt-1"></h3>
-                        <p id="story-author" class="text-center text-gray-500 text-lg mb-1"></p>
-                        <p id="story-read-time" class="text-center text-gray-400 text-sm mb-8"></p>
-                    </div>
+                <div class="flex flex-col text-center">
+                    <h2 id="story-title" class="text-3xl md:text-5xl font-baloo text-purple-600"></h2>
+                    <h3 id="story-title-hi" class="text-2xl md:text-3xl font-baloo text-purple-500 mt-1"></h3>
+                    <p id="story-author" class="text-gray-500 text-lg mb-1"></p>
+                    <p id="story-read-time" class="text-gray-400 text-sm mb-4"></p>
                     <!-- This container holds the social action buttons -->
-                    <div class="flex justify-center sm:justify-end items-center gap-2">
+                    <div class="flex justify-center items-center gap-2 mb-8">
                         <button id="read-aloud-btn-story" class="social-share-btn text-2xl" title="Read Aloud" aria-label="Read Aloud">🔊</button>
                         <button id="add-to-story-playlist-btn" class="social-share-btn" title="Add to Playlist" aria-label="Add to Playlist">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" /></svg>
@@ -533,10 +513,14 @@
                 </div>
 
                 <div id="story-moral-container" class="mt-10 border-t-2 border-dashed border-gray-300 text-center p-6 rounded-lg bg-red-50">
-                     <p class="text-lg font-bold text-brand-dark p-2 border-2 border-green-300 rounded-lg mb-4">Moral of the Story:</p>
-                     <p id="story-moral" class="text-lg text-gray-700 italic mt-2"></p>
-                     <p class="text-lg font-bold text-brand-dark mt-4 p-2 border-2 border-blue-300 rounded-lg mb-4">कहानी का सार:</p>
-                     <p id="story-moral-hi" class="text-lg text-gray-700 italic mt-2"></p>
+                     <div class="p-2 border-2 border-green-300 rounded-lg mb-4">
+                        <p class="text-lg font-bold text-brand-dark">Moral of the Story:</p>
+                        <p id="story-moral" class="text-lg text-gray-700 italic mt-2"></p>
+                     </div>
+                     <div class="p-2 border-2 border-blue-300 rounded-lg mb-4">
+                        <p class="text-lg font-bold text-brand-dark mt-4">कहानी का सार:</p>
+                        <p id="story-moral-hi" class="text-lg text-gray-700 italic mt-2"></p>
+                     </div>
                 </div>
                 
                 <!-- Copyright Notice for Stories -->
