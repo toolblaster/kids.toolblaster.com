@@ -102,7 +102,7 @@
             .section-card {
                 @apply p-6 bg-white rounded-2xl shadow-md;
             }
-            #controls-section, #rhyme-of-the-day, #story-detail, #legal-view {
+            #controls-section, #rhyme-of-the-day, #story-detail, #legal-view, #coming-soon-view {
                 max-width: 1000px;
                 margin-left: auto;
                 margin-right: auto;
@@ -175,7 +175,7 @@
         .rhyme-card h3, .story-card h3 { font-family: 'Baloo 2', cursive; }
         
         /* Using a more readable font for long-form content */
-        #rhyme-lyrics-en, #rhyme-lyrics-hi, #story-content p, #story-content-hi p, #fun-fact-text, #story-moral, #legal-view .font-body {
+        #rhyme-lyrics-en, #rhyme-lyrics-hi, #story-content p, #story-content-hi p, #fun-fact-text, #story-moral, #legal-view .font-body, #coming-soon-list .font-body {
             font-family: 'Nunito', sans-serif;
             font-weight: 400; /* Regular weight for readability */
         }
@@ -188,7 +188,7 @@
 
             /* Printing for Rhyme Text */
             body.printing-rhyme > header, body.printing-rhyme > footer, body.printing-rhyme > #playlist-view,
-            body.printing-rhyme > #back-to-top-btn, body.printing-rhyme > #toast-notification { display: none; }
+            body.printing-rhyme > #back-to-top-btn, body.printing-rhyme > #toast-notification, body.printing-rhyme > #coming-soon-view { display: none; }
             body.printing-rhyme main > *:not(#rhyme-detail) { display: none; }
             body.printing-rhyme #rhyme-detail { display: block; box-shadow: none; }
             body.printing-rhyme #rhyme-detail > div { box-shadow: none; padding: 0; margin: 0; }
@@ -199,13 +199,13 @@
             
             /* Printing for Story Text */
             body.printing-story > header, body.printing-story > footer, body.printing-story > #playlist-view,
-            body.printing-story > #back-to-top-btn, body.printing-story > #toast-notification { display: none; }
+            body.printing-story > #back-to-top-btn, body.printing-story > #toast-notification, body.printing-story > #coming-soon-view { display: none; }
             body.printing-story main > *:not(#story-detail) { display: none; }
             body.printing-story #story-detail { display: block; box-shadow: none; max-width: 100%; }
             body.printing-story #story-detail > div { box-shadow: none; padding: 0; margin: 0; }
             body.printing-story #story-back-button, body.printing-story .action-btn, body.printing-story #previous-detail-story-btn,
             body.printing-story #next-detail-story-btn, body.printing-story #story-moral-container, body.printing-story #story-copyright-notice-container,
-            body.printing-story #story-playlist-nav-buttons { display: none; } /* UPDATED: Hide story playlist nav on print */
+            body.printing-story #story-playlist-nav-buttons { display: none; }
             body.printing-story #story-detail .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
             body.printing-story #story-detail #story-content-hi-container { display: block; }
         }
@@ -401,7 +401,6 @@
                     </div>
                 </div>
                 
-                <!-- UPDATED: Added Playlist Navigation for Stories -->
                 <div id="story-playlist-nav-buttons" class="hidden flex justify-center items-center gap-4 my-4">
                     <button id="prev-story-btn" class="bg-gray-200 hover:bg-gray-300 text-brand-dark font-bold py-2 px-4 rounded-lg shadow-md transition-colors disabled:opacity-50 disabled:cursor-not-allowed button-pop">&larr; Previous</button>
                     <span id="story-playlist-position" class="text-gray-600 font-semibold font-body"></span>
@@ -434,6 +433,26 @@
                     <div class="bg-gray-100 p-3 rounded-lg text-center">
                         <p id="story-copyright-text" class="text-[11px] text-gray-600 font-semibold font-body"></p>
                     </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Coming Soon View -->
+        <section id="coming-soon-view" class="hidden">
+             <div class="max-w-4xl mx-auto">
+                <div class="flex justify-start mb-6">
+                    <button id="coming-soon-back-button" class="w-full sm:w-auto bg-brand-red hover:bg-opacity-90 text-white font-bold py-2 px-3 rounded-lg shadow-md transition-transform transform hover:scale-105 active:scale-95 button-pop">
+                        &larr; Back to Home
+                    </button>
+                </div>
+            </div>
+            <div class="bg-white p-6 md:p-8 rounded-2xl shadow-xl max-w-4xl mx-auto">
+                <div class="text-center mb-8">
+                    <h2 class="text-3xl md:text-4xl font-bold text-purple-600">Coming Soon!</h2>
+                    <p class="text-lg text-gray-600 mt-2 font-body">Get excited for these new rhymes and stories, coming soon to our collection!</p>
+                </div>
+                <div id="coming-soon-list" class="space-y-4">
+                    <!-- Upcoming content will be injected here by script.js -->
                 </div>
             </div>
         </section>
@@ -517,6 +536,9 @@
                  <p class="text-xs text-gray-500 font-body">
                     Copyright &copy; <span id="footer-year">2025</span>. All Rights Reserved.
                 </p>
+                <div class="sm:border-l-2 sm:border-gray-300 sm:h-6 sm:mx-4 hidden sm:block"></div>
+                <!-- UPDATED: Added Coming Soon link -->
+                <a href="#" id="coming-soon-link" class="text-xs text-red-700 hover:text-red-800 hover:underline font-body font-bold">Coming Soon...</a>
                 <div class="sm:border-l-2 sm:border-gray-300 sm:h-6 sm:mx-4 hidden sm:block"></div>
                 <a href="#" id="legal-link" class="text-xs text-red-700 hover:text-red-800 hover:underline font-body font-bold">Contact & Legal</a>
             </div>
