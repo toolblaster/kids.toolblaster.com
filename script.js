@@ -14,6 +14,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- GLOBAL VARIABLES & STATE ---
     let allRhymes = [];
     let allStories = [];
+    // UPDATED: Added a new variable for all exclusive rhymes
+    let allExclusiveRhymes = [];
     let currentRhymeList = [];
     let favorites = JSON.parse(localStorage.getItem('favoriteRhymes')) || [];
     let favoriteStories = JSON.parse(localStorage.getItem('favoriteStories')) || [];
@@ -40,10 +42,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const rhymeDetailView = document.getElementById('rhyme-detail');
     const storyDetailView = document.getElementById('story-detail');
     const legalView = document.getElementById('legal-view');
+    // UPDATED: Added selector for the new Coming Soon view
+    const comingSoonView = document.getElementById('coming-soon-view');
 
     // Grids & Content Holders
     const rhymeGrid = document.getElementById('rhyme-grid');
     const storyGrid = document.getElementById('story-grid');
+    // UPDATED: Added selector for the coming soon list container
+    const comingSoonList = document.getElementById('coming-soon-list');
 
     // Controls
     const controlsSection = document.getElementById('controls-section');
@@ -76,9 +82,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const shareStoryBtn = document.getElementById('share-story-btn');
     const printStoryBtn = document.getElementById('print-story-btn');
     
-    // Legal Page Elements
+    // Legal & Coming Soon Page Elements
     const legalLink = document.getElementById('legal-link');
     const legalBackButton = document.getElementById('legal-back-button');
+    // UPDATED: Added selectors for new elements
+    const comingSoonLink = document.getElementById('coming-soon-link');
+    const comingSoonBackButton = document.getElementById('coming-soon-back-button');
+
 
     // Playlist Elements
     const playlistToggleBtn = document.getElementById('playlist-toggle-btn');
@@ -89,13 +99,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const playlistCountEl = document.getElementById('playlist-count');
     const addToPlaylistBtn = document.getElementById('add-to-playlist-btn');
     
-    // UPDATED: Rhyme Playlist Navigation Elements
     const playlistNavButtons = document.getElementById('playlist-nav-buttons');
     const prevRhymeBtn = document.getElementById('prev-rhyme-btn');
     const nextRhymeBtn = document.getElementById('next-rhyme-btn');
     const playlistPositionEl = document.getElementById('playlist-position');
     
-    // UPDATED: Story Playlist Navigation Elements
     const storyPlaylistNavButtons = document.getElementById('story-playlist-nav-buttons');
     const prevStoryBtn = document.getElementById('prev-story-btn');
     const nextStoryBtn = document.getElementById('next-story-btn');
@@ -112,16 +120,39 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // --- DATA HANDLING ---
+    // UPDATED: Added a robust fetch-with-retry mechanism for loading data
+    async function fetchWithRetry(url, retries = 3, delay = 500) {
+        for (let i = 0; i < retries; i++) {
+            try {
+                const response = await fetch(url);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return await response.json();
+            } catch (error) {
+                console.warn(`Attempt ${i + 1} failed for ${url}. Retrying in ${delay}ms...`, error);
+                if (i < retries - 1) {
+                    await new Promise(resolve => setTimeout(resolve, delay));
+                    delay *= 2; // Exponential backoff
+                } else {
+                    throw error; // Rethrow the last error
+                }
+            }
+        }
+    }
+
     async function loadAllData() {
         try {
             const [rhymesPublic, rhymesExclusive, stories] = await Promise.all([
-                fetch('public_rhymes.json').then(res => res.json()),
-                fetch('exclusive_rhymes.json').then(res => res.json()),
-                fetch('short_stories.json').then(res => res.json())
+                fetchWithRetry('public_rhymes.json'),
+                fetchWithRetry('exclusive_rhymes.json'),
+                fetchWithRetry('short_stories.json')
             ]);
 
+            allExclusiveRhymes = rhymesExclusive;
+
             const currentDate = new Date();
-            const filteredExclusiveRhymes = rhymesExclusive.filter(rhyme => {
+            const filteredExclusiveRhymes = allExclusiveRhymes.filter(rhyme => {
                 if (rhyme.releaseDate) {
                     const releaseDate = new Date(rhyme.releaseDate);
                     return releaseDate <= currentDate;
@@ -136,8 +167,8 @@ document.addEventListener('DOMContentLoaded', () => {
             loadingIndicator.style.display = 'none';
 
         } catch (error) {
-            console.error("Could not fetch data:", error);
-            loadingIndicator.innerHTML = '<p class="text-red-500 text-center">Sorry, could not load content. Please try refreshing the page.</p>';
+            console.error("Could not fetch data after multiple retries:", error);
+            loadingIndicator.innerHTML = '<p class="text-red-500 text-center font-body">Sorry, could not load content. Please check your internet connection and try refreshing the page.</p>';
         }
     }
 
@@ -155,6 +186,8 @@ document.addEventListener('DOMContentLoaded', () => {
             showStoryDetail(parseInt(storyId));
         } else if (page === 'legal') {
             showLegalView();
+        } else if (page === 'coming-soon') {
+            showComingSoonView();
         } else if (category) {
             updateActiveCategoryButton(category);
             showMainView(category);
@@ -231,6 +264,7 @@ document.addEventListener('DOMContentLoaded', () => {
         rhymeDetailView.classList.add('hidden');
         storyDetailView.classList.add('hidden');
         legalView.classList.add('hidden');
+        comingSoonView.classList.add('hidden');
         document.getElementById('rhyme-of-the-day').classList.add('hidden');
         controlsSection.classList.add('hidden');
         rhymeControls.classList.add('hidden');
@@ -283,6 +317,42 @@ document.addEventListener('DOMContentLoaded', () => {
         document.title = "Contact & Legal - Kids Rhymes & Stories";
         updateUrl({ page: 'legal' });
         window.scrollTo(0, 0);
+    }
+
+    function showComingSoonView() {
+        hideAllViews();
+        comingSoonView.classList.remove('hidden');
+        document.title = "Coming Soon! - Kids Rhymes & Stories";
+        updateUrl({ page: 'coming-soon' });
+        window.scrollTo(0, 0);
+
+        const currentDate = new Date();
+        const upcomingContent = allExclusiveRhymes
+            .filter(rhyme => rhyme.releaseDate && new Date(rhyme.releaseDate) > currentDate)
+            .sort((a, b) => new Date(a.releaseDate) - new Date(b.releaseDate));
+
+        comingSoonList.innerHTML = ''; // Clear previous list
+
+        if (upcomingContent.length > 0) {
+            upcomingContent.forEach(rhyme => {
+                const releaseDate = new Date(rhyme.releaseDate);
+                const options = { year: 'numeric', month: 'long', day: 'numeric' };
+                const formattedDate = releaseDate.toLocaleDateString('en-US', options);
+
+                const itemEl = document.createElement('div');
+                itemEl.className = 'flex items-center p-4 bg-gray-50 rounded-lg shadow-sm border-l-4 border-yellow-400';
+                itemEl.innerHTML = `
+                    <div class="text-4xl mr-4">${rhyme.icon || '🎵'}</div>
+                    <div class="flex-grow">
+                        <h3 class="text-lg font-bold text-brand-dark">${rhyme.title}</h3>
+                        <p class="text-sm text-gray-600 font-body">Coming on: <span class="font-semibold text-brand-red">${formattedDate}</span></p>
+                    </div>
+                `;
+                comingSoonList.appendChild(itemEl);
+            });
+        } else {
+            comingSoonList.innerHTML = `<p class="text-center text-gray-600 font-body p-4 bg-gray-50 rounded-lg">No new rhymes are scheduled right now. Check back soon for more fun content!</p>`;
+        }
     }
 
     function goHome() {
@@ -347,7 +417,6 @@ document.addEventListener('DOMContentLoaded', () => {
         currentRhyme = allRhymes.find(r => r.id === rhymeId);
         if (!currentRhyme) return;
 
-        // Reset current story to avoid confusion
         currentStory = null; 
         
         hideAllViews();
@@ -461,12 +530,10 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // UPDATED: Now accepts playlist parameters
     function showStoryDetail(storyId, fromPlaylist = false, playlistIndex = -1) {
         currentStory = allStories.find(s => s.id === storyId);
         if (!currentStory) return;
         
-        // Reset current rhyme to avoid confusion
         currentRhyme = null;
 
         hideAllViews();
@@ -478,7 +545,6 @@ document.addEventListener('DOMContentLoaded', () => {
         stopReading();
         updateReadAloudButton(readAloudStoryBtn);
         
-        // UPDATED: Set playlist state
         isPlaylistMode = fromPlaylist;
         if (isPlaylistMode) {
             currentPlaylistIndex = playlistIndex;
@@ -541,7 +607,6 @@ document.addEventListener('DOMContentLoaded', () => {
         storyFavoriteBtn.innerHTML = isFavoriteStory(storyId) ? '❤️' : '🤍';
         updateAddToStoryPlaylistButton();
         
-        // UPDATED: Call unified playlist nav function
         updatePlaylistNav();
         window.scrollTo(0, 0);
     }
@@ -566,6 +631,12 @@ document.addEventListener('DOMContentLoaded', () => {
             e.preventDefault();
             showLegalView();
         });
+        comingSoonLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            showComingSoonView();
+        });
+        comingSoonBackButton.addEventListener('click', goHome);
+
         searchBar.addEventListener('input', handleSearchInput);
         storySearchBar.addEventListener('input', handleStorySearchInput);
         document.getElementById('main-navigation').addEventListener('click', handleCategoryClick);
@@ -591,7 +662,6 @@ document.addEventListener('DOMContentLoaded', () => {
         clearPlaylistBtn.addEventListener('click', clearPlaylist);
         playlistItemsContainer.addEventListener('click', handlePlaylistItemClick);
         
-        // UPDATED: Point all playlist navigation to unified functions
         prevRhymeBtn.addEventListener('click', playPreviousPlaylistItem);
         nextRhymeBtn.addEventListener('click', playNextPlaylistItem);
         prevStoryBtn.addEventListener('click', playPreviousPlaylistItem);
@@ -951,7 +1021,6 @@ document.addEventListener('DOMContentLoaded', () => {
             if (itemType === 'rhyme') {
                 showRhymeDetail(itemId, true, playlistIndex);
             } else {
-                // UPDATED: Pass playlist context to stories
                 showStoryDetail(itemId, true, playlistIndex);
             }
         } else if (action === 'remove') {
@@ -968,7 +1037,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
     
-    // UPDATED: Unified function to handle playlist navigation for both rhymes and stories
     function updatePlaylistNav() {
         playlistNavButtons.classList.add('hidden');
         storyPlaylistNavButtons.classList.add('hidden');
@@ -1000,7 +1068,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
     
-    // UPDATED: Unified function to play the next item in the playlist
     function playNextPlaylistItem() {
         if (isPlaylistMode && currentPlaylistIndex < playlist.length - 1) {
             const nextIndex = currentPlaylistIndex + 1;
@@ -1013,7 +1080,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // UPDATED: Unified function to play the previous item in the playlist
     function playPreviousPlaylistItem() {
         if (isPlaylistMode && currentPlaylistIndex > 0) {
             const prevIndex = currentPlaylistIndex - 1;
