@@ -346,7 +346,7 @@ document.addEventListener('DOMContentLoaded', () => {
             itemEl.innerHTML = `
                 <div class="text-4xl mr-4">${item.icon || (type === 'Rhyme' ? '🎵' : '📚')}</div>
                 <div class="flex-grow">
-                    <h3 class="text-lg font-bold text-brand-dark">${item.title}</h3>
+                    <h3 class="text-base font-bold text-brand-dark">${item.title}</h3>
                     <p class="text-sm text-gray-600 font-body">Coming on: <span class="font-semibold">${formattedDate}</span></p>
                 </div>
             `;
