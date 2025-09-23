@@ -204,7 +204,8 @@
             body.printing-story #story-detail { display: block; box-shadow: none; max-width: 100%; }
             body.printing-story #story-detail > div { box-shadow: none; padding: 0; margin: 0; }
             body.printing-story #story-back-button, body.printing-story .action-btn, body.printing-story #previous-detail-story-btn,
-            body.printing-story #next-detail-story-btn, body.printing-story #story-moral-container, body.printing-story #story-copyright-notice-container { display: none; }
+            body.printing-story #next-detail-story-btn, body.printing-story #story-moral-container, body.printing-story #story-copyright-notice-container,
+            body.printing-story #story-playlist-nav-buttons { display: none; } /* UPDATED: Hide story playlist nav on print */
             body.printing-story #story-detail .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
             body.printing-story #story-detail #story-content-hi-container { display: block; }
         }
@@ -270,7 +271,7 @@
                         </button>
                     </div>
                     <div id="category-filters">
-                         <h4 class="text-center font-bold text-gray-700 mb-2">Or, filter rhymes by:</h4>
+                         <h3 class="text-center font-bold text-gray-700 mb-2">Or, filter rhymes by:</h3>
                         <div class="flex flex-wrap items-center justify-center gap-x-2 gap-y-2">
                             <button class="category-btn button-pop" data-category="Rhymes">🎵 All Rhymes</button>
                             <button class="category-btn button-pop" data-category="Favorites">❤️ Favorites</button>
@@ -293,7 +294,7 @@
                         </button>
                     </div>
                     <div id="story-category-filters">
-                         <h4 class="text-center font-bold text-gray-700 mb-2">Filter stories by:</h4>
+                         <h3 class="text-center font-bold text-gray-700 mb-2">Filter stories by:</h3>
                         <div class="flex flex-wrap items-center justify-center gap-x-2 gap-y-2">
                             <button class="category-btn button-pop" data-category="Stories">📚 All Stories</button>
                             <button class="category-btn button-pop" data-category="StoryFavorites">❤️ Your Favorites</button>
@@ -400,6 +401,13 @@
                     </div>
                 </div>
                 
+                <!-- UPDATED: Added Playlist Navigation for Stories -->
+                <div id="story-playlist-nav-buttons" class="hidden flex justify-center items-center gap-4 my-4">
+                    <button id="prev-story-btn" class="bg-gray-200 hover:bg-gray-300 text-brand-dark font-bold py-2 px-4 rounded-lg shadow-md transition-colors disabled:opacity-50 disabled:cursor-not-allowed button-pop">&larr; Previous</button>
+                    <span id="story-playlist-position" class="text-gray-600 font-semibold font-body"></span>
+                    <button id="next-story-btn" class="bg-gray-200 hover:bg-gray-300 text-brand-dark font-bold py-2 px-4 rounded-lg shadow-md transition-colors disabled:opacity-50 disabled:cursor-not-allowed button-pop">Next &rarr;</button>
+                </div>
+
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 mt-4">
                     <div id="story-content-en-container" class="p-4 border-2 border-green-300 rounded-lg">
                         <h3 class="text-xl font-bold text-brand-dark mb-2">English</h3>
