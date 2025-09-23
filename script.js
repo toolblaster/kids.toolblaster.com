@@ -14,7 +14,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- GLOBAL VARIABLES & STATE ---
     let allRhymes = [];
     let allStories = [];
-    // UPDATED: Added a new variable for all exclusive rhymes
     let allExclusiveRhymes = [];
     let currentRhymeList = [];
     let favorites = JSON.parse(localStorage.getItem('favoriteRhymes')) || [];
@@ -42,14 +41,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const rhymeDetailView = document.getElementById('rhyme-detail');
     const storyDetailView = document.getElementById('story-detail');
     const legalView = document.getElementById('legal-view');
-    // UPDATED: Added selector for the new Coming Soon view
     const comingSoonView = document.getElementById('coming-soon-view');
 
     // Grids & Content Holders
     const rhymeGrid = document.getElementById('rhyme-grid');
     const storyGrid = document.getElementById('story-grid');
-    // UPDATED: Added selector for the coming soon list container
-    const comingSoonList = document.getElementById('coming-soon-list');
+    const comingSoonRhymesList = document.getElementById('coming-soon-rhymes-list');
+    const comingSoonStoriesList = document.getElementById('coming-soon-stories-list');
+
 
     // Controls
     const controlsSection = document.getElementById('controls-section');
@@ -85,7 +84,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // Legal & Coming Soon Page Elements
     const legalLink = document.getElementById('legal-link');
     const legalBackButton = document.getElementById('legal-back-button');
-    // UPDATED: Added selectors for new elements
     const comingSoonLink = document.getElementById('coming-soon-link');
     const comingSoonBackButton = document.getElementById('coming-soon-back-button');
 
@@ -120,7 +118,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // --- DATA HANDLING ---
-    // UPDATED: Added a robust fetch-with-retry mechanism for loading data
     async function fetchWithRetry(url, retries = 3, delay = 500) {
         for (let i = 0; i < retries; i++) {
             try {
@@ -150,6 +147,7 @@ document.addEventListener('DOMContentLoaded', () => {
             ]);
 
             allExclusiveRhymes = rhymesExclusive;
+            allStories = stories;
 
             const currentDate = new Date();
             const filteredExclusiveRhymes = allExclusiveRhymes.filter(rhyme => {
@@ -161,7 +159,6 @@ document.addEventListener('DOMContentLoaded', () => {
             });
 
             allRhymes = [...rhymesPublic, ...filteredExclusiveRhymes].sort((a, b) => a.id - b.id);
-            allStories = stories;
             
             handleUrlParams();
             loadingIndicator.style.display = 'none';
@@ -285,7 +282,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (viewName === 'StoryFavorites') {
                 storiesToDisplay = allStories.filter(s => isFavoriteStory(s.id));
             } else { // 'Stories'
-                storiesToDisplay = allStories;
+                storiesToDisplay = allStories.filter(story => !story.releaseDate || new Date(story.releaseDate) <= new Date());
             }
             displayStoryGallery(storiesToDisplay);
         } else { // Rhymes and all its categories
@@ -325,33 +322,50 @@ document.addEventListener('DOMContentLoaded', () => {
         document.title = "Coming Soon! - Kids Rhymes & Stories";
         updateUrl({ page: 'coming-soon' });
         window.scrollTo(0, 0);
-
+    
         const currentDate = new Date();
-        const upcomingContent = allExclusiveRhymes
+    
+        const upcomingRhymes = allExclusiveRhymes
             .filter(rhyme => rhyme.releaseDate && new Date(rhyme.releaseDate) > currentDate)
             .sort((a, b) => new Date(a.releaseDate) - new Date(b.releaseDate));
-
-        comingSoonList.innerHTML = ''; // Clear previous list
-
-        if (upcomingContent.length > 0) {
-            upcomingContent.forEach(rhyme => {
-                const releaseDate = new Date(rhyme.releaseDate);
-                const options = { year: 'numeric', month: 'long', day: 'numeric' };
-                const formattedDate = releaseDate.toLocaleDateString('en-US', options);
-
-                const itemEl = document.createElement('div');
-                itemEl.className = 'flex items-center p-4 bg-gray-50 rounded-lg shadow-sm border-l-4 border-yellow-400';
-                itemEl.innerHTML = `
-                    <div class="text-4xl mr-4">${rhyme.icon || '🎵'}</div>
-                    <div class="flex-grow">
-                        <h3 class="text-lg font-bold text-brand-dark">${rhyme.title}</h3>
-                        <p class="text-sm text-gray-600 font-body">Coming on: <span class="font-semibold text-brand-red">${formattedDate}</span></p>
-                    </div>
-                `;
-                comingSoonList.appendChild(itemEl);
+    
+        const upcomingStories = allStories
+            .filter(story => story.releaseDate && new Date(story.releaseDate) > currentDate)
+            .sort((a, b) => new Date(a.releaseDate) - new Date(b.releaseDate));
+    
+        comingSoonRhymesList.innerHTML = '';
+        comingSoonStoriesList.innerHTML = '';
+    
+        const createItemElement = (item) => {
+            const releaseDate = new Date(item.releaseDate);
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            const formattedDate = releaseDate.toLocaleDateString('en-US', options);
+            const itemEl = document.createElement('div');
+            itemEl.className = 'flex items-center p-4 bg-gray-50 rounded-lg shadow-sm';
+            itemEl.innerHTML = `
+                <div class="text-4xl mr-4">${item.icon || (item.type === 'Rhyme' ? '🎵' : '📚')}</div>
+                <div class="flex-grow">
+                    <h3 class="text-lg font-bold text-brand-dark">${item.title}</h3>
+                    <p class="text-sm text-gray-600 font-body">Coming on: <span class="font-semibold">${formattedDate}</span></p>
+                </div>
+            `;
+            return itemEl;
+        };
+    
+        if (upcomingRhymes.length > 0) {
+            upcomingRhymes.forEach(rhyme => {
+                comingSoonRhymesList.appendChild(createItemElement(rhyme));
             });
         } else {
-            comingSoonList.innerHTML = `<p class="text-center text-gray-600 font-body p-4 bg-gray-50 rounded-lg">No new rhymes are scheduled right now. Check back soon for more fun content!</p>`;
+            comingSoonRhymesList.innerHTML = `<p class="text-center text-gray-600 font-body p-4 bg-gray-50 rounded-lg">No new rhymes scheduled right now.</p>`;
+        }
+    
+        if (upcomingStories.length > 0) {
+            upcomingStories.forEach(story => {
+                comingSoonStoriesList.appendChild(createItemElement(story));
+            });
+        } else {
+            comingSoonStoriesList.innerHTML = `<p class="text-center text-gray-600 font-body p-4 bg-gray-50 rounded-lg">No new stories scheduled right now.</p>`;
         }
     }
 
@@ -600,9 +614,9 @@ document.addEventListener('DOMContentLoaded', () => {
         storyCopyrightText.textContent = `Copyright © ${new Date().getFullYear()} kids.toolblaster.com. This is an Original and Exclusive Story 📚`;
         storyCopyrightContainer.classList.remove('hidden');
         
-        const currentIndex = allStories.findIndex(s => s.id === currentStory.id);
+        const currentIndex = allStories.filter(story => !story.releaseDate || new Date(story.releaseDate) <= new Date()).findIndex(s => s.id === currentStory.id);
         previousDetailStoryBtn.disabled = currentIndex <= 0;
-        nextDetailStoryBtn.disabled = currentIndex >= allStories.length - 1;
+        nextDetailStoryBtn.disabled = currentIndex >= allStories.filter(story => !story.releaseDate || new Date(story.releaseDate) <= new Date()).length - 1;
 
         storyFavoriteBtn.innerHTML = isFavoriteStory(storyId) ? '❤️' : '🤍';
         updateAddToStoryPlaylistButton();
@@ -686,8 +700,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function handleStorySearchInput() {
         let filtered = allStories.filter(story =>
-            story.title.toLowerCase().includes(storySearchBar.value.toLowerCase()) ||
-            story.content.join(' ').toLowerCase().includes(storySearchBar.value.toLowerCase())
+            (!story.releaseDate || new Date(story.releaseDate) <= new Date()) &&
+            (story.title.toLowerCase().includes(storySearchBar.value.toLowerCase()) ||
+            story.content.join(' ').toLowerCase().includes(storySearchBar.value.toLowerCase()))
         );
         displayStoryGallery(filtered);
     }
@@ -725,8 +740,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function showRandomStory() {
-        const randomIndex = Math.floor(Math.random() * allStories.length);
-        showStoryDetail(allStories[randomIndex].id);
+        const availableStories = allStories.filter(story => !story.releaseDate || new Date(story.releaseDate) <= new Date());
+        const randomIndex = Math.floor(Math.random() * availableStories.length);
+        showStoryDetail(availableStories[randomIndex].id);
     }
 
     function showPreviousRhyme() {
@@ -749,17 +765,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function showPreviousStory() {
         if (!currentStory) return;
-        const currentIndex = allStories.findIndex(s => s.id === currentStory.id);
+        const availableStories = allStories.filter(story => !story.releaseDate || new Date(story.releaseDate) <= new Date());
+        const currentIndex = availableStories.findIndex(s => s.id === currentStory.id);
         if (currentIndex > 0) {
-            showStoryDetail(allStories[currentIndex - 1].id);
+            showStoryDetail(availableStories[currentIndex - 1].id);
         }
     }
 
     function showNextStory() {
         if (!currentStory) return;
-        const currentIndex = allStories.findIndex(s => s.id === currentStory.id);
-        if (currentIndex < allStories.length - 1) {
-            showStoryDetail(allStories[currentIndex + 1].id);
+        const availableStories = allStories.filter(story => !story.releaseDate || new Date(story.releaseDate) <= new Date());
+        const currentIndex = availableStories.findIndex(s => s.id === currentStory.id);
+        if (currentIndex < availableStories.length - 1) {
+            showStoryDetail(availableStories[currentIndex + 1].id);
         }
     }
     
