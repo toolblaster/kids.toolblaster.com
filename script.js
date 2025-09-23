@@ -336,14 +336,15 @@ document.addEventListener('DOMContentLoaded', () => {
         comingSoonRhymesList.innerHTML = '';
         comingSoonStoriesList.innerHTML = '';
     
-        const createItemElement = (item) => {
+        const createItemElement = (item, type) => {
             const releaseDate = new Date(item.releaseDate);
             const options = { year: 'numeric', month: 'long', day: 'numeric' };
             const formattedDate = releaseDate.toLocaleDateString('en-US', options);
             const itemEl = document.createElement('div');
-            itemEl.className = 'flex items-center p-4 bg-gray-50 rounded-lg shadow-sm';
+            const borderColorClass = type === 'Story' ? 'border-blue-500' : 'border-green-500';
+            itemEl.className = `flex items-center p-4 bg-gray-50 rounded-lg shadow-sm border-l-4 ${borderColorClass}`;
             itemEl.innerHTML = `
-                <div class="text-4xl mr-4">${item.icon || (item.type === 'Rhyme' ? '🎵' : '📚')}</div>
+                <div class="text-4xl mr-4">${item.icon || (type === 'Rhyme' ? '🎵' : '📚')}</div>
                 <div class="flex-grow">
                     <h3 class="text-lg font-bold text-brand-dark">${item.title}</h3>
                     <p class="text-sm text-gray-600 font-body">Coming on: <span class="font-semibold">${formattedDate}</span></p>
@@ -354,7 +355,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
         if (upcomingRhymes.length > 0) {
             upcomingRhymes.forEach(rhyme => {
-                comingSoonRhymesList.appendChild(createItemElement(rhyme));
+                comingSoonRhymesList.appendChild(createItemElement(rhyme, 'Rhyme'));
             });
         } else {
             comingSoonRhymesList.innerHTML = `<p class="text-center text-gray-600 font-body p-4 bg-gray-50 rounded-lg">No new rhymes scheduled right now.</p>`;
@@ -362,7 +363,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
         if (upcomingStories.length > 0) {
             upcomingStories.forEach(story => {
-                comingSoonStoriesList.appendChild(createItemElement(story));
+                comingSoonStoriesList.appendChild(createItemElement(story, 'Story'));
             });
         } else {
             comingSoonStoriesList.innerHTML = `<p class="text-center text-gray-600 font-body p-4 bg-gray-50 rounded-lg">No new stories scheduled right now.</p>`;
