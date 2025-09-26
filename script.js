@@ -373,6 +373,8 @@ document.addEventListener('DOMContentLoaded', () => {
     function goHome() {
         searchBar.value = '';
         storySearchBar.value = '';
+        isPlaylistMode = false;
+        currentPlaylistIndex = -1;
         updateActiveCategoryButton('Rhymes');
         showMainView('Rhymes');
         updateUrl({ category: 'Rhymes' });
@@ -381,6 +383,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function goBackToGallery() {
         document.title = originalTitle;
+        isPlaylistMode = false;
+        currentPlaylistIndex = -1;
         const activeCategory = document.querySelector('.main-nav-btn.active').dataset.category || 'Rhymes';
         showMainView(activeCategory);
         updateUrl({ category: activeCategory });
@@ -444,9 +448,7 @@ document.addEventListener('DOMContentLoaded', () => {
         updateReadAloudButton(readAloudRhymeBtn);
 
         isPlaylistMode = fromPlaylist;
-        if (isPlaylistMode) {
-            currentPlaylistIndex = playlistIndex;
-        }
+        currentPlaylistIndex = fromPlaylist ? playlistIndex : -1;
 
         document.getElementById('rhyme-title-en').textContent = currentRhyme.title;
         document.getElementById('rhyme-lyrics-en').textContent = currentRhyme.lyrics;
@@ -561,9 +563,7 @@ document.addEventListener('DOMContentLoaded', () => {
         updateReadAloudButton(readAloudStoryBtn);
         
         isPlaylistMode = fromPlaylist;
-        if (isPlaylistMode) {
-            currentPlaylistIndex = playlistIndex;
-        }
+        currentPlaylistIndex = fromPlaylist ? playlistIndex : -1;
 
         document.getElementById('story-title').textContent = currentStory.title;
         document.getElementById('story-author').textContent = `by ${currentStory.author}`;
@@ -925,9 +925,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
         clearPlaylistBtn.disabled = false;
 
-        playlist.forEach((item) => {
+        playlist.forEach((item, index) => {
             const itemEl = document.createElement('div');
-            itemEl.className = 'flex items-center justify-between p-2 rounded-lg bg-gray-50 hover:bg-gray-100 transition-colors';
+            itemEl.className = 'playlist-item flex items-center justify-between p-2 rounded-lg bg-gray-50 hover:bg-gray-100 transition-colors';
 
             let details; let icon;
             if (item.type === 'rhyme') {
@@ -939,16 +939,24 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             if (!details) return;
+            
+            const playingIcon = `<span class="text-2xl text-yellow-500">🔊</span>`;
+            const defaultIcon = `<span class="text-2xl">${icon}</span>`;
 
             itemEl.innerHTML = `
                 <div class="flex items-center gap-3 cursor-pointer flex-grow" data-item-id="${details.id}" data-item-type="${item.type}" data-action="play">
-                    <span class="text-2xl">${icon}</span>
+                    ${(isPlaylistMode && index === currentPlaylistIndex) ? playingIcon : defaultIcon}
                     <span class="font-semibold text-brand-dark">${details.title}</span>
                 </div>
                 <button class="p-2 rounded-full hover:bg-red-100 text-red-500 button-pop" data-item-id="${details.id}" data-item-type="${item.type}" data-action="remove" aria-label="Remove ${details.title} from playlist" title="Remove from playlist">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 pointer-events-none" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" /></svg>
                 </button>
             `;
+
+            if (isPlaylistMode && index === currentPlaylistIndex) {
+                itemEl.classList.add('playing');
+            }
+
             playlistItemsContainer.appendChild(itemEl);
         });
     }
