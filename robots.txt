@@ -1,9 +1,10 @@
 User-agent: *
+Disallow: /script.js
+Disallow: /admin/
+Disallow: /cgi-bin/
+
+# Allow everything else
 Allow: /
 
-Disallow private or unnecessary paths (if any exist later)
-Disallow: /admin/
-Disallow: /login/
-
-Sitemap reference
+# Sitemap (if you generate one)
 Sitemap: https://kids.toolblaster.com/sitemap.xml
