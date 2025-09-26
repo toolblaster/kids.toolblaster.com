@@ -15,6 +15,13 @@ document.addEventListener('DOMContentLoaded', () => {
     let allRhymes = [];
     let allStories = [];
     let allExclusiveRhymes = [];
+    const authors = {
+        "Vikas Rana": {
+            bio: "Vikas Rana is a passionate storyteller and creator based in the beautiful hills of Dharamshala. He loves crafting imaginative tales and catchy rhymes that spark curiosity and joy in young readers. He believes in the power of simple words to create magical worlds for children. When he's not writing, he enjoys exploring nature and sipping on a warm cup of chai.",
+            image: "https://placehold.co/150x150/E34037/FFFFFF?text=VR" // Placeholder image
+        }
+    };
+
     let currentRhymeList = [];
     let favorites = JSON.parse(localStorage.getItem('favoriteRhymes')) || [];
     let favoriteStories = JSON.parse(localStorage.getItem('favoriteStories')) || [];
@@ -42,12 +49,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const storyDetailView = document.getElementById('story-detail');
     const legalView = document.getElementById('legal-view');
     const comingSoonView = document.getElementById('coming-soon-view');
+    const authorDetailView = document.getElementById('author-detail');
 
     // Grids & Content Holders
     const rhymeGrid = document.getElementById('rhyme-grid');
     const storyGrid = document.getElementById('story-grid');
     const comingSoonRhymesList = document.getElementById('coming-soon-rhymes-list');
     const comingSoonStoriesList = document.getElementById('coming-soon-stories-list');
+    const authorStoriesGrid = document.getElementById('author-stories-grid');
 
 
     // Controls
@@ -80,12 +89,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const readAloudStoryBtn = document.getElementById('read-aloud-btn-story');
     const shareStoryBtn = document.getElementById('share-story-btn');
     const printStoryBtn = document.getElementById('print-story-btn');
+    const storyAuthorContainer = document.getElementById('story-author-container');
     
     // Legal & Coming Soon Page Elements
     const legalLink = document.getElementById('legal-link');
     const legalBackButton = document.getElementById('legal-back-button');
     const comingSoonLink = document.getElementById('coming-soon-link');
     const comingSoonBackButton = document.getElementById('coming-soon-back-button');
+    
+    // Author Page Elements
+    const authorBackButton = document.getElementById('author-back-button');
 
 
     // Playlist Elements
@@ -174,6 +187,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const urlParams = new URLSearchParams(window.location.search);
         const rhymeId = urlParams.get('rhyme');
         const storyId = urlParams.get('story');
+        const authorName = urlParams.get('author');
         const category = urlParams.get('category');
         const page = urlParams.get('page');
 
@@ -181,6 +195,8 @@ document.addEventListener('DOMContentLoaded', () => {
             showRhymeDetail(parseInt(rhymeId));
         } else if (storyId) {
             showStoryDetail(parseInt(storyId));
+        } else if (authorName) {
+            showAuthorDetail(authorName);
         } else if (page === 'legal') {
             showLegalView();
         } else if (page === 'coming-soon') {
@@ -245,6 +261,13 @@ document.addEventListener('DOMContentLoaded', () => {
             schema["author"] = { "@type": "Person", "name": item.author };
             schema["copyrightHolder"] = { "@type": "Organization", "name": "kids.toolblaster.com" };
             schema["copyrightYear"] = new Date().getFullYear();
+        } else if (type === 'author') {
+            schema["@type"] = "ProfilePage";
+            schema["about"] = {
+                "@type": "Person",
+                "name": item.name,
+                "description": item.bio
+            };
         }
 
         const script = document.createElement('script');
@@ -262,6 +285,7 @@ document.addEventListener('DOMContentLoaded', () => {
         storyDetailView.classList.add('hidden');
         legalView.classList.add('hidden');
         comingSoonView.classList.add('hidden');
+        authorDetailView.classList.add('hidden');
         document.getElementById('rhyme-of-the-day').classList.add('hidden');
         controlsSection.classList.add('hidden');
         rhymeControls.classList.add('hidden');
@@ -388,6 +412,12 @@ document.addEventListener('DOMContentLoaded', () => {
         const activeCategory = document.querySelector('.main-nav-btn.active').dataset.category || 'Rhymes';
         showMainView(activeCategory);
         updateUrl({ category: activeCategory });
+    }
+
+    function goBackToStoryGalleryFromAuthor() {
+        document.title = originalTitle;
+        showMainView('Stories');
+        updateUrl({ category: 'Stories' });
     }
 
     // --- DISPLAY FUNCTIONS (RHYMES) ---
@@ -566,7 +596,9 @@ document.addEventListener('DOMContentLoaded', () => {
         currentPlaylistIndex = fromPlaylist ? playlistIndex : -1;
 
         document.getElementById('story-title').textContent = currentStory.title;
-        document.getElementById('story-author').textContent = `by ${currentStory.author}`;
+        const storyAuthorLink = document.getElementById('story-author-link');
+        storyAuthorLink.textContent = currentStory.author;
+        storyAuthorLink.dataset.author = currentStory.author;
         document.getElementById('story-read-time').textContent = currentStory.readTime;
         
         const storyContentEl = document.getElementById('story-content');
@@ -615,9 +647,10 @@ document.addEventListener('DOMContentLoaded', () => {
         storyCopyrightText.textContent = `Copyright © ${new Date().getFullYear()} kids.toolblaster.com. This is an Original and Exclusive Story 📚`;
         storyCopyrightContainer.classList.remove('hidden');
         
-        const currentIndex = allStories.filter(story => !story.releaseDate || new Date(story.releaseDate) <= new Date()).findIndex(s => s.id === currentStory.id);
+        const availableStories = allStories.filter(story => !story.releaseDate || new Date(story.releaseDate) <= new Date());
+        const currentIndex = availableStories.findIndex(s => s.id === currentStory.id);
         previousDetailStoryBtn.disabled = currentIndex <= 0;
-        nextDetailStoryBtn.disabled = currentIndex >= allStories.filter(story => !story.releaseDate || new Date(story.releaseDate) <= new Date()).length - 1;
+        nextDetailStoryBtn.disabled = currentIndex >= availableStories.length - 1;
 
         storyFavoriteBtn.innerHTML = isFavoriteStory(storyId) ? '❤️' : '🤍';
         updateAddToStoryPlaylistButton();
@@ -625,6 +658,29 @@ document.addEventListener('DOMContentLoaded', () => {
         updatePlaylistNav();
         window.scrollTo(0, 0);
     }
+    
+    // --- DISPLAY FUNCTIONS (AUTHOR) ---
+    function showAuthorDetail(authorName) {
+        const authorData = authors[authorName];
+        if (!authorData) {
+            goBackToStoryGalleryFromAuthor(); // Or show a 'not found' message
+            return;
+        }
+
+        hideAllViews();
+        authorDetailView.classList.remove('hidden');
+        document.title = `${authorName} - Author Profile`;
+        updateUrl({ author: authorName });
+        updateJsonLd({ name: authorName, ...authorData }, 'author');
+
+        document.getElementById('author-name').textContent = authorName;
+        document.getElementById('author-bio').textContent = authorData.bio;
+        document.getElementById('author-image').src = authorData.image;
+        document.getElementById('author-image').alt = `A photo of ${authorName}`;
+
+        window.scrollTo(0, 0);
+    }
+
 
     function displayRhymeOfTheDay() {
         const dayOfYear = Math.floor((new Date() - new Date(new Date().getFullYear(), 0, 0)) / (1000 * 60 * 60 * 24));
@@ -642,6 +698,8 @@ document.addEventListener('DOMContentLoaded', () => {
         backButton.addEventListener('click', goBackToGallery);
         storyBackButton.addEventListener('click', goBackToGallery);
         legalBackButton.addEventListener('click', goHome);
+        authorBackButton.addEventListener('click', goBackToStoryGalleryFromAuthor);
+        
         legalLink.addEventListener('click', (e) => {
             e.preventDefault();
             showLegalView();
@@ -667,6 +725,15 @@ document.addEventListener('DOMContentLoaded', () => {
         
         storyFavoriteBtn.addEventListener('click', handleFavoriteStoryClick);
         addToStoryPlaylistBtn.addEventListener('click', handleAddToStoryPlaylist);
+        storyAuthorContainer.addEventListener('click', (e) => {
+            if (e.target.id === 'story-author-link') {
+                e.preventDefault();
+                const authorName = e.target.dataset.author;
+                if (authorName) {
+                    showAuthorDetail(authorName);
+                }
+            }
+        });
 
         readAloudRhymeBtn.addEventListener('click', () => toggleReadAloud('rhyme'));
         readAloudStoryBtn.addEventListener('click', () => toggleReadAloud('story'));
