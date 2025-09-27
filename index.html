@@ -22,7 +22,7 @@
     <meta property="twitter:description" content="Explore a safe and fun collection of classic nursery rhymes like 'Twinkle Twinkle Little Star', 'Baa Baa Black Sheep', and 'Little Bo Peep'. Discover original stories, rhyming songs for nursery, and find popular nursery poems lyrics for kids.">
 
     <link rel="canonical" href="https://kids.toolblaster.com/" />
-    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='%23E34037'%3E%3Cpath d='M18 3a1 1 0 00-1.196-.98l-10 2A1 1 0 006 5v9.114A4.369 4.369 0 005 14c-1.657 0-3 1.343-3 3s1.343 3 3 3 3-1.343 3-3V7.82l8-1.6v5.894A4.37 4.37 0 0015 12c-1.657 0-3 1.343-3 3s1.343 3 3 3 3-1.343 3-3V3z' /%3E%3C/svg%3E">
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='%23D93327'%3E%3Cpath d='M18 3a1 1 0 00-1.196-.98l-10 2A1 1 0 006 5v9.114A4.369 4.369 0 005 14c-1.657 0-3 1.343-3 3s1.343 3 3 3 3-1.343 3-3V7.82l8-1.6v5.894A4.37 4.37 0 0015 12c-1.657 0-3 1.343-3 3s1.343 3 3 3 3-1.343 3-3V3z' /%3E%3C/svg%3E">
     <script src="https://cdn.tailwindcss.com"></script>
 
     <!-- Fonts: Baloo 2 (headings) and Nunito (body) -->
@@ -55,7 +55,7 @@
             theme: {
                 extend: {
                     colors: {
-                        'brand-red': '#E34037',
+                        'brand-red': '#D93327', // Darkened red for better contrast with white text (AA compliant)
                         'brand-dark': '#121212',
                     },
                     fontFamily: {
@@ -88,7 +88,7 @@
                 @apply px-4 py-2 text-sm font-semibold text-brand-dark bg-gray-100 rounded-full border-2 border-transparent hover:border-brand-red hover:text-brand-red transition-colors duration-200;
             }
             .category-btn.active {
-                @apply bg-red-700 text-white border-red-700;
+                @apply bg-brand-red text-white border-brand-red; /* Updated to use brand-red for consistency */
             }
             .main-nav-btn {
                 @apply w-full sm:w-auto text-lg font-bold py-3 px-6 rounded-lg shadow-md transition-transform transform hover:scale-105 bg-white text-brand-dark border-2 border-gray-200;
@@ -97,7 +97,7 @@
                 @apply bg-brand-red text-white border-brand-red ring-4 ring-red-200;
             }
             .action-btn {
-                @apply h-11 w-11 flex items-center justify-center rounded-full text-gray-600 bg-gray-100 hover:bg-gray-200 transition-colors;
+                @apply h-11 w-11 flex items-center justify-center rounded-full text-gray-800 bg-gray-100 hover:bg-gray-200 transition-colors; /* Darkened text color */
             }
             .section-card {
                 @apply p-6 bg-white rounded-2xl shadow-md;
@@ -164,10 +164,10 @@
         /* Header Glow Animation */
         @keyframes glow {
             0%, 100% {
-                box-shadow: 0 0 5px rgba(227, 64, 55, 0.5), 0 0 10px rgba(227, 64, 55, 0.4);
+                box-shadow: 0 0 5px rgba(217, 51, 39, 0.5), 0 0 10px rgba(217, 51, 39, 0.4);
             }
             50% {
-                box-shadow: 0 0 20px rgba(227, 64, 55, 0.8), 0 0 30px rgba(227, 64, 55, 0.7);
+                box-shadow: 0 0 20px rgba(217, 51, 39, 0.8), 0 0 30px rgba(217, 51, 39, 0.7);
             }
         }
         .animate-glow {
@@ -238,7 +238,7 @@
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 md:h-6 md:w-6 inline-block mr-1 md:mr-2" viewBox="0 0 20 20" fill="currentColor"><path d="M18 3a1 1 0 00-1.196-.98l-10 2A1 1 0 006 5v9.114A4.369 4.369 0 005 14c-1.657 0-3 1.343-3 3s1.343 3 3 3 3-1.343 3-3V7.82l8-1.6v5.894A4.37 4.37 0 0015 12c-1.657 0-3 1.343-3 3s1.343 3 3 3 3-1.343 3-3V3z" /></svg>
                 <span>Nursery Rhymes & Stories</span>
             </div>
-            <p class="text-xs text-white/80 mt-0">kids.toolblaster.com</p>
+            <p class="text-xs text-white/90 mt-0">kids.toolblaster.com</p> <!-- Increased opacity -->
         </div>
         <div class="flex-1 flex justify-end items-center gap-2">
              <button id="playlist-toggle-btn" class="p-2 rounded-full text-white hover:bg-white/20 transition-colors relative" aria-label="View Playlist">
@@ -255,7 +255,7 @@
              <div id="rotd-card" class="bg-gradient-to-br from-yellow-100 to-orange-200 p-2 rounded-2xl shadow-lg cursor-pointer transform hover:scale-[1.03] transition-transform duration-300 relative overflow-hidden border-2 border-yellow-300">
                 <h2 class="text-lg font-bold text-brand-dark">🌟 Rhyme of the Day 🌟</h2>
                 <div class="text-3xl" id="rotd-icon"></div>
-                <h3 class="text-xl font-bold text-purple-600" id="rotd-title"></h3>
+                <h3 class="text-xl font-bold text-purple-700" id="rotd-title"></h3> <!-- Darkened color -->
             </div>
         </section>
 
@@ -263,7 +263,7 @@
         <section id="controls-section" class="mb-4">
             <div class="section-card border border-brand-red/50 rounded-3xl shadow-lg shadow-brand-red/20 mb-4 p-4">
                 <h2 class="text-lg font-bold text-center text-brand-dark mb-2">Explore Our Collections</h2>
-                <p class="text-center text-gray-600 mb-2 font-body text-sm">Discover a world of fun with our original stories and classic rhymes.</p>
+                <p class="text-center text-gray-700 mb-2 font-body text-sm">Discover a world of fun with our original stories and classic rhymes.</p> <!-- Darkened color -->
                 
                  <div id="main-navigation" class="relative flex flex-col sm:flex-row justify-center gap-4">
                     <button class="main-nav-btn category-btn active text-xl" data-category="Rhymes">🎵 Rhymes</button>
@@ -340,8 +340,8 @@
             </div>
             <div class="bg-white p-6 md:p-8 rounded-2xl shadow-xl max-w-4xl mx-auto">
                 <div class="flex flex-col text-center">
-                    <h1 id="rhyme-title-en" class="text-2xl sm:text-3xl md:text-4xl font-bold text-purple-600"></h1>
-                    <h2 id="rhyme-title-hi" class="text-xl sm:text-2xl md:text-3xl font-bold text-purple-500 mt-1"></h2>
+                    <h1 id="rhyme-title-en" class="text-2xl sm:text-3xl md:text-4xl font-bold text-purple-700"></h1> <!-- Darkened color -->
+                    <h2 id="rhyme-title-hi" class="text-xl sm:text-2xl md:text-3xl font-bold text-purple-600 mt-1"></h2> <!-- Darkened color -->
                     <div id="learning-focus-badge-container" class="hidden my-3">
                         <span id="learning-focus-badge" class="inline-block bg-teal-100 text-teal-800 text-sm font-semibold px-3 py-1 rounded-full font-body"></span>
                     </div>
@@ -356,7 +356,7 @@
                 
                 <div id="playlist-nav-buttons" class="hidden flex justify-center items-center gap-4 my-4">
                     <button id="prev-rhyme-btn" class="bg-gray-200 hover:bg-gray-300 text-brand-dark font-bold py-2 px-4 rounded-lg shadow-md transition-colors disabled:opacity-50 disabled:cursor-not-allowed button-pop">&larr; Previous</button>
-                    <span id="playlist-position" class="text-gray-600 font-semibold font-body"></span>
+                    <span id="playlist-position" class="text-gray-700 font-semibold font-body"></span> <!-- Darkened color -->
                     <button id="next-rhyme-btn" class="bg-gray-200 hover:bg-gray-300 text-brand-dark font-bold py-2 px-4 rounded-lg shadow-md transition-colors disabled:opacity-50 disabled:cursor-not-allowed button-pop">Next &rarr;</button>
                 </div>
 
@@ -380,7 +380,7 @@
 
                  <div id="copyright-notice-container" class="mt-6 hidden">
                     <div class="bg-gray-100 p-3 rounded-lg text-center">
-                        <p id="copyright-text" class="text-xs text-gray-600 font-semibold font-body"></p>
+                        <p id="copyright-text" class="text-xs text-gray-700 font-semibold font-body"></p> <!-- Darkened color -->
                     </div>
                 </div>
             </div>
@@ -399,10 +399,10 @@
             </div>
             <div class="bg-white p-6 md:p-8 rounded-2xl shadow-xl max-w-6xl mx-auto">
                 <div class="flex flex-col text-center">
-                    <h1 id="story-title" class="text-3xl sm:text-4xl md:text-5xl font-bold text-purple-600"></h1>
-                    <h2 id="story-title-hi" class="text-xl sm:text-2xl md:text-3xl font-bold text-purple-500 mt-1"></h2>
-                    <p id="story-author-container" class="text-gray-500 text-lg mb-1 font-body">by <a href="#" id="story-author-link" class="text-red-700 hover:underline"></a></p>
-                    <p id="story-read-time" class="text-gray-400 text-sm mb-4 font-body"></p>
+                    <h1 id="story-title" class="text-3xl sm:text-4xl md:text-5xl font-bold text-purple-700"></h1> <!-- Darkened color -->
+                    <h2 id="story-title-hi" class="text-xl sm:text-2xl md:text-3xl font-bold text-purple-600 mt-1"></h2> <!-- Darkened color -->
+                    <p id="story-author-container" class="text-gray-700 text-lg mb-1 font-body">by <a href="#" id="story-author-link" class="text-red-700 hover:underline"></a></p> <!-- Darkened color -->
+                    <p id="story-read-time" class="text-gray-600 text-sm mb-4 font-body"></p> <!-- Darkened color -->
                     <div class="flex justify-center items-center gap-2 mb-8">
                         <button id="read-aloud-btn-story" class="action-btn text-2xl button-pop" title="Read Aloud" aria-label="Read Aloud">📢</button>
                         <button id="add-to-story-playlist-btn" class="action-btn button-pop" title="Add to Playlist" aria-label="Add to Playlist"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" /></svg></button>
@@ -414,7 +414,7 @@
                 
                 <div id="story-playlist-nav-buttons" class="hidden flex justify-center items-center gap-4 my-4">
                     <button id="prev-story-btn" class="bg-gray-200 hover:bg-gray-300 text-brand-dark font-bold py-2 px-4 rounded-lg shadow-md transition-colors disabled:opacity-50 disabled:cursor-not-allowed button-pop">&larr; Previous</button>
-                    <span id="story-playlist-position" class="text-gray-600 font-semibold font-body"></span>
+                    <span id="story-playlist-position" class="text-gray-700 font-semibold font-body"></span> <!-- Darkened color -->
                     <button id="next-story-btn" class="bg-gray-200 hover:bg-gray-300 text-brand-dark font-bold py-2 px-4 rounded-lg shadow-md transition-colors disabled:opacity-50 disabled:cursor-not-allowed button-pop">Next &rarr;</button>
                 </div>
 
@@ -432,17 +432,17 @@
                 <div id="story-moral-container" class="mt-10 border-t-2 border-dashed border-gray-300 text-center p-6 rounded-lg bg-red-50">
                      <div class="p-2 border-2 border-green-300 rounded-lg mb-4">
                         <p class="text-lg font-bold text-brand-dark">Moral of the Story:</p>
-                        <p id="story-moral" class="text-lg text-gray-700 italic mt-2"></p>
+                        <p id="story-moral" class="text-lg text-gray-800 italic mt-2"></p> <!-- Darkened color -->
                      </div>
                      <div class="hidden p-2 border-2 border-blue-300 rounded-lg mb-4">
                         <p class="text-lg font-bold text-brand-dark mt-4">कहानी का सार:</p>
-                        <p id="story-moral-hi" class="text-lg text-gray-700 italic mt-2"></p>
+                        <p id="story-moral-hi" class="text-lg text-gray-800 italic mt-2"></p> <!-- Darkened color -->
                      </div>
                 </div>
                 
                 <div id="story-copyright-notice-container" class="mt-8 hidden">
                     <div class="bg-gray-100 p-3 rounded-lg text-center">
-                        <p id="story-copyright-text" class="text-[11px] text-gray-600 font-semibold font-body"></p>
+                        <p id="story-copyright-text" class="text-[11px] text-gray-700 font-semibold font-body"></p> <!-- Darkened color -->
                     </div>
                 </div>
             </div>
@@ -461,8 +461,8 @@
                 <div class="flex flex-col md:flex-row items-center text-center md:text-left gap-8">
                     <img id="author-image" src="" alt="Photo of the author" class="w-36 h-36 rounded-full object-cover border-4 border-red-200 shadow-lg">
                     <div>
-                        <h1 id="author-name" class="text-3xl md:text-4xl font-bold text-purple-600"></h1>
-                        <p id="author-bio" class="mt-2 text-gray-600 leading-relaxed"></p>
+                        <h1 id="author-name" class="text-3xl md:text-4xl font-bold text-purple-700"></h1> <!-- Darkened color -->
+                        <p id="author-bio" class="mt-2 text-gray-800 leading-relaxed"></p> <!-- Darkened color -->
                     </div>
                 </div>
             </div>
@@ -479,14 +479,14 @@
             </div>
             <div class="bg-white p-6 md:p-8 rounded-2xl shadow-xl max-w-4xl mx-auto">
                 <div class="text-center mb-8">
-                    <h1 class="text-2xl sm:text-3xl md:text-4xl font-bold text-purple-600">Contact & Legal</h1>
+                    <h1 class="text-2xl sm:text-3xl md:text-4xl font-bold text-purple-700">Contact & Legal</h1> <!-- Darkened color -->
                 </div>
 
                 <div class="space-y-6">
                     <!-- Privacy Policy as details -->
                     <details class="bg-green-50 p-4 rounded-lg cursor-pointer border border-green-200">
                         <summary class="font-bold text-lg text-brand-dark">🛡️ Privacy Policy</summary>
-                        <div class="space-y-4 text-gray-700 font-body text-sm mt-4">
+                        <div class="space-y-4 text-gray-800 font-body text-sm mt-4"> <!-- Darkened color -->
                             <p>Your family's privacy is extremely important to us. This website is designed to be a safe space for children and parents.</p>
                             <p><strong>No Personal Data Collection:</strong> We do not collect any personally identifiable information (like names, email addresses, or locations) from our users. You can browse our site completely anonymously.</p>
                             <p><strong>Local Storage Only:</strong> Features like "Favorites" and "Playlist" use your browser's local storage. This means your lists are saved directly on your own device for your convenience and are never sent to our servers or any third party.</p>
@@ -497,7 +497,7 @@
                     <!-- Disclaimer as details -->
                     <details class="bg-yellow-50 p-4 rounded-lg cursor-pointer border border-yellow-200">
                         <summary class="font-bold text-lg text-brand-dark">⚖️ Disclaimer</summary>
-                         <div class="space-y-4 text-gray-700 font-body text-sm mt-4">
+                         <div class="space-y-4 text-gray-800 font-body text-sm mt-4"> <!-- Darkened color -->
                             <p>The content on this website is provided for entertainment and educational purposes only. While we strive to ensure all information is accurate, we make no guarantees.</p>
                             <p><strong>Content Ownership:</strong> This website features original stories and rhymes that are copyrighted by kids.toolblaster.com. We also feature classic nursery rhymes that are in the public domain. We do not claim ownership of public domain content.</p>
                             <p><strong>No Warranties:</strong> This website is provided "as is," without any warranties of any kind. Your use of this site is at your own risk.</p>
@@ -507,7 +507,7 @@
                     <!-- Compact Contact Info -->
                     <div class="text-center pt-6 border-t border-gray-200">
                         <h2 class="text-xl font-bold text-brand-dark mb-2">✉️ Have Questions?</h2>
-                        <p class="text-gray-700 font-body mb-2">
+                        <p class="text-gray-800 font-body mb-2"> <!-- Darkened color -->
                             For feedback or inquiries, please contact us at:
                         </p>
                         <a href="mailto:vikas@toolblaster.com" class="text-lg text-red-700 hover:text-red-800 hover:underline font-body font-semibold">vikas@toolblaster.com</a>
@@ -527,8 +527,8 @@
             </div>
             <div class="bg-white p-6 md:p-8 rounded-2xl shadow-xl max-w-4xl mx-auto">
                 <div class="text-center mb-8">
-                    <h1 class="text-2xl sm:text-3xl md:text-4xl font-bold text-purple-600">Coming Soon!</h1>
-                    <p class="text-lg text-gray-600 font-body mt-2">Get ready for more fun! Here's a sneak peek at what's coming next.</p>
+                    <h1 class="text-2xl sm:text-3xl md:text-4xl font-bold text-purple-700">Coming Soon!</h1> <!-- Darkened color -->
+                    <p class="text-lg text-gray-800 font-body mt-2">Get ready for more fun! Here's a sneak peek at what's coming next.</p> <!-- Darkened color -->
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <div>
@@ -569,7 +569,7 @@
     <!-- Footer -->
     <footer class="bg-gray-100 pt-4 pb-2 mt-12 shadow-[0_-5px_15px_rgba(227,64,55,0.25)]">
         <div class="container mx-auto px-4 text-center">
-            <div class="flex flex-col sm:flex-row justify-center items-center text-gray-700">
+            <div class="flex flex-col sm:flex-row justify-center items-center text-gray-800"> <!-- Darkened text -->
                 <div class="mb-2 sm:mb-0 sm:mr-4 flex items-center">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-brand-red mr-2" viewBox="0 0 20 20" fill="currentColor"><path d="M18 3a1 1 0 00-1.196-.98l-10 2A1 1 0 006 5v9.114A4.369 4.369 0 005 14c-1.657 0-3 1.343-3 3s1.343 3 3 3 3-1.343 3-3V7.82l8-1.6v5.894A4.37 4.37 0 0015 12c-1.657 0-3 1.343-3 3s1.343 3 3 3 3-1.343 3-3V3z" /></svg>
                     <p class="text-base text-brand-dark">kids.toolblaster.com <span class="text-sm">by </span><span class="text-sm font-bold">Vikas Rana</span></p>
@@ -578,7 +578,7 @@
                 <div class="hidden sm:block sm:border-l-2 sm:border-gray-300 sm:h-6 sm:mr-4"></div>
 
                 <div class="flex flex-col sm:flex-row items-center divide-y sm:divide-y-0 sm:divide-x divide-gray-300">
-                    <p class="text-xs text-gray-500 font-body py-2 sm:py-0 sm:px-4">
+                    <p class="text-xs text-gray-700 font-body py-2 sm:py-0 sm:px-4"> <!-- Darkened color -->
                         Copyright &copy; <span id="footer-year">2024</span>. All Rights Reserved.
                     </p>
                     <a href="#" id="coming-soon-link" class="text-xs text-red-700 hover:text-red-800 hover:underline font-body font-bold py-2 sm:py-0 sm:px-4">Coming Soon (Rhymes/Stories)..</a>
