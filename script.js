@@ -476,6 +476,11 @@ document.addEventListener('DOMContentLoaded', () => {
         
         hideAllViews();
         rhymeDetailView.classList.remove('hidden');
+        rhymeOfTheDaySection.classList.remove('hidden');
+        controlsSection.classList.remove('hidden');
+        rhymeControls.classList.remove('hidden');
+
+
         document.title = `${currentRhyme.title} - Kids Rhymes`;
         updateUrl({ rhyme: rhymeId });
         updateJsonLd(currentRhyme, 'rhyme');
@@ -597,6 +602,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
         hideAllViews();
         storyDetailView.classList.remove('hidden');
+        rhymeOfTheDaySection.classList.remove('hidden');
+        controlsSection.classList.remove('hidden');
+        storyControls.classList.remove('hidden');
+
         document.title = `${currentStory.title} - Kids Stories`;
         updateUrl({ story: storyId });
         updateJsonLd(currentStory, 'story');
