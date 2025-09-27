@@ -6,8 +6,5 @@ Disallow: /short_stories.json
 Disallow: /admin/
 Disallow: /cgi-bin/
 
-Allow everything else
-Allow: /
-
-Sitemap
+# Sitemap location
 Sitemap: https://kids.toolblaster.com/sitemap.xml
