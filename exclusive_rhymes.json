@@ -17,7 +17,7 @@
   {
     "id": 103,
     "title": "The Sleepy Bear",
-    "title_hi": null,
+    "title_hi": "सोता भालू",
     "category": "Animal",
     "icon": "🐻",
     "tags": [
@@ -26,7 +26,7 @@
     ],
     "isExclusive": true,
     "lyrics": "The sleepy bear goes to his bed,\nLays down his big and fuzzy head.\nHe dreams of honey, sweet and deep,\nWhile all the little bunnies sleep.",
-    "lyrics_hi": null,
+    "lyrics_hi": "सोता भालू बिस्तर जाए,\nअपना प्यारा सिर टिकाए।\nशहद के मीठे सपने देखे,\nजब खरगोश सब सो जाएं।",
     "funFact": "Bears can sleep for several months during the winter in a process called hibernation."
   },
   {
@@ -77,7 +77,7 @@
   {
     "id": 108,
     "title": "My Happy Kite",
-    "title_hi": null,
+    "title_hi": "मेरी प्यारी पतंग",
     "category": "Learning",
     "icon": "🪁",
     "tags": [
@@ -85,7 +85,7 @@
     ],
     "isExclusive": true,
     "lyrics": "My kite, my kite, flies in the sky,\nSoaring, soaring, way up high.\nDancing with the wind so free,\nLook, my kite is waving at me!",
-    "lyrics_hi": null,
+    "lyrics_hi": "मेरी पतंग, मेरी पतंग, आसमान में उड़े,\nऊँचे, ऊँचे, बहुत ऊँचे उड़े।\nहवा के संग नाचे आज़ाद,\nदेखो, मेरी पतंग मुझे हिलाए हाथ!",
     "funFact": "Kites were invented in China over 2,000 years ago."
   },
   {
@@ -251,7 +251,7 @@
   {
     "id": 132,
     "title": "The Moon's Goodnight",
-    "title_hi": null,
+    "title_hi": "चाँद की शुभरात्रि",
     "category": "Classic",
     "icon": "🌜",
     "tags": [
@@ -259,7 +259,7 @@
     ],
     "isExclusive": true,
     "lyrics": "The moon peeks out from cloudy skies,\nAnd winks its sleepy, silver eyes.\nIt's time for bed, you sleepy head,\n'Goodnight, goodnight,' the moonlight said.",
-    "lyrics_hi": null,
+    "lyrics_hi": "चाँद बादलों से झाँके,\nअपनी नींद भरी, चाँदी सी आँखें झपकाए।\nसोने का समय हो गया, मेरे प्यारे,\n'शुभरात्रि, शुभरात्रि,' चाँदनी ने कहा।",
     "funFact": "The moon doesn't make its own light! It reflects the light from the sun, just like a giant mirror in the sky."
   },
   {
@@ -349,7 +349,7 @@
   {
     "id": 144,
     "title": "The Happy Peacock",
-    "title_hi": null,
+    "title_hi": "खुश मोर",
     "category": "Indian",
     "icon": "🦚",
     "tags": [
@@ -358,6 +358,7 @@
     ],
     "isExclusive": true,
     "lyrics": "Grandma saw a peacock bright,\nWith feathers of blue and green.\nHe danced around in the morning light,\nThe prettiest bird she's seen.",
+    "lyrics_hi": "नानी ने देखा एक मोर चमकीला,\nपंख थे उसके नीले और हरे।\nसुबह की रोशनी में वो नाचा,\nसबसे सुंदर पक्षी जो उन्होंने देखा।",
     "funFact": "A peacock's long, beautiful feathers are called a 'train'."
   },
   {
@@ -390,7 +391,7 @@
   {
     "id": 148,
     "title": "Clever Monkey",
-    "title_hi": null,
+    "title_hi": "चालाक बंदर",
     "category": "Indian",
     "icon": "🐵",
     "tags": [
@@ -400,12 +401,13 @@
     ],
     "isExclusive": true,
     "lyrics": "Monkey wears a silly hat,\nAnd has a friendly chatter-chat.\nHe swings from branches in the sun,\nAnd has a lot of monkey fun.\n\nHe climbs the trees up to the top,\nAnd gives a little playful hop.\nHe pulls a funny face for you,\nAnd waves his tail and says, 'Achoo!'",
+    "lyrics_hi": "बंदर पहने एक मज़ेदार टोपी,\nऔर करता है प्यारी बातें।\nधूप में डालियों पर झूलता,\nऔर करता है बंदर वाली मस्ती।\n\nपेड़ों पर चढ़ता ऊपर तक,\nऔर एक छोटी सी छलांग लगाता।\nतुम्हारे लिए एक मज़ेदार चेहरा बनाता,\nऔर अपनी पूँछ हिलाकर कहता, 'आच्छू!'",
     "funFact": "Monkeys use their long tails to help them balance as they swing through the trees."
   },
   {
     "id": 149,
     "title": "The Mighty Elephant",
-    "title_hi": null,
+    "title_hi": "शक्तिशाली हाथी",
     "category": "Indian",
     "icon": "🐘",
     "tags": [
@@ -414,6 +416,7 @@
     ],
     "isExclusive": true,
     "lyrics": "Elephant king, so big and gray,\nSwings his trunk along the way.\nHe says hello with a happy toot,\nAnd stomps his great big elephant foot.",
+    "lyrics_hi": "हाथी राजा, बड़ा और भूरा,\nरास्ते में अपनी सूंड हिलाता।\nखुशी से एक तूर्य बजाकर नमस्ते कहता,\nऔर अपना बड़ा हाथी पैर पटकता।",
     "funFact": "An elephant's trunk is so strong and skillful it can pick up something as heavy as a log or as small as a single grain of rice."
   },
   {
