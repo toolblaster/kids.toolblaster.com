@@ -1,5 +1,6 @@
 User-agent: *
 Disallow: /script.js
+Disallow: /script.min.js
 Disallow: /public_rhymes.json
 Disallow: /exclusive_rhymes.json
 Disallow: /short_stories.json
