@@ -50,6 +50,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const legalView = document.getElementById('legal-view');
     const comingSoonView = document.getElementById('coming-soon-view');
     const authorDetailView = document.getElementById('author-detail');
+    const rhymeOfTheDaySection = document.getElementById('rhyme-of-the-day');
 
     // Grids & Content Holders
     const rhymeGrid = document.getElementById('rhyme-grid');
@@ -206,7 +207,6 @@ document.addEventListener('DOMContentLoaded', () => {
             showMainView(category);
         } else {
             showMainView('Rhymes');
-            displayRhymeOfTheDay();
         }
     }
     
@@ -286,7 +286,7 @@ document.addEventListener('DOMContentLoaded', () => {
         legalView.classList.add('hidden');
         comingSoonView.classList.add('hidden');
         authorDetailView.classList.add('hidden');
-        document.getElementById('rhyme-of-the-day').classList.add('hidden');
+        rhymeOfTheDaySection.classList.add('hidden');
         controlsSection.classList.add('hidden');
         rhymeControls.classList.add('hidden');
         storyControls.classList.add('hidden');
@@ -296,6 +296,8 @@ document.addEventListener('DOMContentLoaded', () => {
     function showMainView(viewName) {
         hideAllViews();
         controlsSection.classList.remove('hidden');
+        rhymeOfTheDaySection.classList.remove('hidden');
+        displayRhymeOfTheDay();
         updateJsonLd(null); // Clear item-specific schema
 
         if (viewName === 'Stories' || viewName === 'StoryFavorites') {
@@ -312,7 +314,6 @@ document.addEventListener('DOMContentLoaded', () => {
         } else { // Rhymes and all its categories
             rhymeGalleryView.classList.remove('hidden');
             rhymeControls.classList.remove('hidden');
-            document.getElementById('rhyme-of-the-day').classList.remove('hidden');
             
             let rhymesToDisplay;
             if (viewName === 'Favorites') {
@@ -328,7 +329,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             
             displayRhymeGallery(rhymesToDisplay);
-            displayRhymeOfTheDay();
         }
     }
 
@@ -426,7 +426,13 @@ document.addEventListener('DOMContentLoaded', () => {
         rhymeGrid.innerHTML = '';
         if (rhymesToDisplay.length === 0) {
             const activeButton = document.querySelector('#category-filters .category-btn.active');
-            let emptyMessage = '<p class="text-gray-500 col-span-full text-center font-body">No rhymes found.</p>';
+            let emptyMessage = `
+                <div class="col-span-full text-center p-6 bg-gray-50 rounded-lg">
+                    <div class="text-4xl mb-2">🤷‍♀️</div>
+                    <h3 class="text-lg font-bold text-brand-dark">No Rhymes Found</h3>
+                    <p class="text-gray-500 mt-1 font-body">Try a different search or category.</p>
+                </div>
+            `;
             
             if (activeButton && activeButton.dataset.category === 'Favorites') {
                 emptyMessage = `
@@ -453,7 +459,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 ${newBadge}
                 <div class="flex-grow flex flex-col items-center justify-center">
                     <div class="text-5xl mb-2">${rhyme.icon || '🎵'}</div>
-                    <h3 class="text-sm font-bold text-brand-dark">${rhyme.title}</h3>
+                    <h2 class="text-sm font-bold text-brand-dark">${rhyme.title}</h2>
                 </div>
                 <div class="absolute top-2 right-2 text-xl favorite-indicator">${favoriteIndicator}</div>
             `;
@@ -541,7 +547,13 @@ document.addEventListener('DOMContentLoaded', () => {
         storyGrid.innerHTML = '';
         if (storiesToDisplay.length === 0) {
             const activeButton = document.querySelector('#story-category-filters .category-btn.active');
-            let emptyMessage = '<p class="text-gray-500 col-span-full text-center font-body">No stories found.</p>';
+            let emptyMessage = `
+                <div class="col-span-full text-center p-6 bg-gray-50 rounded-lg">
+                    <div class="text-4xl mb-2">🤷‍♀️</div>
+                    <h3 class="text-lg font-bold text-brand-dark">No Stories Found</h3>
+                    <p class="text-gray-500 mt-1 font-body">Try a different search term.</p>
+                </div>
+            `;
 
             if (activeButton && activeButton.dataset.category === 'StoryFavorites') {
                  emptyMessage = `
@@ -567,7 +579,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 ${newBadge}
                 <div class="flex-grow flex flex-col items-center justify-center">
                     <div class="text-5xl mb-2">${story.icon || '📚'}</div>
-                    <h3 class="text-sm font-bold text-brand-dark">${story.title}</h3>
+                    <h2 class="text-sm font-bold text-brand-dark">${story.title}</h2>
                     <p class="text-sm text-gray-500 mt-1 font-body">by ${story.author}</p>
                 </div>
                 <div class="absolute top-2 right-2 text-xl favorite-indicator">${favoriteIndicator}</div>
