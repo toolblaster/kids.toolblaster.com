@@ -1,10 +1,13 @@
 User-agent: *
 Disallow: /script.js
+Disallow: /public_rhymes.json
+Disallow: /exclusive_rhymes.json
+Disallow: /short_stories.json
 Disallow: /admin/
 Disallow: /cgi-bin/
 
-# Allow everything else
+Allow everything else
 Allow: /
 
-# Sitemap (if you generate one)
+Sitemap
 Sitemap: https://kids.toolblaster.com/sitemap.xml
