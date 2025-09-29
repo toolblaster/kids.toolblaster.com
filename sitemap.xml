@@ -3,6 +3,7 @@
   
   <!-- Main Pages -->
   <url>
+    <!-- FIX: Changed loc to the root domain to match the canonical URL in index.html -->
     <loc>https://kids.toolblaster.com/</loc>
     <lastmod>2025-09-27</lastmod>
     <changefreq>weekly</changefreq>
