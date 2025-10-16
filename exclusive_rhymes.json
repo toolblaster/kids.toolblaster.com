@@ -609,5 +609,22 @@
     "lyrics": "A little spider, kind and bright,\nWeaves happy dreams throughout the night.\nShe takes a thread of moonlight beams,\nAnd spins a web of happy dreams.\n\nShe adds a star, a candy cane,\nA ride upon a choo-choo train.\nSo close your eyes and sleep so deep,\nGood dreams the weaver helps you keep.",
     "lyrics_hi": "एक छोटी मकड़ी, दयालु और उज्ज्वल,\nरात भर खुशियों के सपने बुनती है।\nवह चांदनी की किरणों का एक धागा लेती है,\nऔर खुशियों के सपनों का जाल बुनती है।\n\nवह एक तारा, एक कैंडी केन जोड़ती है,\nएक छुक-छुक गाड़ी की सवारी।\nतो अपनी आँखें बंद करो और गहरी नींद सो जाओ,\nअच्छे सपने बुनकर तुम्हारी मदद करती है।",
     "funFact": "Not all spiders spin webs to catch food. Some use their silk for building homes or protecting their eggs."
+  },
+  {
+    "id": 173,
+    "title": "The Dancing Dinosaur",
+    "title_hi": "नाचने वाला डायनासोर",
+    "category": "Animal",
+    "icon": "💃🦖",
+    "tags": [
+      "animal",
+      "silly",
+      "action"
+    ],
+    "isExclusive": true,
+    "releaseDate": "2026-01-10",
+    "lyrics": "A dinosaur with happy feet,\nDanced all day right down the street.\nHe did the wiggle, did the stomp,\nAnd in the puddles, he would chomp!\n\nHe'd twirl around and give a roar,\nThen ask the people, \"Want some more?\"\nThe friendliest dino you could meet,\nWas the one with happy, dancing feet.",
+    "lyrics_hi": "एक डायनासोर खुश पैरों वाला,\nसड़क पर दिन भर नाचता था।\nवह मटकता, वह पटकता,\nऔर पोखरों में चबाता था!\n\nवह घूमता और एक दहाड़ लगाता,\nफिर लोगों से पूछता, \"और चाहिए क्या?\"\nसबसे मिलनसार डायनासोर जिससे आप मिल सकते हैं,\nवही था जिसके पैर खुश और नाचने वाले थे।",
+    "funFact": "The name Dinosaur means 'terrible lizard' in Greek."
   }
 ]
