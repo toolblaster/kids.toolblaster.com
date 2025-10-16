@@ -18,7 +18,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const authors = {
         "Vikas Rana": {
             bio: "Vikas Rana is a passionate storyteller and creator based in the beautiful hills of Dharamshala. He loves crafting imaginative tales and catchy rhymes that spark curiosity and joy in young readers. He believes in the power of simple words to create magical worlds for children. When he's not writing, he enjoys exploring nature and sipping on a warm cup of chai.",
-            image: "https://placehold.co/150x150/E34037/FFFFFF?text=VR" // Placeholder image
+            image: "https://placehold.co/150x150/E34037/FFFFFF?text=VR", // Placeholder image
+            x_profile: "https://x.com/Vikasrana03"
         }
     };
 
@@ -97,7 +98,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const legalBackButton = document.getElementById('legal-back-button');
     const comingSoonLink = document.getElementById('coming-soon-link');
     const comingSoonBackButton = document.getElementById('coming-soon-back-button');
-    const footerShareBtn = document.getElementById('footer-share-btn');
     
     // Author Page Elements
     const authorBackButton = document.getElementById('author-back-button');
@@ -124,6 +124,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Toast Notification
     const toastNotification = document.getElementById('toast-notification');
+    
+    // Footer Share
+    const footerShareLink = document.getElementById('footer-share-link');
+    const footerAuthorLink = document.getElementById('footer-author-link');
+
 
     // --- INITIALIZATION ---
     function init() {
@@ -679,6 +684,14 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('author-image').src = authorData.image;
         document.getElementById('author-image').alt = `A photo of ${authorName}`;
 
+        const authorSocialLink = document.getElementById('author-social-link');
+        if (authorData.x_profile) {
+            authorSocialLink.href = authorData.x_profile;
+            authorSocialLink.classList.remove('hidden');
+        } else {
+            authorSocialLink.classList.add('hidden');
+        }
+
         window.scrollTo(0, 0);
     }
 
@@ -757,10 +770,15 @@ document.addEventListener('DOMContentLoaded', () => {
         printRhymeBtn.addEventListener('click', () => printContent('rhyme'));
         shareStoryBtn.addEventListener('click', () => shareContent('story'));
         printStoryBtn.addEventListener('click', () => printContent('story'));
-
-        footerShareBtn.addEventListener('click', (e) => {
+        
+        footerShareLink.addEventListener('click', (e) => {
             e.preventDefault();
-            shareWebsite();
+            shareContent('website');
+        });
+        
+        footerAuthorLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            showAuthorDetail("Vikas Rana");
         });
     }
     
@@ -865,41 +883,30 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // --- TEXT-TO-SPEECH, SHARE, PRINT ---
     function shareContent(type) {
-        const url = window.location.href;
-        let title = '';
-        if (type === 'rhyme' && currentRhyme) title = currentRhyme.title;
-        if (type === 'story' && currentStory) title = currentStory.title;
-        
-        if (navigator.share) {
-            navigator.share({
-                title: `${title} - Kids Rhymes & Stories`,
-                text: `Check out "${title}"!`,
-                url: url,
-            }).catch(console.error);
-        } else {
-            navigator.clipboard.writeText(url).then(() => {
-                showToast('Link copied to clipboard!');
-            }, () => {
-                showToast('Could not copy link.');
-            });
-        }
-    }
+        let url = window.location.href;
+        let title = document.title;
+        let text = `Check out this fun website for kids!`;
 
-    function shareWebsite() {
-        const url = 'https://kids.toolblaster.com/';
-        const title = 'Fun Kids Stories & Rhymes in English & Hindi';
-        const text = "Check out this fun collection of kids stories and rhymes in both English and Hindi!";
-    
+        if (type === 'rhyme' && currentRhyme) {
+            title = `${currentRhyme.title} - Kids Rhymes & Stories`;
+            text = `Check out the rhyme "${currentRhyme.title}"!`;
+        } else if (type === 'story' && currentStory) {
+            title = `${currentStory.title} - Kids Rhymes & Stories`;
+            text = `Check out the story "${currentStory.title}"!`;
+        } else { // 'website' or general case
+             url = 'https://kids.toolblaster.com/';
+        }
+        
         if (navigator.share) {
             navigator.share({
                 title: title,
                 text: text,
                 url: url,
-            })
-            .catch((error) => console.log('Error sharing', error));
+            }).catch(console.error);
         } else {
+            // Fallback for browsers that don't support navigator.share
             navigator.clipboard.writeText(url).then(() => {
-                showToast('Website link copied to clipboard!');
+                showToast('Link copied to clipboard!');
             }, () => {
                 showToast('Could not copy link.');
             });
