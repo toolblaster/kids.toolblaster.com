@@ -97,6 +97,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const legalBackButton = document.getElementById('legal-back-button');
     const comingSoonLink = document.getElementById('coming-soon-link');
     const comingSoonBackButton = document.getElementById('coming-soon-back-button');
+    const footerShareBtn = document.getElementById('footer-share-btn');
     
     // Author Page Elements
     const authorBackButton = document.getElementById('author-back-button');
@@ -756,6 +757,11 @@ document.addEventListener('DOMContentLoaded', () => {
         printRhymeBtn.addEventListener('click', () => printContent('rhyme'));
         shareStoryBtn.addEventListener('click', () => shareContent('story'));
         printStoryBtn.addEventListener('click', () => printContent('story'));
+
+        footerShareBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            shareWebsite();
+        });
     }
     
     function handleSearchInput() {
@@ -873,6 +879,27 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             navigator.clipboard.writeText(url).then(() => {
                 showToast('Link copied to clipboard!');
+            }, () => {
+                showToast('Could not copy link.');
+            });
+        }
+    }
+
+    function shareWebsite() {
+        const url = 'https://kids.toolblaster.com/';
+        const title = 'Fun Kids Stories & Rhymes in English & Hindi';
+        const text = "Check out this fun collection of kids stories and rhymes in both English and Hindi!";
+    
+        if (navigator.share) {
+            navigator.share({
+                title: title,
+                text: text,
+                url: url,
+            })
+            .catch((error) => console.log('Error sharing', error));
+        } else {
+            navigator.clipboard.writeText(url).then(() => {
+                showToast('Website link copied to clipboard!');
             }, () => {
                 showToast('Could not copy link.');
             });
