@@ -129,6 +129,60 @@ document.addEventListener('DOMContentLoaded', () => {
     const footerShareLink = document.getElementById('footer-share-link');
     const footerAuthorLink = document.getElementById('footer-author-link');
 
+    // --- SEO HELPER FUNCTIONS ---
+    // Store original meta information
+    const originalDefaultTitle = document.title;
+    const originalDefaultDescription = document.querySelector('meta[name="description"]').getAttribute('content');
+    const originalDefaultCanonical = document.querySelector('link[rel="canonical"]').getAttribute('href');
+
+    /**
+     * Updates the page's meta tags for SEO.
+     * @param {string} title - The new title for the page.
+     * @param {string} description - The new meta description.
+     * @param {string} canonicalUrl - The new canonical URL.
+     */
+    function updateMetaTags(title, description, canonicalUrl) {
+        document.title = title;
+        
+        let metaDesc = document.querySelector('meta[name="description"]');
+        if (metaDesc) {
+            metaDesc.setAttribute('content', description);
+        } else {
+            metaDesc = document.createElement('meta');
+            metaDesc.setAttribute('name', 'description');
+            metaDesc.setAttribute('content', description);
+            document.head.appendChild(metaDesc);
+        }
+
+        let canonicalLink = document.querySelector('link[rel="canonical"]');
+        if (canonicalLink) {
+            canonicalLink.setAttribute('href', canonicalUrl);
+        } else {
+            canonicalLink = document.createElement('link');
+            canonicalLink.setAttribute('rel', 'canonical');
+            canonicalLink.setAttribute('href', canonicalUrl);
+            document.head.appendChild(canonicalLink);
+        }
+
+        // Update Open Graph (Facebook) tags
+        document.querySelector('meta[property="og:title"]').setAttribute('content', title);
+        document.querySelector('meta[property="og:description"]').setAttribute('content', description);
+        document.querySelector('meta[property="og:url"]').setAttribute('content', canonicalUrl);
+        
+        // Update Twitter tags
+        document.querySelector('meta[property="twitter:title"]').setAttribute('content', title);
+        document.querySelector('meta[property="twitter:description"]').setAttribute('content', description);
+        document.querySelector('meta[property="twitter:url"]').setAttribute('content', canonicalUrl);
+    }
+
+    /**
+     * Resets the meta tags to the homepage defaults.
+     */
+    function resetMetaTags() {
+        updateMetaTags(originalDefaultTitle, originalDefaultDescription, originalDefaultCanonical);
+        updateJsonLd(null); // Clear item-specific schema
+    }
+
 
     // --- INITIALIZATION ---
     function init() {
@@ -212,6 +266,7 @@ document.addEventListener('DOMContentLoaded', () => {
             updateActiveCategoryButton(category);
             showMainView(category);
         } else {
+            resetMetaTags(); // Ensure homepage tags are set on initial load
             showMainView('Rhymes');
         }
     }
@@ -225,10 +280,13 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
         window.history.pushState({}, '', url);
-        updateCanonicalUrl(url.href);
+        // Canonical URL is now set by updateMetaTags
     }
 
     function updateCanonicalUrl(url) {
+        // This function is now superseded by updateMetaTags, 
+        // but we'll leave it in case it's called somewhere else.
+        // The logic is now inside updateMetaTags.
         let link = document.querySelector("link[rel='canonical']");
         if (link) {
             link.setAttribute('href', url);
@@ -302,8 +360,8 @@ document.addEventListener('DOMContentLoaded', () => {
     function showMainView(viewName) {
         hideAllViews();
         controlsSection.classList.remove('hidden');
-        updateJsonLd(null); // Clear item-specific schema
-
+        resetMetaTags(); // Reset tags to homepage defaults
+ 
         if (viewName === 'Stories' || viewName === 'StoryFavorites') {
             storyGalleryView.classList.remove('hidden');
             storyControls.classList.remove('hidden');
@@ -341,16 +399,26 @@ document.addEventListener('DOMContentLoaded', () => {
     function showLegalView() {
         hideAllViews();
         legalView.classList.remove('hidden');
-        document.title = "Contact & Legal - Kids Rhymes & Stories";
-        updateUrl({ page: 'legal' });
+        const legalUrl = 'https://kids.toolblaster.com/?page=legal';
+        updateMetaTags(
+            "Contact & Legal - Kids Rhymes & Stories",
+            "Contact information and legal disclaimers for kids.toolblaster.com.",
+            legalUrl
+        );
+        updateUrl({ page: 'legal' }); // This updates the browser history
         window.scrollTo(0, 0);
     }
 
     function showComingSoonView() {
         hideAllViews();
         comingSoonView.classList.remove('hidden');
-        document.title = "Coming Soon! - Kids Rhymes & Stories";
-        updateUrl({ page: 'coming-soon' });
+        const comingSoonUrl = 'https://kids.toolblaster.com/?page=coming-soon';
+        updateMetaTags(
+            "Coming Soon! - Kids Rhymes & Stories",
+            "See what new rhymes and stories are coming soon to kids.toolblaster.com.",
+            comingSoonUrl
+        );
+        updateUrl({ page: 'coming-soon' }); // This updates the browser history
         window.scrollTo(0, 0);
     
         const currentDate = new Date();
@@ -406,22 +474,22 @@ document.addEventListener('DOMContentLoaded', () => {
         isPlaylistMode = false;
         currentPlaylistIndex = -1;
         updateActiveCategoryButton('Rhymes');
+        resetMetaTags();
         showMainView('Rhymes');
         updateUrl({ category: 'Rhymes' });
-        document.title = originalTitle;
     }
 
     function goBackToGallery() {
-        document.title = originalTitle;
         isPlaylistMode = false;
         currentPlaylistIndex = -1;
         const activeCategory = document.querySelector('.main-nav-btn.active').dataset.category || 'Rhymes';
+        resetMetaTags();
         showMainView(activeCategory);
         updateUrl({ category: activeCategory });
     }
 
     function goBackToStoryGalleryFromAuthor() {
-        document.title = originalTitle;
+        resetMetaTags();
         showMainView('Stories');
         updateUrl({ category: 'Stories' });
     }
@@ -476,8 +544,16 @@ document.addEventListener('DOMContentLoaded', () => {
         
         hideAllViews();
         rhymeDetailView.classList.remove('hidden');
-        document.title = `${currentRhyme.title} - Kids Rhymes`;
-        updateUrl({ rhyme: rhymeId });
+
+        // --- DYNAMIC SEO UPDATE ---
+        const rhymeUrl = `https://kids.toolblaster.com/?rhyme=${rhymeId}`;
+        const rhymeDescription = `Read the ${currentRhyme.title} nursery rhyme in English ${currentRhyme.lyrics_hi ? 'and Hindi' : ''}. ${currentRhyme.funFact || ''}`.substring(0, 160);
+        updateMetaTags(
+            `${currentRhyme.title} - Kids Rhymes`,
+            rhymeDescription,
+            rhymeUrl
+        );
+        updateUrl({ rhyme: rhymeId }); // This updates the browser history
         updateJsonLd(currentRhyme, 'rhyme');
         
         stopReading();
@@ -591,8 +667,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
         hideAllViews();
         storyDetailView.classList.remove('hidden');
-        document.title = `${currentStory.title} - Kids Stories`;
-        updateUrl({ story: storyId });
+
+        // --- DYNAMIC SEO UPDATE ---
+        const storyUrl = `https://kids.toolblaster.com/?story=${storyId}`;
+        // Use the story summary for the description, truncate to 160 chars
+        const storyDescription = currentStory.summary ? currentStory.summary.substring(0, 160) : `Read the short story "${currentStory.title}" by ${currentStory.author}.`;
+        updateMetaTags(
+            `${currentStory.title} - Kids Stories`,
+            storyDescription,
+            storyUrl
+        );
+        updateUrl({ story: storyId }); // This updates the browser history
         updateJsonLd(currentStory, 'story');
         
         stopReading();
@@ -675,8 +760,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
         hideAllViews();
         authorDetailView.classList.remove('hidden');
-        document.title = `${authorName} - Author Profile`;
-        updateUrl({ author: authorName });
+        
+        // --- DYNAMIC SEO UPDATE ---
+        const authorUrl = `https://kids.toolblaster.com/?author=${encodeURIComponent(authorName)}`;
+        const authorDescription = `Read original stories by ${authorName}. ${authorData.bio}`.substring(0, 160);
+        updateMetaTags(
+            `${authorName} - Author Profile`,
+            authorDescription,
+            authorUrl
+        );
+        updateUrl({ author: authorName }); // This updates the browser history
         updateJsonLd({ name: authorName, ...authorData }, 'author');
 
         document.getElementById('author-name').textContent = authorName;
@@ -944,7 +1037,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     function toggleReadAloud(contentType) {
-        if (!('speechSynthesis' in window)) {
+        if (!('speechSynthesis'in window)) {
             showToast("Sorry, your browser doesn't support text-to-speech.");
             return;
         }
