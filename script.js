@@ -154,6 +154,8 @@ document.addEventListener('DOMContentLoaded', () => {
             document.head.appendChild(metaDesc);
         }
 
+        // REMOVED: Canonical link setting is now handled by updateUrl()
+        /*
         let canonicalLink = document.querySelector('link[rel="canonical"]');
         if (canonicalLink) {
             canonicalLink.setAttribute('href', canonicalUrl);
@@ -163,6 +165,7 @@ document.addEventListener('DOMContentLoaded', () => {
             canonicalLink.setAttribute('href', canonicalUrl);
             document.head.appendChild(canonicalLink);
         }
+        */
 
         // Update Open Graph (Facebook) tags
         document.querySelector('meta[property="og:title"]').setAttribute('content', title);
@@ -271,22 +274,49 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
     
+    /**
+     * =================================================================
+     * UPDATED FUNCTION: updateUrl
+     * =================================================================
+     * This function now correctly sets the canonical tag.
+     * 1. It checks if the new URL is for a specific, unique page
+     * (like a single rhyme, story, or the legal page).
+     * 2. If it IS a unique page, it sets the canonical URL to that
+     * page's specific URL (e.g., /?rhyme=1).
+     * 3. If it is NOT a unique page (e.g., it's a category filter like
+     * ?category=Animal), it correctly sets the canonical URL
+     * to point back to the homepage (https://kids.toolblaster.com/).
+     * * This resolves the "Alternate page with proper canonical tag" error.
+     * =================================================================
+     */
     function updateUrl(params) {
         const url = new URL(window.location);
         url.search = ''; // Clear existing params
+        let isDetailPage = false; // Flag to check if it's a detail page
+    
+        // Build the URL and check if it's a detail page
         for (const key in params) {
             if (params[key]) {
                 url.searchParams.set(key, params[key]);
+                // These keys indicate a specific, canonical page
+                if (key === 'rhyme' || key === 'story' || key === 'page' || key === 'author') {
+                    isDetailPage = true;
+                }
             }
         }
+    
+        // Update the browser history
         window.history.pushState({}, '', url);
-        // Canonical URL is now set by updateMetaTags
+    
+        // NEW LOGIC: Set canonical URL based on page type
+        // If it's a detail page, the canonical URL is its own URL.
+        // If it's NOT (i.e., it's a category/gallery page), the canonical URL is the homepage.
+        const canonicalUrl = isDetailPage ? url.href : 'https://kids.toolblaster.com/';
+        updateCanonicalUrl(canonicalUrl);
     }
 
     function updateCanonicalUrl(url) {
-        // This function is now superseded by updateMetaTags, 
-        // but we'll leave it in case it's called somewhere else.
-        // The logic is now inside updateMetaTags.
+        // This function is now called by updateUrl()
         let link = document.querySelector("link[rel='canonical']");
         if (link) {
             link.setAttribute('href', url);
