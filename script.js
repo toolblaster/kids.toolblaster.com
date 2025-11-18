@@ -548,12 +548,11 @@ document.addEventListener('DOMContentLoaded', () => {
             card.className = 'rhyme-card bg-white rounded-xl shadow-lg cursor-pointer transform hover:scale-105 transition-all duration-300 flex flex-col p-4 text-center relative';
             card.dataset.rhymeId = rhyme.id;
             
-            const isNew = rhyme.isExclusive;
-            const newBadge = isNew ? '<div class="absolute top-1 left-1 bg-yellow-400 text-black text-xs font-bold px-2 py-0.5 rounded-full">NEW</div>' : '';
+            // REMOVED NEW BADGE
             const favoriteIndicator = isFavorite(rhyme.id) ? '❤️' : '';
             
             card.innerHTML = `
-                ${newBadge}
+                
                 <div class="flex-grow flex flex-col items-center justify-center">
                     <div class="text-5xl mb-2">${rhyme.icon || '🎵'}</div>
                     <h3 class="text-sm font-bold text-brand-dark">${rhyme.title}</h3>
@@ -671,11 +670,11 @@ document.addEventListener('DOMContentLoaded', () => {
             card.className = 'story-card bg-white rounded-xl shadow-lg cursor-pointer transform hover:scale-105 transition-all duration-300 flex flex-col p-4 text-center relative';
             card.dataset.storyId = story.id;
             
-            const newBadge = '<div class="absolute top-1 left-1 bg-yellow-400 text-black text-xs font-bold px-2 py-0.5 rounded-full">NEW</div>';
+            // REMOVED NEW BADGE
             const favoriteIndicator = isFavoriteStory(story.id) ? '❤️' : '';
 
             card.innerHTML = `
-                ${newBadge}
+                
                 <div class="flex-grow flex flex-col items-center justify-center">
                     <div class="text-5xl mb-2">${story.icon || '📚'}</div>
                     <h3 class="text-sm font-bold text-brand-dark">${story.title}</h3>
