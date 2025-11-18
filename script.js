@@ -127,7 +127,6 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Footer Share
     const footerShareLink = document.getElementById('footer-share-link');
-    const footerAuthorLink = document.getElementById('footer-author-link');
 
     // --- SEO HELPER FUNCTIONS ---
     // Store original meta information
@@ -899,10 +898,7 @@ document.addEventListener('DOMContentLoaded', () => {
             shareContent('website');
         });
         
-        footerAuthorLink.addEventListener('click', (e) => {
-            e.preventDefault();
-            showAuthorDetail("Vikas Rana");
-        });
+        // REMOVED: Footer author link listener
     }
     
     function handleSearchInput() {
