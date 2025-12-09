@@ -1,10 +1,12 @@
 User-agent: *
-# Allow bots to crawl the JS and JSON so they can render the content
-Allow: /script.js
-Allow: /script.min.js
-Allow: /public_rhymes.json
-Allow: /exclusive_rhymes.json
-Allow: /short_stories.json
+# Allow bots to crawl the JS files in the js/ folder
+Allow: /js/script.js
+Allow: /js/secondary.js
+
+# Allow data files in the new data/ folder
+Allow: /data/public_rhymes.json
+Allow: /data/exclusive_rhymes.json
+Allow: /data/short_stories.json
 
 # Keep administrative paths blocked
 Disallow: /admin/
