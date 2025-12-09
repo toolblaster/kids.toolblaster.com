@@ -1,0 +1,267 @@
+[
+  {
+    "id": 1,
+    "title": "Twinkle, Twinkle, Little Star",
+    "title_hi": null,
+    "category": "Classic",
+    "icon": "✨",
+    "tags": [
+      "lullaby",
+      "classic"
+    ],
+    "lyrics": "Twinkle, twinkle, little star,\nHow I wonder what you are!\nUp above the world so high,\nLike a diamond in the sky.\n\nWhen the blazing sun is gone,\nWhen he nothing shines upon,\nThen you show your little light,\nTwinkle, twinkle, all the night.",
+    "lyrics_hi": null,
+    "funFact": "The lyrics are from an early-19th-century English poem by Jane Taylor, 'The Star'. The tune is from an old French melody."
+  },
+  {
+    "id": 2,
+    "title": "Baa, Baa, Black Sheep",
+    "title_hi": null,
+    "category": "Animal",
+    "icon": "🐑",
+    "tags": [
+      "animal",
+      "classic",
+      "learning"
+    ],
+    "lyrics": "Baa, baa, black sheep,\nHave you any wool?\nYes, sir, yes, sir,\nThree bags full.\n\nOne for the master,\nOne for the dame,\nAnd one for the little boy\nWho lives down the lane.",
+    "lyrics_hi": null,
+    "funFact": "This rhyme is over 250 years old! It is one of the most popular nursery rhymes in the English language."
+  },
+  {
+    "id": 3,
+    "title": "Machli Jal Ki Rani Hai (Fish Queen)",
+    "title_hi": "मछली जल की रानी है",
+    "category": "Indian",
+    "icon": "🐠",
+    "tags": [
+      "animal",
+      "indian"
+    ],
+    "lyrics": "Fish, the queen of water,\nHer life is made of water.\nTouch it, and she will be scared,\nTake her out, and she will die.",
+    "lyrics_hi": "मछली जल की रानी है,\nजीवन उसका पानी है।\nहाथ लगाओ डर जाएगी,\nबाहर निकालो मर जाएगी।",
+    "funFact": "This is one of the first and most popular Hindi rhymes taught to children in India to help them learn about nature."
+  },
+  {
+    "id": 4,
+    "title": "Mary Had a Little Lamb",
+    "title_hi": null,
+    "category": "Animal",
+    "icon": "🐑",
+    "tags": [
+      "animal",
+      "classic"
+    ],
+    "lyrics": "Mary had a little lamb,\nIts fleece was white as snow;\nAnd everywhere that Mary went,\nThe lamb was sure to go.\n\nIt followed her to school one day,\nWhich was against the rule;\nIt made the children laugh and play\nTo see a lamb at school.\n\nAnd so the teacher turned him out,\nBut still he lingered near,\nAnd waited patiently about\nTill Mary did appear.",
+    "lyrics_hi": null,
+    "funFact": "This rhyme is based on a real-life incident! A young girl named Mary Sawyer took her pet lamb to school in the 1830s."
+  },
+  {
+    "id": 5,
+    "title": "Jack and Jill",
+    "title_hi": null,
+    "category": "Classic",
+    "icon": "👧👦",
+    "tags": [
+      "classic"
+    ],
+    "lyrics": "Jack and Jill went up the hill\nTo fetch a pail of water;\nJack fell down and broke his crown,\nAnd Jill came tumbling after.\n\nUp Jack got and home did trot,\nAs fast as he could caper,\nTo old Dame Dob, who patched his nob\nWith vinegar and brown paper.",
+    "lyrics_hi": null,
+    "funFact": "Some historians think 'Jack and Jill' might be a story about King Louis XVI of France (who lost his 'crown') and his wife Marie Antoinette."
+  },
+  {
+    "id": 6,
+    "title": "Hey Diddle Diddle",
+    "title_hi": null,
+    "category": "Classic",
+    "icon": "🐈🎻",
+    "tags": [
+      "silly",
+      "animal",
+      "classic"
+    ],
+    "lyrics": "Hey diddle diddle,\nThe cat and the fiddle,\nThe cow jumped over the moon;\nThe little dog laughed\nTo see such sport,\nAnd the dish ran away with the spoon.",
+    "lyrics_hi": null,
+    "funFact": "This rhyme is pure fun and nonsense! It is designed to be silly and make children laugh with its impossible images."
+  },
+  {
+    "id": 7,
+    "title": "Itsy Bitsy Spider",
+    "title_hi": null,
+    "category": "Animal",
+    "icon": "🕷️",
+    "tags": [
+      "animal"
+    ],
+    "lyrics": "The itsy bitsy spider\nClimbed up the waterspout.\nDown came the rain\nAnd washed the spider out.\nOut came the sun\nAnd dried up all the rain,\nAnd the itsy bitsy spider\nClimbed up the spout again.",
+    "lyrics_hi": null,
+    "funFact": "This rhyme teaches a simple lesson about perseverance. Even when things go wrong, you can always try again!"
+  },
+  {
+    "id": 8,
+    "title": "Row, Row, Row Your Boat",
+    "title_hi": null,
+    "category": "Classic",
+    "icon": "🚣",
+    "tags": [
+      "classic"
+    ],
+    "lyrics": "Row, row, row your boat,\nGently down the stream.\nMerrily, merrily, merrily, merrily,\nLife is but a dream.",
+    "lyrics_hi": null,
+    "funFact": "This rhyme is often sung in a 'round,' where different groups start singing at different times, creating beautiful harmony."
+  },
+  {
+    "id": 9,
+    "title": "London Bridge Is Falling Down",
+    "title_hi": null,
+    "category": "Classic",
+    "icon": "🌉",
+    "tags": [
+      "classic"
+    ],
+    "lyrics": "London Bridge is falling down,\nFalling down, falling down.\nLondon Bridge is falling down,\nMy fair lady.\n\nBuild it up with wood and clay,\nWood and clay, wood and clay,\nBuild it up with wood and clay,\nMy fair lady.",
+    "lyrics_hi": null,
+    "funFact": "The famous London Bridge has been rebuilt many times over the centuries. One of the old bridges was even sold and moved to Arizona, USA!"
+  },
+  {
+    "id": 13,
+    "title": "Hickory Dickory Dock",
+    "title_hi": null,
+    "category": "Learning",
+    "icon": "🕰️",
+    "tags": [
+      "learning",
+      "animal",
+      "classic"
+    ],
+    "learningFocus": "Telling Time",
+    "lyrics": "Hickory dickory dock,\nThe mouse ran up the clock.\nThe clock struck one,\nThe mouse ran down.\nHickory dickory dock.",
+    "lyrics_hi": null,
+    "funFact": "This rhyme is a fun way to help children learn how to tell time and practice counting."
+  },
+  {
+    "id": 14,
+    "title": "Pat-a-cake, Pat-a-cake",
+    "title_hi": null,
+    "category": "Classic",
+    "icon": "🎂",
+    "tags": [
+      "classic",
+      "food"
+    ],
+    "lyrics": "Pat-a-cake, pat-a-cake, baker's man,\nBake me a cake as fast as you can;\nPat it and prick it, and mark it with B,\nAnd put it in the oven for Baby and me.",
+    "lyrics_hi": null,
+    "funFact": "This is one of the oldest English nursery rhymes, often played as a clapping game between a parent and a baby."
+  },
+  {
+    "id": 15,
+    "title": "This Little Piggy",
+    "title_hi": null,
+    "category": "Animal",
+    "icon": "🐷",
+    "tags": [
+      "animal",
+      "classic"
+    ],
+    "lyrics": "This little piggy went to market,\nThis little piggy stayed home,\nThis little piggy had roast beef,\nThis little piggy had none.\nThis little piggy cried, 'Wee, wee, wee!' all the way home.",
+    "lyrics_hi": null,
+    "funFact": "This is a popular 'toe play' rhyme, where each line corresponds to wiggling one of a baby's five toes."
+  },
+  {
+    "id": 17,
+    "title": "Ring Around the Rosie",
+    "title_hi": null,
+    "category": "Classic",
+    "icon": "🌹",
+    "tags": [
+      "classic"
+    ],
+    "lyrics": "Ring-a-round the rosie,\nA pocket full of posies,\nAshes! Ashes!\nWe all fall down.",
+    "lyrics_hi": null,
+    "funFact": "Many people believe this rhyme is about the Great Plague of London, but historians say there is no real evidence for this. It is most likely just a fun game!"
+  },
+  {
+    "id": 18,
+    "title": "One, Two, Buckle My Shoe",
+    "title_hi": null,
+    "category": "Learning",
+    "icon": "👞",
+    "tags": [
+      "learning",
+      "classic"
+    ],
+    "learningFocus": "Counting to 20",
+    "lyrics": "One, two, Buckle my shoe;\nThree, four, Knock at the door;\nFive, six, Pick up sticks;\nSeven, eight, Lay them straight.\nNine, ten, A big fat hen;\nEleven, twelve, Dig and delve;\nThirteen, fourteen, Maids a-courting;\nFifteen, sixteen, Maids in the kitchen.\nSeventeen, eighteen, Maids a-waiting;\nNineteen, twenty, My plate's empty.",
+    "lyrics_hi": null,
+    "funFact": "This is a classic counting rhyme that helps children learn their numbers in a fun, memorable way."
+  },
+  {
+    "id": 23,
+    "title": "Chanda Mama (Moon Uncle)",
+    "title_hi": "चंदा मामा दूर के",
+    "category": "Indian",
+    "icon": "🌜",
+    "tags": [
+      "indian",
+      "lullaby"
+    ],
+    "lyrics": "Moon uncle, so far away,\nCooking puddings day by day.\nYou eat from your plate so grand,\nGive me a bowl here in my hand.",
+    "lyrics_hi": "चंदा मामा दूर के,\nपुए पकाए बूर के।\nआप खाएं थाली में,\nमुन्ने को दें प्याली में।",
+    "funFact": "In Indian culture, the moon is often affectionately called 'Chanda Mama' (Moon Uncle), and is a central character in many lullabies and stories."
+  },
+  {
+    "id": 26,
+    "title": "Humpty Dumpty",
+    "title_hi": null,
+    "category": "Classic",
+    "icon": "🥚",
+    "tags": [
+      "classic",
+      "silly"
+    ],
+    "lyrics": "Humpty Dumpty sat on a wall,\nHumpty Dumpty had a great fall.\nAll the king's horses and all the king's men,\nCould not put Humpty together again.",
+    "lyrics_hi": null,
+    "funFact": "Humpty Dumpty was originally a riddle! The answer is an egg. If an egg falls and breaks, you cannot put it back together."
+  },
+  {
+    "id": 31,
+    "title": "Rain, Rain, Go Away",
+    "title_hi": null,
+    "category": "Classic",
+    "icon": "☔",
+    "tags": [
+      "classic"
+    ],
+    "lyrics": "Rain, rain, go away,\nCome again another day.\nLittle Johnny wants to play,\nRain, rain, go away.",
+    "lyrics_hi": null,
+    "funFact": null
+  },
+  {
+    "id": 47,
+    "title": "Rock-a-bye Baby",
+    "title_hi": null,
+    "category": "Classic",
+    "icon": "👶",
+    "tags": [
+      "classic",
+      "lullaby"
+    ],
+    "lyrics": "Rock-a-bye baby, on the treetop,\nWhen the wind blows, the cradle will rock,\nWhen the bough breaks, the cradle will fall,\nAnd down will come baby, cradle and all.",
+    "lyrics_hi": null,
+    "funFact": null
+  },
+  {
+    "id": 84,
+    "title": "Little Bo-Peep",
+    "title_hi": null,
+    "category": "Classic",
+    "icon": "🐑",
+    "tags": [
+      "classic",
+      "animal"
+    ],
+    "lyrics": "Little Bo-Peep has lost her sheep,\nAnd does not know where to find them;\nLeave them alone, and they will come home,\nWagging their tails behind them.",
+    "lyrics_hi": null,
+    "funFact": null
+  }
+]
