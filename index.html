@@ -26,18 +26,11 @@
 
     <link rel="canonical" href="https://kids.toolblaster.com/" />
     
-    <!-- 
-      UPDATED: Replaced the inline SVG favicon with standard favicon links 
-      pointing to the /favicon/ directory as requested.
-    -->
     <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png">
-    <!-- ADDED: 48x48 icon -->
     <link rel="icon" type="image/png" sizes="48x48" href="favicon/favicon-48x48.png">
-    <!-- ADDED: 96x96 icon -->
     <link rel="icon" type="image/png" sizes="96x96" href="favicon/favicon-96x96.png">
-    <!-- ADDED: Android Chrome 192x192 icon -->
     <link rel="icon" type="image/png" sizes="192x192" href="favicon/android-chrome-192x192.png">
     <link rel="manifest" href="favicon/site.webmanifest">
     <link rel="mask-icon" href="favicon/safari-pinned-tab.svg" color="#b9251a">
@@ -76,7 +69,6 @@
             theme: {
                 extend: {
                     colors: {
-                        /* UPDATED: Darkened brand-red for better contrast */
                         'brand-red': '#B9251A', 
                         'brand-dark': '#121212',
                     },
@@ -94,67 +86,26 @@
         @tailwind utilities;
 
         @layer base {
-            body {
-                font-family: 'Baloo 2', cursive;
-            }
-            .prose {
-                font-family: 'Nunito', sans-serif;
-            }
+            body { font-family: 'Baloo 2', cursive; }
+            .prose { font-family: 'Nunito', sans-serif; }
         }
 
         @layer components {
-            .container {
-                max-width: 1150px;
-            }
-            .category-btn {
-                @apply px-4 py-2 text-sm font-semibold text-brand-dark bg-gray-100 rounded-full border-2 border-transparent hover:border-brand-red hover:text-brand-red transition-colors duration-200;
-            }
-            .category-btn.active {
-                @apply bg-brand-red text-white border-brand-red; 
-            }
-            .main-nav-btn {
-                @apply w-full sm:w-auto text-lg font-bold py-3 px-6 rounded-lg shadow-md transition-transform transform hover:scale-105 bg-white text-brand-dark border-2 border-gray-200;
-            }
-            .main-nav-btn.active {
-                @apply bg-brand-red text-white border-brand-red ring-4 ring-red-200;
-            }
-            .action-btn {
-                @apply h-11 w-11 flex items-center justify-center rounded-full text-gray-800 bg-gray-100 hover:bg-gray-200 transition-colors;
-            }
-            .section-card {
-                @apply p-6 bg-white rounded-2xl shadow-md;
-            }
-            #controls-section, #rhyme-of-the-day, #story-detail, #legal-view, #coming-soon-view, #author-detail {
-                max-width: 1000px;
-                margin-left: auto;
-                margin-right: auto;
-            }
-            #rhyme-gallery, #story-gallery {
-                max-width: 1150px;
-                margin-left: auto;
-                margin-right: auto;
-            }
-            .no-select {
-                -webkit-touch-callout: none; -webkit-user-select: none; -khtml-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none;
-            }
-            details > summary {
-                list-style: none; 
-            }
-            details > summary::-webkit-details-marker {
-                display: none; 
-            }
-            details > summary::before {
-                content: '▶';
-                margin-right: 0.5rem;
-                display: inline-block;
-                transition: transform 0.2s;
-            }
-            details[open] > summary::before {
-                transform: rotate(90deg);
-            }
-            .playlist-item.playing {
-                @apply bg-yellow-100 border-l-4 border-yellow-400 font-bold;
-            }
+            .container { max-width: 1150px; }
+            .category-btn { @apply px-4 py-2 text-sm font-semibold text-brand-dark bg-gray-100 rounded-full border-2 border-transparent hover:border-brand-red hover:text-brand-red transition-colors duration-200; }
+            .category-btn.active { @apply bg-brand-red text-white border-brand-red; }
+            .main-nav-btn { @apply w-full sm:w-auto text-lg font-bold py-3 px-6 rounded-lg shadow-md transition-transform transform hover:scale-105 bg-white text-brand-dark border-2 border-gray-200; }
+            .main-nav-btn.active { @apply bg-brand-red text-white border-brand-red ring-4 ring-red-200; }
+            .action-btn { @apply h-11 w-11 flex items-center justify-center rounded-full text-gray-800 bg-gray-100 hover:bg-gray-200 transition-colors; }
+            .section-card { @apply p-6 bg-white rounded-2xl shadow-md; }
+            #controls-section, #rhyme-of-the-day, #story-detail, #legal-view, #coming-soon-view, #author-detail { max-width: 1000px; margin-left: auto; margin-right: auto; }
+            #rhyme-gallery, #story-gallery { max-width: 1150px; margin-left: auto; margin-right: auto; }
+            .no-select { -webkit-touch-callout: none; -webkit-user-select: none; -khtml-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; }
+            details > summary { list-style: none; }
+            details > summary::-webkit-details-marker { display: none; }
+            details > summary::before { content: '▶'; margin-right: 0.5rem; display: inline-block; transition: transform 0.2s; }
+            details[open] > summary::before { transform: rotate(90deg); }
+            .playlist-item.playing { @apply bg-yellow-100 border-l-4 border-yellow-400 font-bold; }
         }
 
         #toast-notification {
@@ -163,46 +114,21 @@
             opacity: 0; transition: opacity 0.3s, bottom 0.3s;
         }
         #toast-notification.show { visibility: visible; opacity: 1; bottom: 50px; }
-
         #back-to-top-btn.show { opacity: 1; transform: translateY(0); pointer-events: auto; }
-
         @keyframes pop { 0% { transform: scale(1); } 50% { transform: scale(1.2); } 100% { transform: scale(1); } }
         .animate-pop { animation: pop 0.3s ease-in-out; }
         .button-pop:active { animation: pop 0.3s ease-in-out; }
-        
-        @keyframes pulse-text {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
-        }
-        .animate-pulse-text {
-            animation: pulse-text 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-        }
-
-        /* UPDATED: Changed RGB values to match the new, darker red */
-        @keyframes glow {
-            0%, 100% {
-                box-shadow: 0 0 5px rgba(185, 37, 26, 0.5), 0 0 10px rgba(185, 37, 26, 0.4);
-            }
-            50% {
-                box-shadow: 0 0 20px rgba(185, 37, 26, 0.8), 0 0 30px rgba(185, 37, 26, 0.7);
-            }
-        }
-        .animate-glow {
-            animation: glow 3s ease-in-out infinite;
-        }
-
+        @keyframes pulse-text { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+        .animate-pulse-text { animation: pulse-text 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+        @keyframes glow { 0%, 100% { box-shadow: 0 0 5px rgba(185, 37, 26, 0.5), 0 0 10px rgba(185, 37, 26, 0.4); } 50% { box-shadow: 0 0 20px rgba(185, 37, 26, 0.8), 0 0 30px rgba(185, 37, 26, 0.7); } }
+        .animate-glow { animation: glow 3s ease-in-out infinite; }
         .rhyme-card h2, .story-card h2 { font-family: 'Baloo 2', cursive; }
-        
-        #rhyme-lyrics-en, #rhyme-lyrics-hi, #story-content p, #story-content-hi p, #fun-fact-text, #story-moral, #legal-view .font-body, #author-bio {
-            font-family: 'Nunito', sans-serif;
-            font-weight: 400; 
-        }
+        #rhyme-lyrics-en, #rhyme-lyrics-hi, #story-content p, #story-content-hi p, #fun-fact-text, #story-moral, #legal-view .font-body, #author-bio { font-family: 'Nunito', sans-serif; font-weight: 400; }
 
         @media print {
             body { background-color: white; color: black; }
             pre { background-color: #f9f9f9; border: 1px solid #ddd; page-break-inside: avoid; }
             h1, h2, h3 { color: black; }
-
             body.printing-rhyme > header, body.printing-rhyme > footer, body.printing-rhyme > #playlist-view,
             body.printing-rhyme > #back-to-top-btn, body.printing-rhyme > #toast-notification { display: none; }
             body.printing-rhyme main > *:not(#rhyme-detail) { display: none; }
@@ -212,7 +138,6 @@
             body.printing-rhyme #fun-fact-container, body.printing-rhyme #copyright-notice-container { display: none; }
             body.printing-rhyme #rhyme-detail .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
             body.printing-rhyme #rhyme-detail #hindi-column { display: block; }
-            
             body.printing-story > header, body.printing-story > footer, body.printing-story > #playlist-view,
             body.printing-story > #back-to-top-btn, body.printing-story > #toast-notification { display: none; }
             body.printing-story main > *:not(#story-detail) { display: none; }
@@ -230,7 +155,6 @@
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-
       gtag('config', 'G-MD0E1M9KGQ');
     </script>
 </head>
@@ -264,7 +188,6 @@
         
         <!-- Rhyme of the Day Section -->
         <section id="rhyme-of-the-day" class="mb-4 text-center">
-             <!-- CLS FIX: Added min-h-[110px] to reserve space for the content that loads in -->
              <div id="rotd-card" class="bg-gradient-to-br from-yellow-100 to-orange-200 p-2 rounded-2xl shadow-lg cursor-pointer transform hover:scale-[1.03] transition-transform duration-300 relative overflow-hidden border-2 border-yellow-300 min-h-[110px] flex flex-col justify-center">
                 <h2 class="text-lg font-bold text-brand-dark">🌟 Rhyme of the Day 🌟</h2>
                 <div class="text-3xl" id="rotd-icon"></div>
@@ -299,7 +222,6 @@
                         <div class="flex flex-wrap items-center justify-center gap-x-2 gap-y-2">
                             <button class="category-btn button-pop" data-category="Rhymes">🎵 All Rhymes</button>
                             <button class="category-btn button-pop" data-category="Favorites">❤️ Favorites</button>
-                            <button class="category-btn button-pop" data-category="New">✨ New & Exclusive</button>
                             <button class="category-btn button-pop" data-category="Animal">🐾 Animals</button>
                             <button class="category-btn button-pop" data-category="Learning">🧠 Learning</button>
                             <button class="category-btn button-pop" data-category="Classic">📜 Classics</button>
@@ -330,18 +252,15 @@
 
         <!-- Rhyme Gallery View -->
         <section id="rhyme-gallery">
-            <!-- CLS FIX: Updated to be responsive. 75vh on mobile, 50vh on medium screens+ -->
             <div id="rhyme-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 md:gap-6 min-h-[75vh] md:min-h-[50vh]"></div>
         </section>
         
         <!-- Story Gallery View -->
         <section id="story-gallery" class="hidden">
-             <!-- CLS FIX: Updated to be responsive. 75vh on mobile, 50vh on medium screens+ -->
              <div id="story-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6 min-h-[75vh] md:min-h-[50vh]"></div>
         </section>
 
         <!-- Single Rhyme Detail View -->
-        <!-- CLS FIX: Updated to be responsive. 75vh on mobile, 50vh on medium screens+ -->
         <section id="rhyme-detail" class="hidden min-h-[75vh] md:min-h-[50vh]">
             <div class="max-w-4xl mx-auto">
                 <div class="flex flex-col sm:flex-row justify-between items-center gap-4 mb-6">
@@ -403,7 +322,6 @@
         </section>
         
         <!-- Single Story Detail View -->
-        <!-- CLS FIX: Updated to be responsive. 75vh on mobile, 50vh on medium screens+ -->
         <section id="story-detail" class="hidden min-h-[75vh] md:min-h-[50vh]">
             <div class="max-w-6xl mx-auto">
                 <div class="flex flex-col sm:flex-row justify-between items-center gap-4 mb-6">
@@ -506,9 +424,7 @@
                 <div class="text-center mb-8">
                     <h1 class="text-2xl sm:text-3xl md:text-4xl font-bold text-purple-700">Contact & Legal</h1>
                 </div>
-
                 <div class="space-y-6">
-                    <!-- Privacy Policy as details -->
                     <details class="bg-green-50 p-4 rounded-lg cursor-pointer border border-green-200">
                         <summary class="font-bold text-lg text-brand-dark">🛡️ Privacy Policy</summary>
                         <div class="space-y-4 text-gray-800 font-body text-sm mt-4">
@@ -518,8 +434,6 @@
                             <p><strong>Children's Safety:</strong> This site is intended for a general audience but is focused on children's content. We do not knowingly collect any information from children under the age of 13, in compliance with the Children's Online Privacy Protection Act (COPPA).</p>
                         </div>
                     </details>
-                    
-                    <!-- Disclaimer as details -->
                     <details class="bg-yellow-50 p-4 rounded-lg cursor-pointer border border-yellow-200">
                         <summary class="font-bold text-lg text-brand-dark">⚖️ Disclaimer</summary>
                          <div class="space-y-4 text-gray-800 font-body text-sm mt-4">
@@ -528,13 +442,9 @@
                             <p><strong>No Warranties:</strong> This website is provided "as is," without any warranties of any kind. Your use of this site is at your own risk.</p>
                         </div>
                     </details>
-                    
-                    <!-- Compact Contact Info -->
                     <div class="text-center pt-6 border-t border-gray-200">
                         <h2 class="text-xl font-bold text-brand-dark mb-2">✉️ Have Questions?</h2>
-                        <p class="text-gray-800 font-body mb-2">
-                            For feedback or inquiries, please contact us at:
-                        </p>
+                        <p class="text-gray-800 font-body mb-2">For feedback or inquiries, please contact us at:</p>
                         <a href="mailto:vikas@toolblaster.com" class="text-lg text-red-700 hover:text-red-800 hover:underline font-body font-semibold">vikas@toolblaster.com</a>
                     </div>
                 </div>
@@ -618,7 +528,7 @@
             </div>
         </div>
     </footer>
-
-    <script src="script.js" defer></script>
+    
+    <script src="js/script.js" defer></script>
 </body>
 </html>
