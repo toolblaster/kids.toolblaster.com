@@ -496,12 +496,26 @@ document.addEventListener('DOMContentLoaded', () => {
     // SEO Helper
     const origTitle = document.title;
     const origDesc = document.querySelector('meta[name="description"]').getAttribute('content');
+    
+    // Updated robust meta tag updater
     function updateMetaTags(t, d, url) {
         document.title = t;
-        document.querySelector('meta[name="description"]').setAttribute('content', d);
-        document.querySelector('meta[property="og:url"]').setAttribute('content', url);
-        document.querySelector('link[rel="canonical"]').setAttribute('href', url);
+        const descMeta = document.querySelector('meta[name="description"]');
+        if (descMeta) descMeta.setAttribute('content', d);
+        
+        const ogUrl = document.querySelector('meta[property="og:url"]');
+        if (ogUrl) ogUrl.setAttribute('content', url);
+        
+        // Critical fix for Canonical Tag robustness
+        let link = document.querySelector('link[rel="canonical"]');
+        if (!link) {
+            link = document.createElement('link');
+            link.rel = 'canonical';
+            document.head.appendChild(link);
+        }
+        link.setAttribute('href', url);
     }
+    
     function resetMetaTags() { updateMetaTags(origTitle, origDesc, 'https://kids.toolblaster.com/'); }
     
     function updateUrl(params) {
@@ -510,7 +524,9 @@ document.addEventListener('DOMContentLoaded', () => {
         let isDetail = false;
         for (const k in params) { if(params[k]) { url.searchParams.set(k, params[k]); if(['rhyme','story','page','author'].includes(k)) isDetail=true; } }
         window.history.pushState({}, '', url);
-        document.querySelector('link[rel="canonical"]').setAttribute('href', isDetail ? url.href : 'https://kids.toolblaster.com/');
+        // Explicitly update canonical here as well for good measure
+        const canonicalUrl = isDetail ? url.href : 'https://kids.toolblaster.com/';
+        updateMetaTags(isDetail ? document.title : origTitle, isDetail ? document.querySelector('meta[name="description"]').getAttribute('content') : origDesc, canonicalUrl);
     }
 
     function handleUrlParams() {
