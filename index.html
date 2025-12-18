@@ -24,7 +24,18 @@
     <meta property="twitter:description" content="A fun collection of kids stories and rhymes in both English and Hindi. Discover original short stories, classic nursery rhymes, and educational songs.">
     <meta property="twitter:image" content="https://placehold.co/1200x630/FFFFFF/B9251A?text=🎵&font=noto">
 
-    <link rel="canonical" href="https://kids.toolblaster.com/" />
+    <!-- DYNAMIC CANONICAL TAG SCRIPT -->
+    <!-- This replaces the static canonical tag to fix GSC "Duplicate" errors -->
+    <script>
+        (function() {
+            var link = document.createElement('link');
+            link.rel = 'canonical';
+            // Set canonical to the current URL (ignoring hash) to tell Google 
+            // that this specific parameter combination is the correct page.
+            link.href = window.location.href.split('#')[0];
+            document.head.appendChild(link);
+        })();
+    </script>
     
     <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png">
